@@ -1,8 +1,8 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styled from 'styled-components'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import styled from 'styled-components';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   return (
@@ -30,8 +30,8 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
 const Title = styled.h1`
   font-size: 1.5em;
@@ -39,4 +39,4 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-export default Home
+export default Home;
