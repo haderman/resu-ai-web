@@ -1,0 +1,20 @@
+import { Chip, Inline, Stack, Text } from '../common';
+
+export function Skills() {
+  return (
+    <Stack gap="large" padding="medium" background="secondary">
+      <Text size="large" weight="bold" as="h2">Skills</Text>
+      <Inline gap="medium">
+        {STRONG_SKILLS.map((skill) =>
+          <Chip key={skill} size="small">
+            {skill}
+          </Chip>
+        )}
+      </Inline>
+    </Stack>
+  );
+}
+
+const STRONG_SKILLS = ['Typescript', 'Css', 'Html', 'React'];
+
+const SKILLS = ['C#', 'Python', 'Java', 'Go', 'Docker', 'Kubernetes'];
