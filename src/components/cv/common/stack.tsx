@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 import { Box, BoxProps } from './box';
-import { Spacing, Color } from '../types';
+import { Size } from '../types';
 
 export type StackProps = React.PropsWithChildren<BoxProps & {
-  gap?: Spacing;
+  gap?: Size;
 }>;
 
 export const Stack = styled(Box)<StackProps>`
