@@ -13,8 +13,8 @@ export const defaultTheme = css`
   --cv-bg-primary: hsl(0, 0%, 100%);
   --cv-bg-secondary: hsl(0, 0%, 90%);
   --cv-bg-tertiary: hsl(0, 0%, 80%);
-  --cv-bg-accent: hsl(199, 40%, 40%);
-  --cv-bg-complementary: hsl(0, 0%, 0%);
+  --cv-bg-accent: hsl(199, 55%, 45%);
+  --cv-bg-complementary: hsl(0, 0%, 6%);
   --cv-bg-accent-contrast: hsl(0, 0%, 100%);
 
   --cv-fg-primary: hsl(0, 0%, 10%);
