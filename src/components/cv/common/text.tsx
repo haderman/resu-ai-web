@@ -11,7 +11,7 @@ export type TextProps = React.PropsWithChildren<{
 
 export const Text = styled.span`
   color: var(--cv-fg-${(props: TextProps) => props.color ?? 'primary'});
-  font-size: var(--cv-font-size-${(props: TextProps) => props.size ?? 'medium'});
+  font-size: var(--cv-font-size-${(props: TextProps) => props.size ?? 'inherit'});
   font-weight: var(--cv-font-weight-${(props: TextProps) => props.weight ?? 'normal'});
   line-height: var(--cv-line-height);
 `;
