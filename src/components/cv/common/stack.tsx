@@ -10,5 +10,5 @@ export type StackProps = React.PropsWithChildren<BoxProps & {
 export const Stack = styled(Box)<StackProps>`
   display: flex;
   flex-direction: column;
-  gap: var(--cv-gap-${(props) => props.gap ?? '0'});
+  gap: ${props => props.theme.gap[props.gap ?? 'default']};
 `;

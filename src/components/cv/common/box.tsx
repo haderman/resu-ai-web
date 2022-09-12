@@ -9,7 +9,7 @@ export type BoxProps = React.PropsWithChildren<{
 }>
 
 export const Box = styled.div<BoxProps>`
-  padding: var(--cv-padding-${(props) => props.padding ?? '0'});
-  background-color: var(--cv-bg-${(props) => props.background ?? 'unset'});
-  border-radius: var(--cv-border-radius-${(props) => props.borderRadius ?? '0'});
+  padding: ${props => props.theme.padding[props.padding ?? 'default']};
+  background: ${props => props.theme.bg[props.background ?? 'default']};
+  border-radius: ${props => props.theme.borderRadius[props.borderRadius ?? 'default']};
 `;
