@@ -38,7 +38,7 @@ const experience = [
 
 export function Experience() {
   return (
-    <Stack padding="large" gap="large">
+    <Stack padding="large" gap="medium">
       <Text as="h2" size="large" weight="bold">
         Experience
       </Text>

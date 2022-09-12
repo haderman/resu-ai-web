@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import { useTheme } from 'styled-components';
+import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
 import { Chip, Inline, Stack, Text } from '../common';
 
@@ -7,25 +8,25 @@ const PROJECTS: Project[] = [
     name: 'Personal Site',
     description: 'Personal site developed with Gatsby',
     technologies: ['Gatsby', 'React'],
-    repository: 'https://github.com/haderman/haderman-site',
+    repository: '/haderman/haderman-site',
     website: 'https://haderman.netlify.app',
   }, {
     name: 'COVID-19 Tracker',
     description: 'COVID-19 Tracker developed with React',
     technologies: ['NextJS', 'React', 'GraphQL'],
-    repository: 'https://github.com/haderman/nextjs-covid-19',
+    repository: '/haderman/nextjs-covid-19',
     website: 'https://covidx19.vercel.app',
   }, {
     name: 'Woki',
     description: 'Google Chrome extension to manage the tabs',
     technologies: ['Elm', 'Javascript'],
-    repository: 'https://github.com/haderman/woki-extension',
+    repository: '/haderman/woki-extension',
   },
 ];
 
 export function Projects() {
   return (
-    <Stack padding="large">
+    <Stack padding="large" gap="medium">
       <Text as="h2" size="large" weight="bold">
         Side Projects
       </Text>
@@ -49,6 +50,8 @@ type Project = {
 type ProjectCardProps = Project
 
 function ProjectCard(props: ProjectCardProps) {
+  const theme = useTheme();
+
   return (
     <Stack gap="medium" padding="medium" background="secondary" borderRadius="medium">
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
@@ -59,13 +62,21 @@ function ProjectCard(props: ProjectCardProps) {
           <Chip key={tech}>{tech}</Chip>
         )}
       </Inline>
-      <Inline>
-        <Image src="/brand-github.svg" alt="github icon" width="18mm" height="18mm" />
+      <Inline alignItems="center" gap="medium">
+        <IconBrandGithub
+          stroke={1}
+          color={theme.fg.primary}
+          size={theme.fontSize.medium}
+        />
         <Text size="small" weight="light">{props.repository}</Text>
       </Inline>
       {props.website &&
-        <Inline>
-          <Image src="/brand-github.svg" alt="github icon" width="18mm" height="18mm" />
+        <Inline alignItems="center" gap="medium">
+          <IconWorld
+            stroke={1}
+            color={theme.fg.accent}
+            size={theme.fontSize.medium}
+          />
           <Text size="small" weight="light">{props.website}</Text>
         </Inline>
       }
