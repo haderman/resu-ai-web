@@ -1,9 +1,11 @@
-import Image from 'next/image';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
+import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
 import { Stack, Inline, Text } from '../common';
 
 export function Contact() {
+  const theme = useTheme();
+
   return (
     <StyledStack gap="medium" padding="medium" background="accent">
       <Text
@@ -14,16 +16,28 @@ export function Contact() {
       >
         Hader Cardon Suarez
       </Text>
-      <Inline gap="medium">
-        <Image src="/brand-github.svg" alt="github icon" width="18mm" height="18mm" />
+      <Inline gap="medium" alignItems="center">
+        <IconBrandGithub
+          stroke={1}
+          color={theme.fg['accent-contrast']}
+          size={theme.fontSize.large}
+        />
         <Text weight="light" color="accent-contrast">haderman</Text>
       </Inline>
-      <Inline gap="medium">
-        <Image src="/mail.svg" alt="mail icon" width="18mm" height="18mm" />
+      <Inline gap="medium" alignItems="center">
+        <IconMail
+          stroke={1}
+          color={theme.fg['accent-contrast']}
+          size={theme.fontSize.large}
+        />
         <Text weight="light" color="accent-contrast">cardona.hader@gmail.com</Text>
       </Inline>
-      <Inline gap="medium">
-        <Image src="/brand-twitter.svg" alt="twitter icon" width="18mm" height="18mm" />
+      <Inline gap="medium" alignItems="center">
+        <IconBrandTwitter
+          stroke={1}
+          color={theme.fg['accent-contrast']}
+          size={theme.fontSize.large}
+        />
         <Text weight="light" color="accent-contrast">haderman7</Text>
       </Inline>
     </StyledStack>
