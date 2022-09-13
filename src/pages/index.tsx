@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Title>Haderman</Title>
+        <Link href="/cv">CV</Link>
       </main>
 
       <footer className={styles.footer}>

@@ -1,6 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 export const defaultTheme: DefaultTheme = {
+  name: 'default',
   colors: {
     gray: 'hsl(0, 0%, 90%)',
   },

@@ -1,6 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 export const darkSpaceTheme: DefaultTheme = {
+  name: 'dark-space',
   colors: {
     gray: 'hsl(0, 0%, 90%)',
   },

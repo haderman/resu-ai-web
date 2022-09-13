@@ -14,3 +14,9 @@ export function getTheme(theme?: CvTheme): DefaultTheme {
       return defaultTheme;
   }
 }
+
+export const CvTheme = {
+  getAllThemes(): DefaultTheme[] {
+    return [defaultTheme, darkSpaceTheme];
+  },
+};
