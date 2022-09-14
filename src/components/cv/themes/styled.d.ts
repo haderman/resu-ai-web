@@ -6,12 +6,12 @@ import { Weight, Color, Size, FontSizeUnit, SpacingUnit } from '../types';
 declare module 'styled-components' {
   export interface DefaultTheme {
     name: string
-    gap: Record<'default' | Size, SpacingUnit>
-    padding: Record<'default' | Size, SpacingUnit>;
-    bg: Record<'default' | Color, string>
-    fg: Record<'default' | Color, string>
-    borderRadius: Record<'default' | Size, SpacingUnit>
-    fontSize: Record<'default' | Size, FontSizeUnit | 'inherit'>
+    gap: Record<Size, SpacingUnit>
+    padding: Record<Size, SpacingUnit>;
+    bg: Record<Color, string>
+    fg: Record<Color, string>
+    borderRadius: Record<Size, SpacingUnit>
+    fontSize: Record<Size, FontSizeUnit | 'inherit'>
     colors: {
       gray: string
     }
