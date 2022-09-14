@@ -1,6 +1,18 @@
-import { addDecorator } from '@storybook/react';
-import { withThemesProvider, ThemesProvider } from 'storybook-addon-styled-component-theme';
+import { addDecorator, addParameters } from '@storybook/react';
+import { WithThemeProvider } from 'storybook-addon-styled-components-themes';
+
 import { CvTheme } from '../src/components/cv/themes';
 
-const themes = CvTheme.getAllThemes();
-addDecorator(withThemesProvider(themes), ThemesProvider);
+addParameters({
+  styledComponentsThemes: {
+    themes: CvTheme.getAllThemes(),
+    initialTheme: 1, // optional
+    label: 'name', // optional
+  },
+});
+
+addDecorator(story => (
+  <WithThemeProvider>
+    {story()}
+  </WithThemeProvider>
+));
