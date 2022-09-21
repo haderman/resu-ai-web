@@ -42,6 +42,7 @@ export const defaultTheme: DefaultTheme = {
     large: '16pt',
   },
   fontWeight: {
+    default: 200,
     light: 100,
     regular: 200,
     bold: 700,
