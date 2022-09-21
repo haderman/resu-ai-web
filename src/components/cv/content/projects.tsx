@@ -30,7 +30,7 @@ export function Projects() {
       <Text as="h2" size="large" weight="bold">
         Side Projects
       </Text>
-      <Inline gap="medium">
+      <Inline gap="medium" childrenWithSameWidth>
         {PROJECTS.map((project) =>
           <ProjectCard key={project.name} {...project} />
         )}
@@ -57,11 +57,11 @@ function ProjectCard(props: ProjectCardProps) {
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
       <Text size="small">{props.description}</Text>
       <Text as="h3" weight="bold" size="small">Skills:</Text>
-      <Inline gap="small">
+      <Chip.Container gap="small">
         {props.technologies.map((tech) =>
           <Chip key={tech}>{tech}</Chip>
         )}
-      </Inline>
+      </Chip.Container>
       <Inline alignItems="center" gap="medium">
         <IconBrandGithub
           stroke={1}
