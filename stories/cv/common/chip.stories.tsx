@@ -16,7 +16,7 @@ export default {
 export const Basic: ComponentStory<typeof Chip> = (args) => (
   <Container>
     <Chip {...args}>
-      <Text size="large" color="primary">Text</Text>
+      <Text size="large">Text</Text>
     </Chip>
   </Container>
 );
@@ -25,10 +25,10 @@ export const InlineChips: ComponentStory<typeof Chip> = (args) => (
   <Container>
     <Chip.Container gap="medium">
       <Chip {...args}>
-        <Text color="primary">Text 1</Text>
+        <Text>Text 1</Text>
       </Chip>
       <Chip {...args}>
-        <Text color="primary">Text 2</Text>
+        <Text>Text 2</Text>
       </Chip>
     </Chip.Container>
   </Container>

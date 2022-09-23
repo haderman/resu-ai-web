@@ -2,11 +2,11 @@ import { Chip, Stack, Text } from '../common';
 
 export function Skills() {
   return (
-    <Stack gap="large" padding="medium" background="secondary">
+    <Stack gap="large" padding="medium" color="gray">
       <Text size="large" weight="bold" as="h2">Skills</Text>
       <Chip.Container gap="medium">
         {STRONG_SKILLS.map((skill) =>
-          <Chip key={skill} size="small">
+          <Chip key={skill} size="small" color="pink">
             {skill}
           </Chip>
         )}

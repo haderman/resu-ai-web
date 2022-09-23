@@ -53,7 +53,7 @@ function ProjectCard(props: ProjectCardProps) {
   const theme = useTheme();
 
   return (
-    <Stack gap="medium" padding="medium" background="secondary" borderRadius="medium">
+    <Stack gap="medium" padding="medium" color="gray" borderRadius="medium">
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
       <Text size="small">{props.description}</Text>
       <Text as="h3" weight="bold" size="small">Skills:</Text>

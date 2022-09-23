@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Container } from '../../helpers/container';
 import { Box, Text } from '../../../src/components/cv/common';
+import { Color } from '../../../src/components/cv/types';
 
 export default {
   title: 'CV/box',
@@ -11,14 +12,20 @@ export default {
     padding: { defaultValue: 'medium' },
     fitContent: { defaultValue: true },
     borderRadius: { defaultValue: 'medium' },
-    background: { defaultValue: 'secondary' },
+    color: {
+      defaultValue: Color.gerDefault(),
+      control: {
+        type: 'select',
+        options: Color.values(),
+      }
+    },
   },
 } as ComponentMeta<typeof Box>;
 
 export const Basic: ComponentStory<typeof Box> = (args) => (
   <Container>
     <Box {...args}>
-      <Text size="large" color="primary">Text</Text>
+      <Text size="large">Text</Text>
     </Box>
   </Container>
 );
