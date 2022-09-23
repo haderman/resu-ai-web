@@ -1,19 +1,3 @@
-export type Size =
-  | 'default'
-  | 'small'
-  | 'medium'
-  | 'large';
-
-export type Weight =
-  | 'default'
-  | 'light'
-  | 'regular'
-  | 'bold';
-
-export type SpacingUnit = `${number}mm`;
-
-export type FontSizeUnit = `${number}pt`;
-
 export type ColorVariant =
   | 'default'
   | 'primary'
@@ -28,13 +12,14 @@ const ColorValues = [
   'black',
   'white',
   'gray',
+  'gray-light',
   'blue',
   'red',
   'green',
   'yellow',
   'orange',
   'purple',
-  'pink'
+  'pink',
 ] as const;
 
 // this magic incantation will create a union from that array

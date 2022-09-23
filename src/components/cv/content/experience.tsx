@@ -63,7 +63,7 @@ type ItemProps = {
 
 function Item(props: ItemProps) {
   return (
-    <Stack padding="large" color="gray" borderRadius="medium">
+    <Stack padding="large" color="gray-light" borderRadius="medium">
       <Text as="h3" color="accent" weight="bold">
         {props.startDate} - {props.endDate}
       </Text>

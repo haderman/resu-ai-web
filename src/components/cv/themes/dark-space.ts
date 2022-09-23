@@ -72,6 +72,12 @@ export const darkSpaceTheme: DefaultTheme = {
       faded: 'hsl(0, 0%, 80%)',
       text: 'hsl(0, 0%, 100%)',
     },
+    'gray-light': {
+      foreground: 'hsl(0, 0%, 60%)',
+      background: 'hsl(0, 0%, 80%)',
+      faded: 'hsl(0, 0%, 90%)',
+      text: 'hsl(0, 0%, 100%)',
+    },
     blue: {
       foreground: 'hsl(199, 55%, 55%)',
       background: 'hsl(199, 55%, 35%)',

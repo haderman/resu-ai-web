@@ -53,13 +53,13 @@ function ProjectCard(props: ProjectCardProps) {
   const theme = useTheme();
 
   return (
-    <Stack gap="medium" padding="medium" color="gray" borderRadius="medium">
+    <Stack gap="medium" padding="medium" color="gray-light" borderRadius="medium">
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
       <Text size="small">{props.description}</Text>
       <Text as="h3" weight="bold" size="small">Skills:</Text>
       <Chip.Container gap="small">
         {props.technologies.map((tech) =>
-          <Chip key={tech}>{tech}</Chip>
+          <Chip key={tech} color="pink">{tech}</Chip>
         )}
       </Chip.Container>
       <Inline alignItems="center" gap="medium">

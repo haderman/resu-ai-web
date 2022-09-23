@@ -72,6 +72,12 @@ export const defaultTheme: DefaultTheme = {
       faded: 'hsl(0, 0%, 80%)',
       text: 'hsl(0, 0%, 20%)',
     },
+    'gray-light': {
+      foreground: 'hsl(0, 0%, 80%)',
+      background: 'hsl(0, 0%, 95%)',
+      faded: 'hsl(0, 0%, 90%)',
+      text: 'hsl(0, 0%, 20%)',
+    },
     blue: {
       foreground: 'hsl(199, 55%, 45%)',
       background: 'hsl(199, 55%, 55%)',
