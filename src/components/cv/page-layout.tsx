@@ -51,14 +51,33 @@ export function PageLayout(props: PageLayoutProps) {
 
 const BaseLayout = styled.div`
   position: relative;
+
+  // Page size for A4 pages - https://github.com/w3c/csswg-drafts/issues/328
   height: 297mm;
   width: 210mm;
+
   background: white;
   color: hsl(0, 0%, 10%);
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    & * {
+      visibility: visible;
+    }
+
+    & {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
   }
 `;
 

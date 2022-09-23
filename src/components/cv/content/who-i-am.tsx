@@ -2,7 +2,7 @@ import { Stack, Text } from '../common';
 
 export function WhoIAm() {
   return (
-    <Stack gap="large" padding="medium" background="secondary">
+    <Stack gap="large" padding="medium" color="gray-light">
       <Text
         as="h2"
         size="large"

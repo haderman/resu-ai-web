@@ -7,7 +7,7 @@ export function Contact() {
   const theme = useTheme();
 
   return (
-    <StyledStack gap="medium" padding="medium" background="accent">
+    <StyledStack gap="medium" padding="medium" color="blue">
       <Text
         as="h2"
         color="accent-contrast"
