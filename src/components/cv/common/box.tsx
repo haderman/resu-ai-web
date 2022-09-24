@@ -11,7 +11,7 @@ export type BoxProps = React.PropsWithChildren<{
 
 export const Box = styled.div<BoxProps>`
   width: ${props => props.fitContent ? 'fit-content' : '100%'};
-  height: ${props => props.fitContent ? 'fit-content' : '100%'};
+  height: ${props => props.fitContent ? 'fit-content' : 'unset'};
   padding: ${props => props.theme.padding[props.padding ?? 'default']};
   border-radius: ${props => props.theme.borderRadius[props.borderRadius ?? 'default']};
 
