@@ -10,7 +10,6 @@ export function Contact() {
     <StyledStack gap="medium" padding="medium" color="blue">
       <Text
         as="h2"
-        color="accent-contrast"
         size="large"
         weight="bold"
       >
@@ -22,7 +21,7 @@ export function Contact() {
           color={theme.fg['accent-contrast']}
           size={theme.fontSize.large}
         />
-        <Text weight="light" color="accent-contrast">haderman</Text>
+        <Text weight="light">haderman</Text>
       </Inline>
       <Inline gap="medium" alignItems="center">
         <IconMail
@@ -30,7 +29,7 @@ export function Contact() {
           color={theme.fg['accent-contrast']}
           size={theme.fontSize.large}
         />
-        <Text weight="light" color="accent-contrast">cardona.hader@gmail.com</Text>
+        <Text weight="light">cardona.hader@gmail.com</Text>
       </Inline>
       <Inline gap="medium" alignItems="center">
         <IconBrandTwitter
@@ -38,7 +37,7 @@ export function Contact() {
           color={theme.fg['accent-contrast']}
           size={theme.fontSize.large}
         />
-        <Text weight="light" color="accent-contrast">haderman7</Text>
+        <Text weight="light">haderman7</Text>
       </Inline>
     </StyledStack>
   );
