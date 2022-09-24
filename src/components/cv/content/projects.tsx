@@ -30,7 +30,7 @@ export function Projects() {
       <Text as="h2" size="large" weight="bold">
         Side Projects
       </Text>
-      <Inline gap="medium" childrenWithSameWidth>
+      <Inline gap="medium" childrenWithSameWidth fitContent>
         {PROJECTS.map((project) =>
           <ProjectCard key={project.name} {...project} />
         )}
