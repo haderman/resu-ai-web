@@ -10,6 +10,9 @@ export type TextProps = React.PropsWithChildren<{
 }>
 
 export const Text = styled.span<TextProps>`
+  margin: 0;
+  padding: 0;
+
   color: ${props => props.color ? props.theme.colors[props.color].foreground : 'inherit'};
   font-size: ${props => props.theme.fontSize[props.size ?? 'default']};
   font-weight: ${props => props.theme.fontWeight[props.weight ?? 'regular']};
