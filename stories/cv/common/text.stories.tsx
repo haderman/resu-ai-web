@@ -6,7 +6,7 @@ import { Text } from '../../../src/components/cv/common';
 import { Color } from '../../../src/components/cv/types';
 
 export default {
-  title: 'CV/text',
+  title: 'CV/common/text',
   component: Text,
   argTypes: {
     color: {

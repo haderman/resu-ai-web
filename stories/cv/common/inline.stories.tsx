@@ -6,7 +6,7 @@ import { Box, Inline } from '../../../src/components/cv/common';
 import { Color } from '../../../src/components/cv/types';
 
 export default {
-  title: 'CV/inline',
+  title: 'CV/common/inline',
   component: Inline,
   argTypes: {
     padding: { defaultValue: 'medium' },

@@ -6,7 +6,7 @@ import { Chip, Text } from '../../../src/components/cv/common';
 import { Size } from '@/components/cv/types';
 
 export default {
-  title: 'CV/chip',
+  title: 'CV/common/chip',
   component: Chip,
   argTypes: {
     size: { defaultValue: 'default' as Size },

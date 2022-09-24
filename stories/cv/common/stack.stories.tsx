@@ -6,7 +6,7 @@ import { Box, Stack } from '../../../src/components/cv/common';
 import { Color } from '../../../src/components/cv/types';
 
 export default {
-  title: 'CV/stack',
+  title: 'CV/common/stack',
   component: Stack,
   argTypes: {
     padding: { defaultValue: 'medium' },
