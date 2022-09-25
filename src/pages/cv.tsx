@@ -3,10 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import styled from 'styled-components';
 
-import { CvPrintablePage } from '@/components/cv';
-
-import styles from '../styles/Home.module.css';
-
+import { Editor } from '@/components/cv';
 
 const Cv: NextPage = () => {
   return (
@@ -17,14 +14,30 @@ const Cv: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <Title>My CV</Title>
-        <Link href="/">Home</Link>
-        <CvPrintablePage />
-      </main>
+      <Container>
+        <Header>
+          <Title>My CV</Title>
+          <Link href="/">Home</Link>
+        </Header>
+        <Editor />
+      </Container>
     </>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  display: grid;
+  grid-template-rows: 70px 1fr;
+`;
+
+const Header = styled.header`
+  background-color: hsl(210 10% 5%);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 20px;
+`;
 
 const Title = styled.h1`
   font-size: 1.5em;
