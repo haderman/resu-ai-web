@@ -2,9 +2,7 @@ import 'styled-components';
 
 import {
   Weight,
-  Color,
-  ColorVariant,
-  ColorConfig,
+  Palette,
   Size,
   FontSizeUnit,
   SpacingUnit
@@ -16,11 +14,9 @@ declare module 'styled-components' {
     name: string
     gap: Record<Size, SpacingUnit>
     padding: Record<Size, SpacingUnit>;
-    bg: Record<ColorVariant, string>
-    fg: Record<ColorVariant, string>
     borderRadius: Record<Size, SpacingUnit>
     fontSize: Record<Size, FontSizeUnit | 'inherit'>
-    colors: Record<Color, ColorConfig>
+    colors: Palette
     fontWeight: Record<Weight, number>
     lineHeight: {
       normal: number

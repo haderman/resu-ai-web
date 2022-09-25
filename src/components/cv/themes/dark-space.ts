@@ -14,24 +14,6 @@ export const darkSpaceTheme: DefaultTheme = {
     medium: '2mm',
     large: '4mm',
   },
-  bg: {
-    default: 'unset',
-    primary: 'hsl(0, 0%, 0%)',
-    secondary: 'hsl(0, 0%, 20%)',
-    tertiary: 'hsl(0, 0%, 30%)',
-    accent: 'hsl(19, 55%, 45%)',
-    'accent-contrast': 'hsl(0, 0%, 0%)',
-    complementary: 'hsl(0, 0%, 94%)',
-  },
-  fg: {
-    default: 'unset',
-    primary: 'hsl(0, 0%, 96%)',
-    secondary: 'hsl(0, 0%, 80%)',
-    tertiary: 'hsl(0, 0%, 60%)',
-    accent: 'hsl(199, 55%, 45%)',
-    'accent-contrast': 'hsl(0, 0%, 100%)',
-    complementary: 'hsl(0, 0%, 100%)',
-  },
   fontSize: {
     default: 'inherit',
     small: '10pt',
@@ -54,11 +36,29 @@ export const darkSpaceTheme: DefaultTheme = {
     large: '4mm',
   },
   colors: {
+    primary: {
+      foreground: 'hsl(0, 0%, 0%)',
+      background: 'hsl(0, 0%, 6%)',
+      faded: 'hsl(0, 0%, 0%)',
+      text: 'hsl(0, 0%, 90%)',
+    },
+    'almost-black': {
+      foreground: 'hsl(0, 0%, 6%)',
+      background: 'hsl(0, 0%, 6%)',
+      faded: 'hsl(0, 0%, 6%)',
+      text: 'hsl(0, 0%, 90%)',
+    },
     black: {
       foreground: 'hsl(0, 0%, 0%)',
       background: 'hsl(0, 0%, 0%)',
       faded: 'hsl(0, 0%, 0%)',
       text: 'hsl(0, 0%, 90%)',
+    },
+    'almost-white': {
+      foreground: 'hsl(0, 0%, 95%)',
+      background: 'hsl(0, 0%, 95%)',
+      faded: 'hsl(0, 0%, 90%)',
+      text: 'hsl(0, 0%, 6%)',
     },
     white: {
       foreground: 'hsl(0, 0%, 100%)',
@@ -73,10 +73,10 @@ export const darkSpaceTheme: DefaultTheme = {
       text: 'hsl(0, 0%, 100%)',
     },
     'gray-light': {
-      foreground: 'hsl(0, 0%, 60%)',
-      background: 'hsl(0, 0%, 80%)',
-      faded: 'hsl(0, 0%, 90%)',
-      text: 'hsl(0, 0%, 100%)',
+      foreground: 'hsl(0, 0%, 30%)',
+      background: 'hsl(0, 0%, 10%)',
+      faded: 'hsl(0, 0%, 10%)',
+      text: 'hsl(0, 0%, 90%)',
     },
     blue: {
       foreground: 'hsl(199, 55%, 55%)',

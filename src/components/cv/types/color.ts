@@ -9,8 +9,11 @@ export type ColorVariant =
 
 // define the array first, note the const
 const ColorValues = [
+  'primary',
   'black',
+  'almost-black',
   'white',
+  'almost-white',
   'gray',
   'gray-light',
   'blue',
@@ -43,3 +46,4 @@ export type ColorConfig = {
   text: string
 }
 
+export type Palette = Record<Color, ColorConfig>;
