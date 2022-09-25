@@ -6,5 +6,5 @@ export type ContainerProps = React.PropsWithChildren<{}>
 export const Container = styled.div<ContainerProps>`
   height: 100%;
   padding: 10px;
-  background: ${({ theme }) => theme.bg.primary};
+  background: ${({ theme }) => theme.colors.primary.background};
 `;

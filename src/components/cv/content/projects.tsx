@@ -63,20 +63,12 @@ function ProjectCard(props: ProjectCardProps) {
         )}
       </Chip.Container>
       <Inline alignItems="center" gap="medium">
-        <IconBrandGithub
-          stroke={1}
-          color={theme.fg.primary}
-          size={theme.fontSize.medium}
-        />
+        <IconBrandGithub stroke={1} size={theme.fontSize.medium} />
         <Text size="small" weight="light">{props.repository}</Text>
       </Inline>
       {props.website &&
         <Inline alignItems="center" gap="medium">
-          <IconWorld
-            stroke={1}
-            color={theme.fg.accent}
-            size={theme.fontSize.medium}
-          />
+          <IconWorld stroke={1} size={theme.fontSize.medium} />
           <Text size="small" weight="light">{props.website}</Text>
         </Inline>
       }
