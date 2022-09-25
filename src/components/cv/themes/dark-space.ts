@@ -42,6 +42,12 @@ export const darkSpaceTheme: DefaultTheme = {
       faded: 'hsl(0, 0%, 0%)',
       text: 'hsl(0, 0%, 90%)',
     },
+    secondary: {
+      foreground: 'hsl(0, 0%, 30%)',
+      background: 'hsl(0, 0%, 10%)',
+      faded: 'hsl(0, 0%, 10%)',
+      text: 'hsl(0, 0%, 90%)',
+    },
     'almost-black': {
       foreground: 'hsl(0, 0%, 6%)',
       background: 'hsl(0, 0%, 6%)',

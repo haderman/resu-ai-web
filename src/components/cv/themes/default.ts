@@ -42,6 +42,12 @@ export const defaultTheme: DefaultTheme = {
       faded: 'hsl(0, 0%, 100%)',
       text: 'hsl(0, 0%, 6%)',
     },
+    secondary: {
+      foreground: 'hsl(0, 0%, 80%)',
+      background: 'hsl(0, 0%, 95%)',
+      faded: 'hsl(0, 0%, 90%)',
+      text: 'hsl(0, 0%, 20%)',
+    },
     'almost-black': {
       foreground: 'hsl(0, 0%, 6%)',
       background: 'hsl(0, 0%, 6%)',

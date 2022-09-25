@@ -10,6 +10,7 @@ export type ColorVariant =
 // define the array first, note the const
 const ColorValues = [
   'primary',
+  'secondary',
   'black',
   'almost-black',
   'white',
