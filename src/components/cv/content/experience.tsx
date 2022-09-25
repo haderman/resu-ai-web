@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Stack, Text } from '../common';
+import { Color } from '../types';
 
 const experience = [
   {
@@ -36,7 +37,11 @@ const experience = [
   }
 ];
 
-export function Experience() {
+export type ExperienceProps = {
+  color: Color
+}
+
+export function Experience(props: ExperienceProps) {
   return (
     <Stack padding="large" gap="medium">
       <Text as="h2" size="large" weight="bold">
@@ -44,7 +49,7 @@ export function Experience() {
       </Text>
       <Stack gap="large">
         {experience.map((item, idx) =>
-          <Item key={idx} {...item} />
+          <Item key={idx} {...item}  color={props.color} />
         )}
       </Stack>
     </Stack>
@@ -59,11 +64,12 @@ type ItemProps = {
   description: string[];
   startDate: string;
   endDate: string;
+  color: Color;
 }
 
 function Item(props: ItemProps) {
   return (
-    <Stack padding="large" color="gray-light" borderRadius="medium">
+    <Stack padding="large" borderRadius="medium" color={props.color}>
       <Text as="h3" color="blue" weight="bold">
         {props.startDate} - {props.endDate}
       </Text>

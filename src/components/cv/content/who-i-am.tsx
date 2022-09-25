@@ -1,8 +1,13 @@
 import { Stack, Text } from '../common';
+import { Color } from '../types';
 
-export function WhoIAm() {
+export type WhoIAmProps = {
+  color: Color
+}
+
+export function WhoIAm(props: WhoIAmProps) {
   return (
-    <Stack gap="large" padding="medium" color="gray-light">
+    <Stack gap="large" padding="medium" color={props.color}>
       <Text
         as="h2"
         size="large"

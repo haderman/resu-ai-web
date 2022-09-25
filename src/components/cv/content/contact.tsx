@@ -2,12 +2,17 @@ import styled, { useTheme } from 'styled-components';
 import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
 import { Stack, Inline, Text } from '../common';
+import { Color } from '../types';
 
-export function Contact() {
+export type ContactProps = {
+  color: Color
+}
+
+export function Contact(props: ContactProps) {
   const theme = useTheme();
 
   return (
-    <Stack gap="medium" padding="medium" color="blue">
+    <Stack gap="medium" padding="medium" color={props.color}>
       <Text as="h2" size="large" weight="bold">
         Hader Cardon Suarez
       </Text>

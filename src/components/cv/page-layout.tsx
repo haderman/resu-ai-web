@@ -21,28 +21,28 @@ export type PageLayoutProps = {
 };
 
 export function PageLayout(props: PageLayoutProps) {
-  const theme = getTheme('default');
+  const theme = getTheme('dark-space');
 
   return (
     <ThemeProvider theme={theme}>
       <Layout>
         <PhotoContainer>
-          <Photo />
+          <Photo background="almost-black" />
         </PhotoContainer>
         <ContactContainer>
-          <Contact />
+          <Contact color="blue" />
         </ContactContainer>
         <WhoIAmContainer>
-          <WhoIAm />
+          <WhoIAm color="secondary" />
         </WhoIAmContainer>
         <SkillsContainer>
-          <Skills />
+          <Skills color="secondary" />
         </SkillsContainer>
         <ExperienceContainer>
-          <Experience />
+          <Experience color="gray-light" />
         </ExperienceContainer>
         <ProjectsContainer>
-          <Projects />
+          <Projects color="gray-light" />
         </ProjectsContainer>
       </Layout>
     </ThemeProvider>
@@ -56,8 +56,9 @@ const BaseLayout = styled.div`
   height: 297mm;
   width: 210mm;
 
-  background: white;
-  color: hsl(0, 0%, 10%);
+  background: hsl(0 0% 10% / 1);
+  background-color: ${(props) => props.theme.colors.primary.background};
+  color: ${(props) => props.theme.colors.primary.text};
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
@@ -95,7 +96,6 @@ const Layout = styled(BaseLayout)`
 const PhotoContainer = styled.div`
   grid-area: photo;
   position: relative;
-  background-color: ${props => props.theme.bg.complementary};
 
   // temp
   // border: .3mm solid salmon;

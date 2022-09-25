@@ -2,6 +2,7 @@ import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
 import { Chip, Inline, Stack, Text } from '../common';
+import { Color } from '../types';
 
 const PROJECTS: Project[] = [
   {
@@ -24,7 +25,11 @@ const PROJECTS: Project[] = [
   },
 ];
 
-export function Projects() {
+export type ProjectsProps = {
+  color: Color
+}
+
+export function Projects(props: ProjectsProps) {
   return (
     <Stack padding="large" gap="medium">
       <Text as="h2" size="large" weight="bold">
@@ -32,7 +37,7 @@ export function Projects() {
       </Text>
       <Inline gap="medium" childrenWithSameWidth fitContent>
         {PROJECTS.map((project) =>
-          <ProjectCard key={project.name} {...project} />
+          <ProjectCard key={project.name} color={props.color} {...project} />
         )}
       </Inline>
     </Stack>
@@ -47,13 +52,15 @@ type Project = {
   website?: string
 }
 
-type ProjectCardProps = Project
+type ProjectCardProps = Project & {
+  color: Color
+}
 
 function ProjectCard(props: ProjectCardProps) {
   const theme = useTheme();
 
   return (
-    <Stack gap="medium" padding="medium" color="gray-light" borderRadius="medium">
+    <Stack gap="medium" padding="medium" color={props.color} borderRadius="medium">
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
       <Text size="small">{props.description}</Text>
       <Text as="h3" weight="bold" size="small">Skills:</Text>
