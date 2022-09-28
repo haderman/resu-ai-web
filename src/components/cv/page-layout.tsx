@@ -1,51 +1,55 @@
+import * as React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { getTheme } from './themes';
+import { getTheme, CvTheme } from './themes';
 import { Contact, Experience, Photo, Projects, Skills, WhoIAm } from './content';
 
 export type PageLayoutProps = {
-  photo: string;
-  description: string;
-  strongSkills: string[];
-  skills: string[];
-  twitter: string;
-  github: string;
-  email: string;
-  experience: {
-    title: string;
-    company: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-  }[];
+  theme: CvTheme
+  // photo: string;
+  // description: string;
+  // strongSkills: string[];
+  // skills: string[];
+  // twitter: string;
+  // github: string;
+  // email: string;
+  // experience: {
+  //   title: string;
+  //   company: string;
+  //   description: string;
+  //   startDate: string;
+  //   endDate: string;
+  // }[];
 };
 
 export function PageLayout(props: PageLayoutProps) {
-  const theme = getTheme('dark-space');
+  const theme = React.useMemo(() => getTheme(props.theme), [props.theme]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Layout>
-        <PhotoContainer>
-          <Photo background="almost-black" />
-        </PhotoContainer>
-        <ContactContainer>
-          <Contact color="blue" />
-        </ContactContainer>
-        <WhoIAmContainer>
-          <WhoIAm color="secondary" />
-        </WhoIAmContainer>
-        <SkillsContainer>
-          <Skills color="secondary" />
-        </SkillsContainer>
-        <ExperienceContainer>
-          <Experience color="gray-light" />
-        </ExperienceContainer>
-        <ProjectsContainer>
-          <Projects color="gray-light" />
-        </ProjectsContainer>
-      </Layout>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <PhotoContainer>
+            <Photo background="almost-black" />
+          </PhotoContainer>
+          <ContactContainer>
+            <Contact color="blue" />
+          </ContactContainer>
+          <WhoIAmContainer>
+            <WhoIAm color="secondary" />
+          </WhoIAmContainer>
+          <SkillsContainer>
+            <Skills color="secondary" />
+          </SkillsContainer>
+          <ExperienceContainer>
+            <Experience color="gray-light" />
+          </ExperienceContainer>
+          <ProjectsContainer>
+            <Projects color="gray-light" />
+          </ProjectsContainer>
+        </Layout>
+      </ThemeProvider>
+    </>
   );
 }
 
@@ -55,8 +59,8 @@ const BaseLayout = styled.div`
   // Page size for A4 pages - https://github.com/w3c/csswg-drafts/issues/328
   height: 297mm;
   width: 210mm;
+  /* aspect-ratio: 1 / 1.4142; */
 
-  background: hsl(0 0% 10% / 1);
   background-color: ${(props) => props.theme.colors.primary.background};
   color: ${(props) => props.theme.colors.primary.text};
 
@@ -99,7 +103,7 @@ const PhotoContainer = styled.div`
 
   // temp
   // border: .3mm solid salmon;
-  height: 6cm;
+  /* height: 6cm; */
 `;
 
 const ContactContainer = styled.div`
