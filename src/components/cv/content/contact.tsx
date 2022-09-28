@@ -1,4 +1,4 @@
-import styled, { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
 import { Stack, Inline, Text } from '../common';

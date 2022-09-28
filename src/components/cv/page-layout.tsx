@@ -3,23 +3,10 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { getTheme, CvTheme } from './themes';
 import { Contact, Experience, Photo, Projects, Skills, WhoIAm } from './content';
+import { SelectableCard } from './common';
 
 export type PageLayoutProps = {
   theme: CvTheme
-  // photo: string;
-  // description: string;
-  // strongSkills: string[];
-  // skills: string[];
-  // twitter: string;
-  // github: string;
-  // email: string;
-  // experience: {
-  //   title: string;
-  //   company: string;
-  //   description: string;
-  //   startDate: string;
-  //   endDate: string;
-  // }[];
 };
 
 export function PageLayout(props: PageLayoutProps) {
@@ -30,22 +17,34 @@ export function PageLayout(props: PageLayoutProps) {
       <ThemeProvider theme={theme}>
         <Layout>
           <PhotoContainer>
-            <Photo background="almost-black" />
+            <SelectableCard item="photo">
+              <Photo background="almost-black" />
+            </SelectableCard>
           </PhotoContainer>
           <ContactContainer>
-            <Contact color="blue" />
+            <SelectableCard item="contact">
+              <Contact color="blue" />
+            </SelectableCard>
           </ContactContainer>
           <WhoIAmContainer>
-            <WhoIAm color="secondary" />
+            <SelectableCard item="profile">
+              <WhoIAm color="secondary" />
+            </SelectableCard>
           </WhoIAmContainer>
           <SkillsContainer>
-            <Skills color="secondary" />
+            <SelectableCard item="skills">
+              <Skills color="secondary" />
+            </SelectableCard>
           </SkillsContainer>
           <ExperienceContainer>
-            <Experience color="gray-light" />
+            <SelectableCard item="experience">
+              <Experience color="gray-light" />
+            </SelectableCard>
           </ExperienceContainer>
           <ProjectsContainer>
-            <Projects color="gray-light" />
+            <SelectableCard item="projects">
+              <Projects color="gray-light" />
+            </SelectableCard>
           </ProjectsContainer>
         </Layout>
       </ThemeProvider>
