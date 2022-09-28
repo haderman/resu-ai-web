@@ -13,7 +13,7 @@ export default {
     fitContent: { defaultValue: true },
     borderRadius: { defaultValue: 'medium' },
     color: {
-      defaultValue: Color.gerDefault(),
+      defaultValue: 'secondary',
       control: {
         type: 'select',
         options: Color.values(),

@@ -7,10 +7,13 @@ import { Experience } from '../../../src/components/cv/content';
 export default {
   title: 'CV/content/experience',
   component: Experience,
+  argTypes: {
+    color: { defaultValue: 'secondary' },
+  },
 } as ComponentMeta<typeof Experience>;
 
 export const Basic: ComponentStory<typeof Experience> = (args) => (
   <Container>
-    <Experience />
+    <Experience {...args} />
   </Container>
 );

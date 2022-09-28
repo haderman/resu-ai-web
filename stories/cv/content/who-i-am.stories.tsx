@@ -7,10 +7,13 @@ import { WhoIAm } from '../../../src/components/cv/content';
 export default {
   title: 'CV/content/whoIAm',
   component: WhoIAm,
+  argTypes: {
+    color: { defaultValue: 'secondary' },
+  },
 } as ComponentMeta<typeof WhoIAm>;
 
 export const Basic: ComponentStory<typeof WhoIAm> = (args) => (
   <Container>
-    <WhoIAm />
+    <WhoIAm {...args} />
   </Container>
 );

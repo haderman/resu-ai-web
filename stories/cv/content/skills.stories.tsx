@@ -7,10 +7,13 @@ import { Skills } from '../../../src/components/cv/content';
 export default {
   title: 'CV/content/skills',
   component: Skills,
+  argTypes: {
+    color: { defaultValue: 'secondary' },
+  },
 } as ComponentMeta<typeof Skills>;
 
 export const Basic: ComponentStory<typeof Skills> = (args) => (
   <Container>
-    <Skills />
+    <Skills {...args} />
   </Container>
 );
