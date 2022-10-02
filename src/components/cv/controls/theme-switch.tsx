@@ -1,7 +1,8 @@
 import { useSelector, useStore } from 'react-redux';
+import styled from 'styled-components';
 
 import { editorSlice, selectTheme } from '@/state';
-import { CvTheme } from "../themes";
+import { CvTheme } from '../themes';
 
 const { actions } = editorSlice;
 
@@ -14,7 +15,8 @@ export function ThemeSwitch() {
   }
 
   return (
-    <div style={{ backgroundColor: 'gray' }}>
+    <StyledFieldset>
+      <StyledLegend>Please select your preferred theme:</StyledLegend>
       <label>
         <input
           type="radio"
@@ -35,6 +37,17 @@ export function ThemeSwitch() {
         />
         Light Space
       </label>
-    </div>
+    </StyledFieldset>
   );
 }
+
+const StyledFieldset = styled.fieldset`
+  padding: 10px;
+  background-color: hsl(0 0% 15%);
+  border-color: hsl(0 0% 35%);
+  border-style: solid;
+`;
+
+const StyledLegend = styled.legend`
+  color: white;
+`;
