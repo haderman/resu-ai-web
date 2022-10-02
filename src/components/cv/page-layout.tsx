@@ -1,54 +1,45 @@
 import * as React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
-import { getTheme, CvTheme } from './themes';
 import { Contact, Experience, Photo, Projects, Skills, WhoIAm } from './content';
 import { SelectableCard } from './common';
 
-export type PageLayoutProps = {
-  theme: CvTheme
-};
+export type PageLayoutProps = {};
 
 export function PageLayout(props: PageLayoutProps) {
-  const theme = React.useMemo(() => getTheme(props.theme), [props.theme]);
-
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <PhotoContainer>
-            <SelectableCard item="photo">
-              <Photo background="almost-black" />
-            </SelectableCard>
-          </PhotoContainer>
-          <ContactContainer>
-            <SelectableCard item="contact">
-              <Contact color="blue" />
-            </SelectableCard>
-          </ContactContainer>
-          <WhoIAmContainer>
-            <SelectableCard item="profile">
-              <WhoIAm color="secondary" />
-            </SelectableCard>
-          </WhoIAmContainer>
-          <SkillsContainer>
-            <SelectableCard item="skills">
-              <Skills color="secondary" />
-            </SelectableCard>
-          </SkillsContainer>
-          <ExperienceContainer>
-            <SelectableCard item="experience">
-              <Experience color="gray-light" />
-            </SelectableCard>
-          </ExperienceContainer>
-          <ProjectsContainer>
-            <SelectableCard item="projects">
-              <Projects color="gray-light" />
-            </SelectableCard>
-          </ProjectsContainer>
-        </Layout>
-      </ThemeProvider>
-    </>
+    <Layout>
+      <PhotoContainer>
+        <SelectableCard item="photo">
+          <Photo background="almost-black" />
+        </SelectableCard>
+      </PhotoContainer>
+      <ContactContainer>
+        <SelectableCard item="contact">
+          <Contact color="blue" />
+        </SelectableCard>
+      </ContactContainer>
+      <WhoIAmContainer>
+        <SelectableCard item="profile">
+          <WhoIAm color="secondary" />
+        </SelectableCard>
+      </WhoIAmContainer>
+      <SkillsContainer>
+        <SelectableCard item="skills">
+          <Skills color="secondary" />
+        </SelectableCard>
+      </SkillsContainer>
+      <ExperienceContainer>
+        <SelectableCard item="experience">
+          <Experience color="gray-light" />
+        </SelectableCard>
+      </ExperienceContainer>
+      <ProjectsContainer>
+        <SelectableCard item="projects">
+          <Projects color="gray-light" />
+        </SelectableCard>
+      </ProjectsContainer>
+    </Layout>
   );
 }
 

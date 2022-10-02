@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectTheme } from '@/state';
-import { ThemeSwitch } from './controls';
+import { ThemeSwitch, ColorSelector } from './controls';
 import { PageLayout } from './page-layout';
+import { WithTheme } from './themes';
 
 export function Editor() {
   return (
@@ -31,11 +32,18 @@ function Controls() {
   return (
     <StyledControls>
       <ThemeSwitch />
+      <WithTheme>
+        <ColorSelector />
+      </WithTheme>
     </StyledControls>
   );
 }
 
 const StyledControls = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   padding: 10px;
   background-color: hsl(210 10% 10%);
 `;
@@ -45,7 +53,9 @@ function Preview() {
 
   return (
     <StyledPreview>
-      <PageLayout theme={theme} />
+      <WithTheme>
+        <PageLayout />
+      </WithTheme>
     </StyledPreview>
   );
 }
