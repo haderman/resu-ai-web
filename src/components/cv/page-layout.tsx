@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Contact, Experience, Photo, Projects, Skills, WhoIAm } from './content';
+import { Contact, Experience, Photo, Projects, Skills, Profile } from './content';
 import { SelectableCard } from './common';
 
 export type PageLayoutProps = {};
@@ -21,7 +21,7 @@ export function PageLayout(props: PageLayoutProps) {
       </ContactContainer>
       <WhoIAmContainer>
         <SelectableCard item="profile">
-          <WhoIAm color="secondary" />
+          <Profile color="secondary" />
         </SelectableCard>
       </WhoIAmContainer>
       <SkillsContainer>
