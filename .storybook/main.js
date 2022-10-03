@@ -10,7 +10,8 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "storybook-addon-styled-component-theme/dist/preset",
-    "storybook-addon-styled-components-themes/register"
+    "storybook-addon-styled-components-themes/register",
+    "storybook-dark-mode",
   ],
   "framework": "@storybook/react",
   "core": {
