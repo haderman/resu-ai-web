@@ -12,6 +12,7 @@ export type InlineProps = React.PropsWithChildren<BoxProps & {
 export const Inline = styled(Box)<InlineProps>`
   display: inline-flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: ${({ alignItems }) => alignItems || 'unset'};
   gap: ${props => props.theme.gap[props.gap ?? 'default']};
 
