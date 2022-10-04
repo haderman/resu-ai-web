@@ -1,8 +1,8 @@
 import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
-import { Stack, Inline, Text } from '../common';
-import { Color } from '../types';
+import { Stack, Inline, Text } from '../../common';
+import { Color } from '../../types';
 
 export type ContactProps = {
   color: Color
@@ -21,8 +21,7 @@ export function Contact(props: ContactProps) {
         <Text weight="light">haderman</Text>
       </Inline>
       <Inline gap="medium" alignItems="center">
-        <IconMail stroke={1} size={theme.fontSize.large}
-        />
+        <IconMail stroke={1} size={theme.fontSize.large} />
         <Text weight="light">cardona.hader@gmail.com</Text>
       </Inline>
       <Inline gap="medium" alignItems="center">
