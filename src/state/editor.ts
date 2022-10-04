@@ -12,7 +12,7 @@ export type EditorState = {
 }
 
 const initialState: EditorState = {
-  theme: 'default',
+  theme: 'dark-space',
   selectedItem: null,
 };
 
