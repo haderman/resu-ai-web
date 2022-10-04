@@ -1,25 +1,27 @@
-import React from 'react';
+import * as React from 'react';
+import { useAddonState } from '@storybook/client-api';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Resizable } from 're-resizable';
-import styled from 'styled-components';
 
 import { ColorSelector } from '@/components/cv/controls';
-import { Container } from '../../helpers/container';
+import { Color } from '@/components/cv/types';
+import { Container, ResizableBox } from '../../helpers';
 
 export default {
   title: 'CV/controls/color-selector',
   component: ColorSelector,
+  argTypes: {
+    label: { defaultValue: 'Label' },
+  },
 } as ComponentMeta<typeof ColorSelector>;
 
-export const Basic: ComponentStory<typeof ColorSelector> = (args) => (
-  <Container>
-    <StyledResizable>
-      <ColorSelector />
-    </StyledResizable>
-  </Container>
-);
+export const Basic: ComponentStory<typeof ColorSelector> = (args) => {
+  const [value, setValue] = useAddonState<Color>('CV/controls/color-selector', 'blue');
 
-const StyledResizable = styled(Resizable)`
-  padding: 10px;
-  border: 1px solid #ccc;
-`;
+  return (
+    <Container>
+      <ResizableBox>
+        <ColorSelector label={args.label} value={value} onChange={setValue} />
+      </ResizableBox>
+    </Container>
+  );
+};
