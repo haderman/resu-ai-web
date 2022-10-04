@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { Color, Size, Weight } from '../types';
 
+// TODO: add better line height -> read this https://twitter.com/danqing_liu/status/1576997493765611520?s=20&t=T7u0xdkm8QOrLbnNRwoq-A
+
 export type TextProps = React.PropsWithChildren<{
   as?: keyof Pick<JSX.IntrinsicElements, 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'>
   color?: Color
