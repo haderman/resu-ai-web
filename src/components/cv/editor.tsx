@@ -14,6 +14,7 @@ import {
   SkillsOptions,
   ExperienceOptions,
   PhotoOptions,
+  ProjectsOptions,
 } from './content';
 
 export function Editor() {
@@ -47,7 +48,7 @@ function Controls() {
     skills: <SkillsOptions />,
     photo: <PhotoOptions />,
     profile: <ProfileOptions />,
-    projects: null,
+    projects: <ProjectsOptions />,
   };
 
   const ControlsComponent = selectedItem && selectedItem in controlsMap

@@ -6,7 +6,7 @@ import {
   ContactContainer,
   ExperienceContainer,
   PhotoContainer,
-  Projects,
+  ProjectsContainer,
   SkillsContainer,
   ProfileContainer,
 } from './content';
@@ -43,7 +43,7 @@ export function PageLayout(props: PageLayoutProps) {
       </ExperienceSection>
       <ProjectsSection>
         <SelectableCard item="projects">
-          <Projects color="gray-light" />
+          <ProjectsContainer />
         </SelectableCard>
       </ProjectsSection>
     </Layout>

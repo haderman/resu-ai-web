@@ -1,8 +1,8 @@
 import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
-import { Chip, Inline, Stack, Text } from '../common';
-import { Color } from '../types';
+import { Chip, Inline, Stack, Text } from '../../common';
+import { Color } from '../../types';
 
 const PROJECTS: Project[] = [
   {
@@ -27,17 +27,24 @@ const PROJECTS: Project[] = [
 
 export type ProjectsProps = {
   color: Color
+  background: Color
+  skillsColor: Color
 }
 
 export function Projects(props: ProjectsProps) {
   return (
-    <Stack padding="large" gap="medium">
+    <Stack padding="large" gap="medium" color={props.background}>
       <Text as="h2" size="large" weight="bold">
         Side Projects
       </Text>
       <Inline gap="medium" childrenWithSameWidth fitContent>
         {PROJECTS.map((project) =>
-          <ProjectCard key={project.name} color={props.color} {...project} />
+          <ProjectCard
+            key={project.name}
+            color={props.color}
+            skillsColor={props.skillsColor}
+            {...project}
+          />
         )}
       </Inline>
     </Stack>
@@ -54,6 +61,7 @@ type Project = {
 
 type ProjectCardProps = Project & {
   color: Color
+  skillsColor: Color
 }
 
 function ProjectCard(props: ProjectCardProps) {
@@ -66,7 +74,7 @@ function ProjectCard(props: ProjectCardProps) {
       <Text as="h3" weight="bold" size="small">Skills:</Text>
       <Chip.Container gap="small">
         {props.technologies.map((tech) =>
-          <Chip key={tech} color="pink">{tech}</Chip>
+          <Chip key={tech} color={props.skillsColor}>{tech}</Chip>
         )}
       </Chip.Container>
       <Inline alignItems="center" gap="medium">
