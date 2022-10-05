@@ -12,7 +12,7 @@ import { WithTheme } from '../../themes';
 
 const { actions } = skillsSlice;
 
-export function SkillOptions() {
+export function SkillsOptions() {
   return (
     <WithTheme>
       <BackgroundSelectorContainer />

@@ -1,7 +1,5 @@
 import { Chip, Stack, Text } from '@/components/cv/common';
 import { SkillsProps } from './types';
-import { SkillOptions } from './options';
-
 
 export function Skills(props: SkillsProps) {
   return (
@@ -19,5 +17,3 @@ export function Skills(props: SkillsProps) {
     </Stack>
   );
 }
-
-Skills.Options = SkillOptions;

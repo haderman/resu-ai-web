@@ -11,7 +11,7 @@ import { CvItem } from './types';
 import {
   ContactOptions,
   ProfileOptions,
-  Skills,
+  SkillsOptions,
 } from './content';
 
 export function Editor() {
@@ -42,7 +42,7 @@ function Controls() {
     contact: <ContactOptions />,
     education: null,
     experience: null,
-    skills: <Skills.Options />,
+    skills: <SkillsOptions />,
     photo: null,
     profile: <ProfileOptions />,
     projects: null,

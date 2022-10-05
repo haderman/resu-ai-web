@@ -1,3 +1,4 @@
 export * from './component';
-export * from './types';
 export * from './container';
+export * from './options';
+export * from './types';
