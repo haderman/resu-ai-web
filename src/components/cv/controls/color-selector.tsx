@@ -3,22 +3,35 @@ import styled from 'styled-components';
 
 import { Color } from '@/components/cv/types';
 
-export type ColorSelectorProps = {};
+export type ColorSelectorProps = {
+  label: string
+  value: Color
+  onChange: (color: Color) => void
+};
 
 export function ColorSelector(props: ColorSelectorProps) {
+  function handleOnChange(color: Color) {
+    return () => {
+      props.onChange(color);
+    };
+  }
+
   return (
     <StyledFieldset>
-      <StyledLegend>Please select your preferred color:</StyledLegend>
+      <StyledLegend>{props.label}</StyledLegend>
       <div>
         {Color.values().map((color) => {
           return (
             <StyledRadio
               key={color}
               type="radio"
-              id={color}
-              name="color"
+              id={props.label + '-' + color}
+              name={color}
               value={color}
               color={color}
+              data-checked={color === props.value ? 'true' : 'false'}
+              checked={props.value === color}
+              onChange={handleOnChange(color)}
             />
           );
         })}
@@ -56,11 +69,11 @@ const StyledRadio = styled.input<{ color: Color }>`
     box-shadow: inset 1rem 1rem ${(props) => props.theme.colors[props.color].background};
   }
 
-  :checked {
+  &[data-checked='true'] {
     box-shadow: 0px 0px 0px 3px hsl(210deg 11% 49%);
   }
 
-  :checked::before {
+  &[data-checked='true']::before {
     content: '';
     transform: scale(1);
   }
