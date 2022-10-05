@@ -1,44 +1,51 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Contact, Experience, Photo, Projects, Skills, Profile } from './content';
 import { SelectableCard } from './common';
+import {
+  ContactContainer,
+  Experience,
+  Photo,
+  Projects,
+  SkillsContainer,
+  ProfileContainer,
+} from './content';
 
 export type PageLayoutProps = {};
 
 export function PageLayout(props: PageLayoutProps) {
   return (
     <Layout>
-      <PhotoContainer>
+      <PhotoSection>
         <SelectableCard item="photo">
           <Photo background="almost-black" />
         </SelectableCard>
-      </PhotoContainer>
-      <ContactContainer>
+      </PhotoSection>
+      <ContactSection>
         <SelectableCard item="contact">
-          <Contact color="blue" />
+          <ContactContainer />
         </SelectableCard>
-      </ContactContainer>
-      <WhoIAmContainer>
+      </ContactSection>
+      <WhoIAmSection>
         <SelectableCard item="profile">
-          <Profile color="secondary" />
+          <ProfileContainer />
         </SelectableCard>
-      </WhoIAmContainer>
-      <SkillsContainer>
+      </WhoIAmSection>
+      <SkillsSection>
         <SelectableCard item="skills">
-          <Skills color="secondary" />
+          <SkillsContainer />
         </SelectableCard>
-      </SkillsContainer>
-      <ExperienceContainer>
+      </SkillsSection>
+      <ExperienceSection>
         <SelectableCard item="experience">
           <Experience color="gray-light" />
         </SelectableCard>
-      </ExperienceContainer>
-      <ProjectsContainer>
+      </ExperienceSection>
+      <ProjectsSection>
         <SelectableCard item="projects">
           <Projects color="gray-light" />
         </SelectableCard>
-      </ProjectsContainer>
+      </ProjectsSection>
     </Layout>
   );
 }
@@ -87,7 +94,7 @@ const Layout = styled(BaseLayout)`
     'projects projects projects';
 `;
 
-const PhotoContainer = styled.div`
+const PhotoSection = styled.div`
   grid-area: photo;
   position: relative;
 
@@ -96,11 +103,11 @@ const PhotoContainer = styled.div`
   /* height: 6cm; */
 `;
 
-const ContactContainer = styled.div`
+const ContactSection = styled.div`
   grid-area: contact;
 `;
 
-const WhoIAmContainer = styled.div`
+const WhoIAmSection = styled.div`
   grid-area: whoiam;
 
   & > * {
@@ -108,7 +115,7 @@ const WhoIAmContainer = styled.div`
   }
 `;
 
-const SkillsContainer = styled.div`
+const SkillsSection = styled.div`
   grid-area: skills;
 
   & > * {
@@ -116,10 +123,10 @@ const SkillsContainer = styled.div`
   }
 `;
 
-const ExperienceContainer = styled.div`
+const ExperienceSection = styled.div`
   grid-area: experience;
 `;
 
-const ProjectsContainer = styled.div`
+const ProjectsSection = styled.div`
   grid-area: projects;
 `;

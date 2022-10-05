@@ -2,10 +2,17 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectTheme } from '@/state';
-import { ThemeSwitch, ColorSelector } from './controls';
+import { selectSelectedItem } from '@/state';
+
+import { ThemeSwitch } from './controls';
 import { PageLayout } from './page-layout';
 import { WithTheme } from './themes';
+import { CvItem } from './types';
+import {
+  ContactOptions,
+  ProfileOptions,
+  Skills,
+} from './content';
 
 export function Editor() {
   return (
@@ -29,12 +36,26 @@ const StyledEditor = styled.div`
 `;
 
 function Controls() {
+  const selectedItem = useSelector(selectSelectedItem);
+
+  const controlsMap: Record<CvItem, JSX.Element | null> = {
+    contact: <ContactOptions />,
+    education: null,
+    experience: null,
+    skills: <Skills.Options />,
+    photo: null,
+    profile: <ProfileOptions />,
+    projects: null,
+  };
+
+  const ControlsComponent = selectedItem && selectedItem in controlsMap
+    ? controlsMap[selectedItem]
+    : null;
+
   return (
     <StyledControls>
       <ThemeSwitch />
-      <WithTheme>
-        <ColorSelector />
-      </WithTheme>
+      {ControlsComponent}
     </StyledControls>
   );
 }
@@ -49,8 +70,6 @@ const StyledControls = styled.div`
 `;
 
 function Preview() {
-  const theme = useSelector(selectTheme);
-
   return (
     <StyledPreview>
       <WithTheme>
