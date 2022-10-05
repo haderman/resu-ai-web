@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { SelectableCard } from './common';
 import {
   ContactContainer,
-  Experience,
+  ExperienceContainer,
   Photo,
   Projects,
   SkillsContainer,
@@ -38,7 +38,7 @@ export function PageLayout(props: PageLayoutProps) {
       </SkillsSection>
       <ExperienceSection>
         <SelectableCard item="experience">
-          <Experience color="gray-light" />
+          <ExperienceContainer />
         </SelectableCard>
       </ExperienceSection>
       <ProjectsSection>

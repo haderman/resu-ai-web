@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { Stack, Text } from '../common';
-import { Color } from '../types';
+import { Stack, Text } from '../../common';
+import { Color } from '../../types';
 
 const experience = [
   {
@@ -38,12 +38,13 @@ const experience = [
 ];
 
 export type ExperienceProps = {
+  background: Color
   color: Color
 }
 
 export function Experience(props: ExperienceProps) {
   return (
-    <Stack padding="large" gap="medium">
+    <Stack padding="large" gap="medium" color={props.background}>
       <Text as="h2" size="large" weight="bold">
         Experience
       </Text>

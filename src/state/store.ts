@@ -6,6 +6,7 @@ import { editorSlice } from './editor';
 import { contactSlice } from './contact';
 import { profileSlice } from './profile';
 import { skillsSlice } from './skills';
+import { experienceSlice } from './experience';
 
 function makeStore() {
   const store = configureStore({
@@ -14,6 +15,7 @@ function makeStore() {
       [contactSlice.name]: contactSlice.reducer,
       [profileSlice.name]: profileSlice.reducer,
       [skillsSlice.name]: skillsSlice.reducer,
+      [experienceSlice.name]: experienceSlice.reducer,
     },
     devTools: true,
   });

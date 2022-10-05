@@ -12,6 +12,7 @@ import {
   ContactOptions,
   ProfileOptions,
   SkillsOptions,
+  ExperienceOptions,
 } from './content';
 
 export function Editor() {
@@ -41,7 +42,7 @@ function Controls() {
   const controlsMap: Record<CvItem, JSX.Element | null> = {
     contact: <ContactOptions />,
     education: null,
-    experience: null,
+    experience: <ExperienceOptions />,
     skills: <SkillsOptions />,
     photo: null,
     profile: <ProfileOptions />,
