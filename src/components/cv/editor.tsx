@@ -13,6 +13,7 @@ import {
   ProfileOptions,
   SkillsOptions,
   ExperienceOptions,
+  PhotoOptions,
 } from './content';
 
 export function Editor() {
@@ -44,7 +45,7 @@ function Controls() {
     education: null,
     experience: <ExperienceOptions />,
     skills: <SkillsOptions />,
-    photo: null,
+    photo: <PhotoOptions />,
     profile: <ProfileOptions />,
     projects: null,
   };

@@ -5,7 +5,7 @@ import { SelectableCard } from './common';
 import {
   ContactContainer,
   ExperienceContainer,
-  Photo,
+  PhotoContainer,
   Projects,
   SkillsContainer,
   ProfileContainer,
@@ -18,7 +18,7 @@ export function PageLayout(props: PageLayoutProps) {
     <Layout>
       <PhotoSection>
         <SelectableCard item="photo">
-          <Photo background="almost-black" />
+          <PhotoContainer />
         </SelectableCard>
       </PhotoSection>
       <ContactSection>

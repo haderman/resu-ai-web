@@ -7,6 +7,7 @@ import { contactSlice } from './contact';
 import { profileSlice } from './profile';
 import { skillsSlice } from './skills';
 import { experienceSlice } from './experience';
+import { photoSlice } from './photo';
 
 function makeStore() {
   const store = configureStore({
@@ -16,6 +17,7 @@ function makeStore() {
       [profileSlice.name]: profileSlice.reducer,
       [skillsSlice.name]: skillsSlice.reducer,
       [experienceSlice.name]: experienceSlice.reducer,
+      [photoSlice.name]: photoSlice.reducer,
     },
     devTools: true,
   });

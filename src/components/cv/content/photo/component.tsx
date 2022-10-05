@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { Color } from '../types';
+import { Color } from '../../types';
 
 export type PhotoProps = {
   background?: Color
