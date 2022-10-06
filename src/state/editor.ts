@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import { CvTheme } from '@/components/cv/themes';
-import { CvItem } from '@/components/cv/types';
+import { CvTheme } from '@/components/editor/themes';
+import { CvItem } from '@/components/editor/types';
 import { AppState } from './store';
 
 export type EditorState = {

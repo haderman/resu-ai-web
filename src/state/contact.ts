@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import { Color } from '@/components/cv/types';
+import { Color } from '@/components/editor/types';
 import { AppState } from './store';
 
 export type ContactState = {

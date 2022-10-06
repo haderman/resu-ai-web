@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import { Color } from '@/components/cv/types';
-import { Skill } from '@/components/cv/content';
+import { Color } from '@/components/editor/types';
+import { Skill } from '@/components/editor/content';
 import { AppState } from './store';
 
 export type SkillsState = {

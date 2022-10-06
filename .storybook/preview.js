@@ -4,7 +4,7 @@ import { themes } from '@storybook/theming';
 import { addDecorator, addParameters } from '@storybook/react';
 import { WithThemeProvider } from 'storybook-addon-styled-components-themes';
 
-import { CvTheme } from '../src/components/cv/themes';
+import { CvTheme } from '../src/components/editor/themes';
 
 export const parameters = {
   darkMode: {

@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Title>Haderman</Title>
-        <Link href="/cv">CV</Link>
+        <Link href="/editor">Editor</Link>
       </main>
 
       <footer className={styles.footer}>
