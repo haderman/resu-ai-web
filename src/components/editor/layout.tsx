@@ -25,8 +25,14 @@ const StyledLayout = styled.div`
   display: grid;
   grid-template-columns: 400px 1fr;
 
-  & > * {
+  & > *:first-child {
     overflow: auto;
+    min-height: 100%;
+  }
+
+  & > *:last-child {
+    overflow-y: auto;
+    overflow-x: hidden;
     min-height: 100%;
   }
 `;

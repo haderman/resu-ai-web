@@ -13,42 +13,44 @@ import {
 
 export type CVDocProps = {};
 
-export function CVDoc(props: CVDocProps) {
-  return (
-    <Layout>
-      <PhotoSection>
-        <SelectableCard item="photo">
-          <PhotoContainer />
-        </SelectableCard>
-      </PhotoSection>
-      <ContactSection>
-        <SelectableCard item="contact">
-          <ContactContainer />
-        </SelectableCard>
-      </ContactSection>
-      <WhoIAmSection>
-        <SelectableCard item="profile">
-          <ProfileContainer />
-        </SelectableCard>
-      </WhoIAmSection>
-      <SkillsSection>
-        <SelectableCard item="skills">
-          <SkillsContainer />
-        </SelectableCard>
-      </SkillsSection>
-      <ExperienceSection>
-        <SelectableCard item="experience">
-          <ExperienceContainer />
-        </SelectableCard>
-      </ExperienceSection>
-      <ProjectsSection>
-        <SelectableCard item="projects">
-          <ProjectsContainer />
-        </SelectableCard>
-      </ProjectsSection>
-    </Layout>
-  );
-}
+export const CVDoc = React.forwardRef<HTMLDivElement, CVDocProps>(
+  function CVDocComponent(props: CVDocProps, ref) {
+    return (
+      <Layout ref={ref}>
+        <PhotoSection>
+          <SelectableCard item="photo">
+            <PhotoContainer />
+          </SelectableCard>
+        </PhotoSection>
+        <ContactSection>
+          <SelectableCard item="contact">
+            <ContactContainer />
+          </SelectableCard>
+        </ContactSection>
+        <WhoIAmSection>
+          <SelectableCard item="profile">
+            <ProfileContainer />
+          </SelectableCard>
+        </WhoIAmSection>
+        <SkillsSection>
+          <SelectableCard item="skills">
+            <SkillsContainer />
+          </SelectableCard>
+        </SkillsSection>
+        <ExperienceSection>
+          <SelectableCard item="experience">
+            <ExperienceContainer />
+          </SelectableCard>
+        </ExperienceSection>
+        <ProjectsSection>
+          <SelectableCard item="projects">
+            <ProjectsContainer />
+          </SelectableCard>
+        </ProjectsSection>
+      </Layout>
+    );
+  }
+);
 
 const BaseLayout = styled.div`
   position: relative;
@@ -56,7 +58,7 @@ const BaseLayout = styled.div`
   // Page size for A4 pages - https://github.com/w3c/csswg-drafts/issues/328
   height: 297mm;
   width: 210mm;
-  /* aspect-ratio: 1 / 1.4142; */
+  min-width: 210mm;
 
   background-color: ${(props) => props.theme.colors.primary.background};
   color: ${(props) => props.theme.colors.primary.text};
