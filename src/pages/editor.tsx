@@ -2,8 +2,29 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import styled from 'styled-components';
+import { unstable_getServerSession } from 'next-auth';
+import { connect } from 'react-redux';
 
 import { Editor } from '@/components/editor';
+import { AuthButtonContainer } from '@/components/common';
+import { wrapper, AppState } from '@/state/store';
+import { sessionSlice } from '@/state/session';
+
+import { authOptions } from './api/auth/[...nextauth]';
+
+const { actions } = sessionSlice;
+
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions);
+  store.dispatch(actions.setSession(session));
+
+  console.log('*** session -> ', session);
+
+  // I am returning the session here, but I don't think I need to but I get an typescript error if I don't
+  return {
+    props: {}
+  };
+});
 
 const EditorPage: NextPage = () => {
   return (
@@ -18,12 +39,15 @@ const EditorPage: NextPage = () => {
         <Header>
           <Title>My CV</Title>
           <Link href="/">Home</Link>
+          <AuthButtonContainer />
         </Header>
         <Editor />
       </Container>
     </>
   );
 };
+
+export default connect((state: AppState) => state)(EditorPage);
 
 const Container = styled.div`
   height: 100%;
@@ -35,6 +59,7 @@ const Header = styled.header`
   background-color: hsl(210 10% 5%);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
   gap: 20px;
 `;
@@ -44,5 +69,3 @@ const Title = styled.h1`
   text-align: center;
   color: greenyellow;
 `;
-
-export default EditorPage;

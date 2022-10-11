@@ -1,0 +1,531 @@
+{
+  "resume": {
+    "meta": {
+      "usedTemplates": {},
+      "numberOfDownloads": 0
+    },
+    "personalDetails": {
+      "photo": {
+        "shape": "round"
+      },
+      "detailsOrder": [
+        "displayEmail",
+        "phone",
+        "address",
+        "nationality",
+        "twitter",
+        "website",
+        "github",
+        "linkedIn"
+      ],
+      "fullName": "Hader Cardona",
+      "jobTitle": "Frontend developer",
+      "displayEmail": "arturo@example.com",
+      "address": "Amaga, Colombia",
+      "website": "haderman.dev",
+      "websiteLink": "https://haderman.dev",
+      "social": {
+        "twitter": {
+          "display": "haderman7",
+          "url": ""
+        },
+        "github": {
+          "display": "haderman",
+          "url": ""
+        },
+        "linkedIn": {
+          "display": "el hader",
+          "url": ""
+        }
+      }
+    },
+    "customization": {
+      "layout": {
+        "colsFromDetails": {
+          "top": "one",
+          "left": "two",
+          "right": "two"
+        },
+        "colWidthsFromDetails": {
+          "top": {
+            "leftWidth": 50,
+            "rightWidth": 50
+          },
+          "left": {
+            "leftWidth": 40,
+            "rightWidth": 60
+          },
+          "right": {
+            "leftWidth": 60,
+            "rightWidth": 40
+          }
+        },
+        "one": {
+          "colWidths": {
+            "dateLocationLeft": {},
+            "dateLocationRight": {},
+            "dateContentLocation": {}
+          }
+        },
+        "two": {
+          "sectionDisplay": "halfHalf"
+        },
+        "mix": {
+          "columnWidths": {
+            "dateLocationLeft": {},
+            "dateLocationRight": {},
+            "dateContentLocation": {}
+          }
+        },
+        "detailsPosition": "top"
+      },
+      "entryLayout": {
+        "colWidths": {
+          "dateLocationLeft": {
+            "left": 0,
+            "right": 0
+          },
+          "dateLocationRight": {
+            "left": 0,
+            "right": 0
+          },
+          "dateContentLocation": {
+            "left": 0,
+            "middle": 0,
+            "right": 0
+          }
+        },
+        "titleAndSubtitleSize": "s",
+        "subtitleStyle": "italic",
+        "bodyIndentation": "0",
+        "dateLocationOpacity": false,
+        "displayMode": "dateLocationRight",
+        "colMode": "auto"
+      },
+      "colors": {
+        "basic": {
+          "multi": {
+            "textColor": "#000000",
+            "accentColor": "#000000",
+            "backgroundColor": "#ffffff"
+          },
+          "multiCustom": {
+            "textColor": "#000000",
+            "accentColor": "#000000",
+            "backgroundColor": "#ffffff"
+          },
+          "selected": "single",
+          "single": "#000000",
+          "singleCustom": "#000000"
+        },
+        "advanced": {
+          "multi": {
+            "strong": {
+              "textColor": "#ffffff",
+              "accentColor": "#ffffff",
+              "backgroundColor": "#000000"
+            },
+            "light": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            }
+          },
+          "multiCustom": {
+            "strong": {
+              "textColor": "#ffffff",
+              "accentColor": "#ffffff",
+              "backgroundColor": "#000000"
+            },
+            "light": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            }
+          },
+          "selected": "single",
+          "single": "#000000",
+          "singleCustom": "#000000"
+        },
+        "border": {
+          "selected": "single",
+          "single": "#000000",
+          "singleCustom": "#000000",
+          "width": "m",
+          "left": true,
+          "top": true,
+          "right": true,
+          "bottom": true
+        },
+        "mode": "basic"
+      },
+      "sectionOrder": {
+        "one": {
+          "sectionsSorted": [
+            "work",
+            "profile",
+            "skill",
+            "project"
+          ]
+        },
+        "two": {
+          "leftSectionsSorted": [
+            "work",
+            "skill"
+          ],
+          "rightSectionsSorted": [
+            "profile",
+            "project"
+          ]
+        },
+        "mix": [
+          {
+            "left": [
+              "work"
+            ],
+            "right": []
+          },
+          "profile",
+          "skill",
+          "project"
+        ]
+      },
+      "header": {
+        "photo": {
+          "show": true,
+          "grayscale": false,
+          "size": "m"
+        },
+        "photoPositionFromHeaderPosition": {
+          "left": "left",
+          "top": "center",
+          "right": "left"
+        },
+        "accentuateName": true,
+        "detailsDisplayCenter": "icon",
+        "detailsDisplayLeftRight": "icon",
+        "nameSize": "s",
+        "detailsArrangement": "wrap",
+        "jobTitleSize": "m",
+        "jobTitleStyle": "normal",
+        "jobTitlePosition": "below",
+        "position": "center"
+      },
+      "spacing": {
+        "marginVertical": "3",
+        "marginHorizontal": "3",
+        "fontSize": "4",
+        "lineHeight": "4",
+        "spacingFactor": "2"
+      },
+      "font": {
+        "selected": "serif",
+        "fontFamily": "Source Sans Pro"
+      },
+      "advanced": {
+        "listStyle": "bullet",
+        "linkIcon": "boxArrow",
+        "groupPromotions": false
+      },
+      "skillDisplay": {
+        "grid": {
+          "columns": "one",
+          "splitCommasIntoBullets": false
+        },
+        "level": {
+          "selected": "dots"
+        },
+        "selected": "bubble",
+        "text": "bullet",
+        "subinfoItalic": false
+      },
+      "languageDisplay": {
+        "grid": {
+          "columns": "three",
+          "splitCommasIntoBullets": false
+        },
+        "level": {
+          "selected": "dots"
+        },
+        "selected": "grid",
+        "text": "bullet",
+        "subinfoItalic": false
+      },
+      "interestDisplay": {
+        "grid": {
+          "columns": "three",
+          "splitCommasIntoBullets": false
+        },
+        "selected": "grid",
+        "text": "bullet",
+        "subinfoItalic": false
+      },
+      "certificateDisplay": {
+        "grid": {
+          "columns": "three",
+          "splitCommasIntoBullets": false
+        },
+        "selected": "grid",
+        "text": "bullet",
+        "subinfoItalic": false
+      },
+      "regional": {
+        "format": "A4",
+        "dateDisplay": "DD/MM/YYYY",
+        "anonymous": false,
+        "monthFormat": "MM",
+        "dateDelimiter": "/"
+      },
+      "heading": {
+        "style": "line",
+        "capitalization": "capitalize",
+        "headingSize": "s",
+        "icons": "none"
+      },
+      "expert": {
+        "footer": {
+          "pages": false,
+          "name": false,
+          "email": false
+        },
+        "subTitlePlacement": "trySameLine",
+        "showProfileHeading": true
+      },
+      "border": {
+        "width": {}
+      },
+      "background": {
+        "fullPage": {},
+        "header": {
+          "multi": {
+            "a": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            },
+            "b": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            }
+          }
+        },
+        "leftCol": {
+          "multi": {
+            "a": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            },
+            "b": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            }
+          }
+        },
+        "rightCol": {
+          "multi": {
+            "a": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            },
+            "b": {
+              "textColor": "#000000",
+              "accentColor": "#000000",
+              "backgroundColor": "#ffffff"
+            }
+          }
+        },
+        "selected": "fullPage"
+      },
+      "applyAccentColor": {
+        "name": true,
+        "headings": true,
+        "headingLine": true,
+        "dotsBarsBubbles": false,
+        "icons": false,
+        "dates": false,
+        "linkIcons": false
+      },
+      "educationDisplay": {
+        "degreeBeforeSchool": true
+      },
+      "workDisplay": {
+        "jobTitleBeforeEmployer": true
+      },
+      "creativeNameFont": "bodyFont",
+      "unsplashImageHistory": [
+        {
+          "photoId": "xljtGZ2-P3Y",
+          "urlFull": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjEwMTg4M30",
+          "urlRegular": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEwMTg4M30",
+          "urlThumb": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjEwMTg4M30",
+          "photographerId": "dD4xvxNBI2Y",
+          "photographerFullName": "Nahil Naseer",
+          "photographerFirstName": "Nahil",
+          "photographerLastName": "Naseer",
+          "userHtmlLink": "https://unsplash.com/@nahilnaseer",
+          "width": 2565,
+          "height": 4560,
+          "dominantColors": [
+            "#1f2c2c",
+            "#5d9479",
+            "#3f6e5a",
+            "#86aa96",
+            "#587c6c",
+            "#2d5145",
+            "#3d574f",
+            "#304344",
+            "#485b5c",
+            "#748484"
+          ],
+          "brightness": 53
+        }
+      ],
+      "sharedTemplateId": "",
+      "customSkillSections": {}
+    },
+    "feedback": {
+      "comments": []
+    },
+    "_id": "63440d91232986d291ebd17f",
+    "userId": "63440d91232986d291ebd178",
+    "languageCode": "en",
+    "title": "Resume 1",
+    "order": 0,
+    "feedbackToken": "Q8iQeLHH4nyuhTU1sVBFC",
+    "content": {
+      "work": {
+        "sectionType": "work",
+        "displayName": "Professional Experience",
+        "entries": [
+          {
+            "id": "6bNFpXZ2dRmy434LsY5bf",
+            "isNewEntry": false,
+            "employer": "el cejaz",
+            "employerLink": "",
+            "jobTitle": "Front end developer",
+            "city": "amaga",
+            "country": "Colombia",
+            "startDate": {
+              "month": "01",
+              "year": "2018",
+              "onlyYear": false,
+              "hide": false,
+              "ongoing": false
+            },
+            "endDate": {
+              "month": null,
+              "year": null,
+              "onlyYear": false,
+              "hide": false,
+              "ongoing": true,
+              "customOngoingWord": "present"
+            },
+            "description": "<ul><li>Managed front desk operations and customer interactions.</li><li>Answered phone calls, greeted clients, and handled all front desk responsibilities.</li><li>Managed front-end and back-end development in the company's Portfolio Analyst, Employee Track, and Account Management systems.</li><li>Worked with Accountant at the end of the year to provide information and ensure accuracy.</li></ul>"
+          },
+          {
+            "id": "xMeCIXgAOLpsW9Ful9396",
+            "isNewEntry": false,
+            "employer": "el calidoso",
+            "employerLink": "",
+            "jobTitle": "Front end developer",
+            "city": "titiriv",
+            "country": "colombia",
+            "startDate": {
+              "month": "04",
+              "year": "2016",
+              "onlyYear": true,
+              "hide": false,
+              "ongoing": false
+            },
+            "endDate": {
+              "month": "06",
+              "year": "2019",
+              "onlyYear": true,
+              "hide": false,
+              "ongoing": false,
+              "customOngoingWord": "present"
+            },
+            "description": "<ul><li>Assigned young children to the front rows of the bus for the sake of proper supervision.</li><li>Served as an enthusiastic and knowledgeable Sales Associate in this high end jewelry boutique.</li><li>Helped to achieve a consistent look and visual theme across the website by promoting uniform fonts, formatting, images, and layout.</li><li>Followed policies and procedures related to application methods and quality standards at all times.</li><li>Managed front-end and back-end development in the company's Portfolio Analyst, Employee Track, and Account Management systems.</li></ul>"
+          }
+        ],
+        "iconKey": "work"
+      },
+      "profile": {
+        "sectionType": "profile",
+        "displayName": "Profile",
+        "entries": [
+          {
+            "id": "U07XYcv5fimRrVNl9Z-cr",
+            "isNewEntry": false,
+            "text": "<p class=\"ql-align-justify\">I’m a Front End Developer and I am very adaptive to different ways of working. I believe that the most important thing is to learn the basics very well and determine the best approach for the team and the product overall. I love to have side projects to experiment with new technologies and to practice new things that I learn on my way. I really love what I do and I am continuously learning and developing my skills.</p>"
+          }
+        ],
+        "iconKey": "profile"
+      },
+      "skill": {
+        "sectionType": "skill",
+        "displayName": "Skills",
+        "entries": [
+          {
+            "id": "fsD2N68ClmmXf8Zclivas",
+            "isNewEntry": false,
+            "skill": "React",
+            "level": "4",
+            "isHidden": false
+          },
+          {
+            "id": "6ojp-ClfyBWfG2ko1IydN",
+            "isNewEntry": false,
+            "skill": "Typescript",
+            "level": "3"
+          },
+          {
+            "id": "fmd_xz9JZ-fNAxnFv_O2b",
+            "isNewEntry": false,
+            "skill": "Html",
+            "level": "3"
+          },
+          {
+            "id": "5HrKBBw8QiemtzHrnb5bC",
+            "isNewEntry": false,
+            "skill": "Css",
+            "isHidden": false
+          }
+        ],
+        "iconKey": "headPuzzle"
+      },
+      "project": {
+        "sectionType": "project",
+        "displayName": "Projects",
+        "entries": [
+          {
+            "id": "7NnvzVcPE5QvhzNqBw-F7",
+            "isNewEntry": false,
+            "projectTitle": "test 1",
+            "projectTitleLink": "",
+            "subTitle": "tgsa",
+            "description": "<ul><li>Front end developer, el cejaz</li><li>Managed front desk operations and customer interactions.</li><li>Answered phone calls, greeted clients, and handled all front desk responsibilities.</li><li>Managed front-end and back-end development in the company's Portfolio Analyst, Employee Track, and Account Management systems.</li><li>Worked with Accountant at the end of the year to provide information and ensure accuracy.</li></ul>"
+          },
+          {
+            "id": "5eA5s5tRq2fFwBXcfxvJt",
+            "isNewEntry": false,
+            "projectTitle": "fsfsd",
+            "projectTitleLink": "",
+            "subTitle": "gds",
+            "description": "<ul><li>Assigned young children to the front rows of the bus for the sake of proper supervision.</li><li>Served as an enthusiastic and knowledgeable Sales Associate in this high end jewelry boutique.</li><li>Helped to achieve a consistent look and visual theme across the website by promoting uniform fonts, formatting, images, and layout.</li><li>Followed policies and procedures related to application methods and quality standards at all times.</li><li>Managed front-end and back-end development in the company's Portfolio Analyst, Employee Track, and Account Management systems.</li></ul>"
+          }
+        ],
+        "iconKey": "folder"
+      }
+    },
+    "schemaVersion": "4",
+    "createdAt": "2022-10-10T12:18:25.217Z",
+    "updatedAt": "2022-10-10T12:18:25.217Z",
+    "__v": 0,
+    "id": "63440d91232986d291ebd17f"
+  }
+}

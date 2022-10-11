@@ -28,7 +28,6 @@ export const experienceSlice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      console.log('HYDRATE', action.payload);
       return {
         ...state,
         ...action.payload.subject,
