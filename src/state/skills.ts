@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 import { Color } from '@/components/editor/types';
-import { Skill } from '@/components/editor/content';
+import { SkillsData } from '@/components/editor/content';
 import { AppState } from './store';
 
 export type SkillsState = {
   color: Color
   backgroundColor: Color
-  skills: Skill[]
+  skills: SkillsData
 }
 
 const initialState: SkillsState = {
@@ -36,10 +36,9 @@ export const skillsSlice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      console.log('HYDRATE', action.payload);
       return {
         ...state,
-        ...action.payload.subject,
+        ...action.payload.skills,
       };
     },
   },
@@ -53,6 +52,6 @@ export function selectBackground(state: AppState): Color {
   return state.skills.backgroundColor;
 }
 
-export function selectSkills(state: AppState): Skill[] {
+export function selectSkills(state: AppState): SkillsData {
   return state.skills.skills;
 }

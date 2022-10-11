@@ -9,6 +9,8 @@ import { skillsSlice } from './skills';
 import { experienceSlice } from './experience';
 import { photoSlice } from './photo';
 import { projectsSlice } from './projects';
+import { sessionSlice } from './session';
+import { authProvidersSlice } from './auth-providers';
 
 function makeStore() {
   const store = configureStore({
@@ -20,6 +22,8 @@ function makeStore() {
       [experienceSlice.name]: experienceSlice.reducer,
       [photoSlice.name]: photoSlice.reducer,
       [projectsSlice.name]: projectsSlice.reducer,
+      [sessionSlice.name]: sessionSlice.reducer,
+      [authProvidersSlice.name]: authProvidersSlice.reducer,
     },
     devTools: true,
   });

@@ -1,16 +1,19 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
+import type { Session } from 'next-auth';
 
 import { wrapper } from '../state';
 
-function MyApp({ Component, ...rest }: AppProps) {
+type AppPropsWithSession = AppProps<{ session: Session }>;
+
+function MyApp({ Component, ...rest }: AppPropsWithSession) {
   const { store, props } = wrapper.useWrappedStore(rest);
 
   return (
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <Component {...props.pageProps} />
-    </Provider>
+    </ReduxProvider>
   );
 }
 
