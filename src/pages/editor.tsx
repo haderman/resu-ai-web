@@ -3,19 +3,26 @@ import Link from 'next/link';
 import Head from 'next/head';
 import styled from 'styled-components';
 import { unstable_getServerSession } from 'next-auth';
+import { getProviders } from 'next-auth/react';
 
 import { Editor } from '@/components/editor';
 import { AuthButtonContainer } from '@/components/common';
 import { wrapper } from '@/state/store';
 import { sessionSlice } from '@/state/session';
+import { authProvidersSlice } from '@/state/auth-providers';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
-const { actions } = sessionSlice;
-
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions);
-  store.dispatch(actions.setSession(session));
+  store.dispatch(sessionSlice.actions.setSession(session));
+
+  try {
+    const providers = await getProviders();
+    store.dispatch(authProvidersSlice.actions.setAuthProviders(providers?.github));
+  } catch (error) {
+    console.error(error);
+  }
 
   // I am returning the session here, but I don't think I need to but I get an typescript error if I don't
   return {

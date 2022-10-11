@@ -35,7 +35,7 @@ export const projectsSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.subject,
+        ...action.payload.projects,
       };
     },
   },

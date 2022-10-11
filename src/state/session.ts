@@ -20,7 +20,6 @@ export const sessionSlice = createSlice({
   initialState,
   reducers: {
     setSession(state, action: PayloadAction<Session | null>) {
-      console.log('-- setSession -> ', action.payload);
       if (action.payload) {
         state.user = action.payload.user;
         state.expires = action.payload.expires;

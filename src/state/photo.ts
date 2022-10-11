@@ -25,7 +25,7 @@ export const photoSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.subject,
+        ...action.payload.photo,
       };
     },
   },
