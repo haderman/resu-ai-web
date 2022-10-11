@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
-export function Landing() {
+export function Home() {
   return (
     <Container>
       <main>
