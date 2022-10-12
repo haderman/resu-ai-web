@@ -14,8 +14,12 @@ export function AuthButton(props: AuthButtonProps) {
   }
 
   if (props.session.isSessionActive) {
-    return <button onClick={() => signOut()}>Sign out</button>;
+    return <button onClick={() => signOut({ redirect: false })}>Sign out</button>;
   }
 
-  return <button onClick={() => signIn(props.providers.github?.id)}>Sign in</button>;
+  return (
+    <button onClick={() => signIn(props.providers.github?.id)}>
+      Sign in
+    </button>
+  );
 }

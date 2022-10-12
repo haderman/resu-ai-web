@@ -24,7 +24,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     console.error(error);
   }
 
-  // I am returning the session here, but I don't think I need to but I get an typescript error if I don't
+  // I have to return an object with props otherwise I get a typescript error (I need to understand why)
   return {
     props: {}
   };
