@@ -1,37 +1,14 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useSession, signIn, signOut } from 'next-auth/react';
+
+import { AuthButtonContainer } from '@/components/common';
 
 export function Home() {
   return (
     <Container>
-      <main>
-        <Title>Haderman</Title>
-        <Link href="/editor">Editor</Link>
-        <Login />
-      </main>
+      <Title>Haderman</Title>
+      <Link href="/editor">Editor</Link>
     </Container>
-  );
-}
-
-function Login() {
-  const { data: session } = useSession();
-
-  console.log('session -> ', session);
-
-  if (session?.user) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
   );
 }
 
@@ -41,7 +18,7 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-const Container = styled.div`
+const Container = styled.main`
   height: 100%;
   display: flex;
   flex-direction: column;
