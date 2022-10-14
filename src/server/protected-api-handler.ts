@@ -5,12 +5,12 @@ import { authOptions } from '../pages/api/auth/[...nextauth]';
 
 export type ProtectedHandlerCallback = (
   req: NextApiRequest,
-  res: NextApiResponse<any>,
+  res: NextApiResponse,
   session: Session
 ) => Promise<void>
 
 export function protectedHandler(cb: ProtectedHandlerCallback) {
-  return async (req: NextApiRequest, res: NextApiResponse<any>) => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await unstable_getServerSession(req, res, authOptions);
     if (!session) {
       res.status(401).json({ error: 'Unauthorized' });
