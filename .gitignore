@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# fauna db keys for local development and vs code extension
+.faunarc
+
+local-db
