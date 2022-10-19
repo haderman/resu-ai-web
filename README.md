@@ -24,8 +24,6 @@ This project uses [FaunaDB](https://fauna.com/) as a database. You can create a 
 
 to run the next scripts you need to have [Docker](https://www.docker.com) installed.
 
-```bash
-
 `npm run start-local-db` to start a local FaunaDB instance, with ephemeral data. That means everytime the container is stopped, all data will be lost.
 this is useful for testing
 
