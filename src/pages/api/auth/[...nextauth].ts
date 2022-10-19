@@ -2,6 +2,8 @@ import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
+import { faunaAdapter } from '@/server/adapters';
+
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -14,6 +16,7 @@ export const authOptions: NextAuthOptions = {
   theme: {
     colorScheme: 'dark',
   },
+  adapter: faunaAdapter,
   callbacks: {
     async jwt({ token }) {
       return token;
