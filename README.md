@@ -31,7 +31,7 @@ this is useful for testing
 
 `npm run setup-local-db` to create the collections in FaunaDB. This script will also create the indexes and functions.
 
-if it is the first time you ar gong to run the project, read [this](/fauna/README.md)
+if it is the first time you ar gong to run the project, read [this](/fauna/)
 
 ## Learn More
 
