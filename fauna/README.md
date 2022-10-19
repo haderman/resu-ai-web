@@ -27,9 +27,9 @@ copy the secret key and set it to the `FAUNA_SECRET` env variable
   FAUNA_PORT=8443
 ```
 
-copy and paste those variables to the ``.env.local` file
+copy and paste those variables to the `.env.local` file
 
-# Install fauna extension for VSCode
+## Install fauna extension for VSCode
 source: https://github.com/fauna/vscode
 
 create a `.faunarc`. It should look like this
@@ -48,10 +48,10 @@ if everything is ok, you have configurated the databse and you can start to work
 
 ## Details
 
-### `npm run start-local-db`
+**`npm run start-local-db`**
 it runs the container with ephemeral data, which means the data will be lost after you stop the container. This is useful for testing
 
-### `npm run start-local-db-persisted`
+**`npm run start-local-db-persisted`**
 use this if you want to persist the data. It means that the data will be saved on your local machine
 and the data will be persisted even if you stop the container. I use this for development.
 
