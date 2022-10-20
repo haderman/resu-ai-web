@@ -4,7 +4,7 @@ async function createAuthCollectionsAndIndex(client) {
   await client.query(q.If(q.Exists(q.Collection('accounts')), true, createAccountsCollection));
   await client.query(q.If(q.Exists(q.Collection('sessions')), true, createSessionsCollection));
   await client.query(q.If(q.Exists(q.Collection('users')), true, createUsersCollection));
-  await client.query(q.If(q.Exists(q.Collection('verification_requests')), true, createVerificationTokensCollection));
+  await client.query(q.If(q.Exists(q.Collection('verification_tokens')), true, createVerificationTokensCollection));
 
   await client.query(
     q.If(
