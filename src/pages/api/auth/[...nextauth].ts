@@ -18,9 +18,14 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: faunaAdapter,
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, user }) {
       return token;
     },
+    async session({ session, user }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+      session.user.id = user.id;
+      return session;
+    }
   },
 };
 export default NextAuth(authOptions);
