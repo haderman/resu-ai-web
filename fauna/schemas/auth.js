@@ -1,5 +1,6 @@
 const q = require('faunadb').query;
 
+// https://next-auth.js.org/v3/adapters/fauna#schema
 async function createAuthCollectionsAndIndex(client) {
   await client.query(q.If(q.Exists(q.Collection('accounts')), true, createAccountsCollection));
   await client.query(q.If(q.Exists(q.Collection('sessions')), true, createSessionsCollection));
