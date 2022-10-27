@@ -1,7 +1,9 @@
 const faunadb = require('faunadb');
-const { createAuthCollectionsAndIndex } = require('./schemas/auth');
-
 require('dotenv').config({ path: '.env.local'});
+
+const { createAuthCollectionsAndIndex } = require('./schemas/auth');
+const { createResumesCollectionAndIndexes } = require('./schemas/resume');
+
 
 let client = new faunadb.Client({
   secret: process.env.FAUNA_SECRET,
@@ -12,6 +14,7 @@ let client = new faunadb.Client({
 
 async function main() {
   await createAuthCollectionsAndIndex(client);
+  await createResumesCollectionAndIndexes(client);
 }
 
 main();
