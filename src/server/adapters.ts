@@ -1,7 +1,7 @@
 import { Client as FaunaClient } from 'faunadb';
 import { FaunaAdapter } from '@next-auth/fauna-adapter';
 
-const client = new FaunaClient({
+export const faunaClient = new FaunaClient({
   // @ts-ignore
   secret: process.env.FAUNA_SECRET,
   // @ts-ignore
@@ -11,4 +11,4 @@ const client = new FaunaClient({
   port: process.env.FAUNA_PORT,
 });
 
-export const faunaAdapter = FaunaAdapter(client);
+export const faunaAdapter = FaunaAdapter(faunaClient);
