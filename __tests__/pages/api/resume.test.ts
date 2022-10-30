@@ -53,12 +53,11 @@ nextAuth.unstable_getServerSession.mockResolvedValue(sessionMock);
  */
 describe('/api/resume', () => {
   beforeAll(() => {
-    resumeMock.id = resumeMockUpdated.id = nanoid();
-    sessionMock.user.id = resumeMock.userId = resumeMockUpdated.userId = nanoid();
+    resumeMock.id = resumeMockUpdated.id = `test_${nanoid()}`;
+    sessionMock.user.id = resumeMock.userId = resumeMockUpdated.userId = `test_${nanoid()}`;
   });
 
   test('create resume', async () => {
-    console.log('resumeMock', resumeMock);
     const { req, res } = createMocks({
       method: 'PUT',
       body: resumeMock,
@@ -81,7 +80,7 @@ describe('/api/resume', () => {
     expect(JSON.parse(res._getData())).toEqual([resumeMock]);
   });
 
-  test.skip('update resume', async () => {
+  test('update resume', async () => {
     const { req, res } = createMocks({
       method: 'PUT',
       body: resumeMockUpdated,
@@ -104,11 +103,11 @@ describe('/api/resume', () => {
     expect(JSON.parse(res._getData())).toEqual([resumeMockUpdated]);
   });
 
-  test.skip('delete resume', async () => {
+  test('delete resume', async () => {
     const { req, res } = createMocks({
       method: 'DELETE',
       body: {
-        id: resumeMockUpdated.id,
+        resumeId: resumeMockUpdated.id,
       },
     });
 

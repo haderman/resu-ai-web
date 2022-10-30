@@ -3,12 +3,12 @@ import { Session } from 'next-auth';
 
 import { protectedHandler } from '@/server/protected-api-handler';
 import * as dbApi from '@/server/db-api';
-import { Resume, ErrorResponse } from '@/shared/types';
+import { Resume, ErrorResponse, OkResponse } from '@/shared/types';
 import { generateId } from '@/shared/helpers';
 
 export default protectedHandler(handler);
 
-export async function handler(req: NextApiRequest, res: NextApiResponse<Resume | ErrorResponse>, session: Session) {
+export async function handler(req: NextApiRequest, res: NextApiResponse<Resume | ErrorResponse | OkResponse>, session: Session) {
   if (req.method === 'GET') {
     return dbApi.getAllResumesByUserID(session.user.id)
       .then(res.status(200).json)
@@ -28,7 +28,12 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Resume |
   }
 
   if (req.method === 'DELETE') {
-    return res.status(404).json({ msg: 'we are working on this'});
+    return dbApi.deleteResume(req.body.resumeId)
+      .then(() => res.status(200).json({ msg: 'Ok' }))
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({ msg: 'error deleting resume'});
+      });
   }
 
   res.status(404).json({ msg: 'not found'});

@@ -7,7 +7,7 @@ type Response = {
   data: Resume;
 }
 
-export function getAllResumesByUserID(userId: string) {
+export function getAllResumesByUserID(userId: string): Promise<Resume> {
   return client.query<Response>(
     q.Map(
       q.Paginate(
@@ -18,10 +18,22 @@ export function getAllResumesByUserID(userId: string) {
   ).then((res) => res.data);
 }
 
-export function createOrUpdateResume(resume: Resume) {
+export function createOrUpdateResume(resume: Resume): Promise<Resume> {
   return client.query<Response>(
-    q.Create(q.Collection('resumes'), {
-      data: resume,
-    })
+    q.If(q.Exists(q.Match(q.Index('resume_by_user_id'), resume.userId)),
+      q.Update(
+        q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_user_id'), resume.userId))),
+        { data: resume }
+      ),
+      q.Create(q.Collection('resumes'), { data: resume })
+    )
   ).then((res) => res.data);
+}
+
+export function deleteResume(resumeId: string): Promise<Response> {
+  return client.query<Response>(
+    q.Delete(
+      q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_id'), resumeId)))
+    )
+  );
 }
