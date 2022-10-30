@@ -14,8 +14,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
   const session = await unstable_getServerSession(req, res, authOptions);
   store.dispatch(actions.setSession(session));
 
-  console.log('*** session -> ', session);
-
   // I am returning the session here, but I don't think I need to but I get an typescript error if I don't
   return {
     props: {}
