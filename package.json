@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "setup-local-db": "node ./fauna/setup.js",
     "start-local-db": "docker run --rm --name faunadb -p 8443:8443 -p 8084:8084 fauna/faunadb",
-    "start-local-db-persisted": "docker run --rm --name faunadb -p 8443:8443 -p 8084:8084 -v /Users/haderman/resume-editor-fauna-db:/var/lib/faunadb fauna/faunadb"
+    "start-local-db-persisted": "docker run --rm --name faunadb -p 8443:8443 -p 8084:8084 -v /Users/haderman/resume-editor-fauna-db:/var/lib/faunadb fauna/faunadb",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@next-auth/fauna-adapter": "^1.0.4",
@@ -60,7 +62,8 @@
     "storybook-addon-styled-components-themes": "^0.0.2",
     "storybook-dark-mode": "^1.1.2",
     "typescript": "^4.9.1-beta",
-    "use-resize-observer": "^9.0.2"
+    "use-resize-observer": "^9.0.2",
+    "husky": "^8.0.0"
   },
   "resolutions": {
     "styled-components": "^5"
