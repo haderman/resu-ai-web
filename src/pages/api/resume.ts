@@ -10,12 +10,9 @@ export default protectedHandler(handler);
 
 export async function handler(req: NextApiRequest, res: NextApiResponse<Resume | ErrorResponse | OkResponse>, session: Session) {
   if (req.method === 'GET') {
-    return dbApi.getAllResumesByUserID(session.user.id)
+    return dbApi.getResumeOrCreateIfNotExists(session.user.id)
       .then(res.status(200).json)
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({ msg: 'error getting resume'});
-      });
+      .catch((err) => res.status(500).json({ msg: err.message }));
   }
 
   if (req.method === 'PUT') {

@@ -10,6 +10,7 @@ import { AuthButtonContainer } from '@/components/common';
 import { wrapper } from '@/state/store';
 import { sessionSlice } from '@/state/session';
 import { authProvidersSlice } from '@/state/auth-providers';
+import apiSlice from '@/state/api';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -31,6 +32,8 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
 });
 
 const EditorPage: NextPage = () => {
+  apiSlice.useGetResumeQuery();
+
   return (
     <>
       <Head>

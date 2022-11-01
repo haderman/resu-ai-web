@@ -3,12 +3,12 @@ import { query as q } from 'faunadb';
 import { Resume } from '@/shared/types';
 import { faunaClient as client } from '../adapters';
 
-type Response = {
-  data: Resume;
+type Response<T = Resume | Resume[]> = {
+  data: T;
 }
 
-export function getAllResumesByUserID(userId: string): Promise<Resume> {
-  return client.query<Response>(
+export function getAllResumesByUserID(userId: string): Promise<Resume[]> {
+  return client.query<Response<Resume[]>>(
     q.Map(
       q.Paginate(
         q.Match(q.Index('resume_by_user_id'), userId)
@@ -18,8 +18,22 @@ export function getAllResumesByUserID(userId: string): Promise<Resume> {
   ).then((res) => res.data);
 }
 
+export function getResumeOrCreateIfNotExists(userId: string): Promise<Resume> {
+  return getAllResumesByUserID(userId)
+    .then((data) => {
+      if (data.length === 0) {
+        return createOrUpdateResume(Resume.create(userId, {
+          fullName: '',
+          jobTitle: '',
+        }));
+      } else {
+        return data[0];
+      }
+    });
+}
+
 export function createOrUpdateResume(resume: Resume): Promise<Resume> {
-  return client.query<Response>(
+  return client.query<Response<Resume>>(
     q.If(q.Exists(q.Match(q.Index('resume_by_user_id'), resume.userId)),
       q.Update(
         q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_user_id'), resume.userId))),
