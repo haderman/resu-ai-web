@@ -1,6 +1,6 @@
 import { query as q } from 'faunadb';
 
-import { Resume } from '@/shared/types';
+import { Resume, Profile, Skills } from '@/shared/types';
 import { faunaClient as client } from '../adapters';
 
 type Response<T = Resume | Resume[]> = {
@@ -25,6 +25,8 @@ export function getResumeOrCreateIfNotExists(userId: string): Promise<Resume> {
         return createOrUpdateResume(Resume.create(userId, {
           fullName: '',
           jobTitle: '',
+          profile: Profile.create(),
+          skills: Skills.create(),
         }));
       } else {
         return data[0];

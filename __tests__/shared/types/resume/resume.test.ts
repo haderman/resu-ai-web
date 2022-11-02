@@ -1,19 +1,71 @@
 import { expect } from '@jest/globals';
-import Fuzz from 'jest-fuzz';
 
-import { Resume } from '@/shared/types/resume';
+import { FuzzerSchema, Fuzz } from '@/server/test-helpers/fuzzer';
+import {
+  Resume,
+  ResumeContent,
+  Profile,
+  Skills,
+  Skill,
+} from '@/shared/types/resume';
 
-var contentFuzzer = Fuzz.Fuzzer({
+/**
+ * Skills schema
+ */
+var skillFuzzerSchema: FuzzerSchema<Skill> = {
+  title: Fuzz.string(),
+  yearsOfExperience: Fuzz.int({
+    min: 0,
+    max: 30,
+  }),
+};
+
+var skillsFuzzerSchema: FuzzerSchema<Skills> = {
+  entries: Fuzz.array({
+    type: Fuzz.Fuzzer(skillFuzzerSchema)(),
+  }),
+};
+
+var skillsFuzzer = Fuzz.Fuzzer(skillsFuzzerSchema);
+
+/**
+ * Profile schema
+ */
+var profileFuzzerSchema: FuzzerSchema<Profile> = {
+  title: Fuzz.string(),
+  description: Fuzz.string(),
+};
+
+var profileFuzzer = Fuzz.Fuzzer(profileFuzzerSchema);
+
+/**
+ * ResumeContent schema
+ */
+var contentFuzzerSchema: FuzzerSchema<ResumeContent> = {
   fullName: Fuzz.string(),
   jobTitle: Fuzz.string(),
-});
+  profile: profileFuzzer(),
+  skills: skillsFuzzer(),
+  experience: Fuzz.undefined(),
+  contact: Fuzz.undefined(),
+};
 
-var resumeFuzzer = Fuzz.Fuzzer({
+var contentFuzzer = Fuzz.Fuzzer(contentFuzzerSchema);
+
+/**
+ * Resume schema
+ */
+var resumeFuzzerSchema: FuzzerSchema<Resume> = {
   id: Fuzz.string(),
   userId: Fuzz.string(),
   content: contentFuzzer(),
-});
+};
 
+var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);
+
+/**
+ * Resume tests
+ */
 describe('Resume type', () => {
   // based on this https://www.brianthicks.com/post/2017/04/24/add-safety-to-your-elm-json-encoders-with-fuzz-testing/
   Fuzz.test('serialization', resumeFuzzer(), (data: Resume) => {

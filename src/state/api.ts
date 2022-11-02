@@ -16,6 +16,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getResume: builder.query<Resume, void>({
       query: () => 'resume',
+      transformResponse: Resume.decode,
     }),
   }),
 });

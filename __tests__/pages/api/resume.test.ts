@@ -77,7 +77,7 @@ describe('/api/resume', () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
-    expect(JSON.parse(res._getData())).toEqual([resumeMock]);
+    expect(JSON.parse(res._getData())).toEqual(resumeMock);
   });
 
   test('update resume', async () => {
@@ -100,7 +100,7 @@ describe('/api/resume', () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
-    expect(JSON.parse(res._getData())).toEqual([resumeMockUpdated]);
+    expect(JSON.parse(res._getData())).toEqual(resumeMockUpdated);
   });
 
   test('delete resume', async () => {
