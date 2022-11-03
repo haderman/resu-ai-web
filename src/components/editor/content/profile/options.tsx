@@ -5,14 +5,18 @@ import { selectColor, profileSlice } from '@/state/profile';
 import { ColorSelector } from '../../form';
 import { WithTheme } from '../../themes';
 import { Color } from '../../types';
+import { InputTitleContainer } from './controls';
 
 const { actions } = profileSlice;
 
 export function ProfileOptions() {
   return (
-    <WithTheme>
-      <ColorSelectorContainer />
-    </WithTheme>
+    <>
+      <InputTitleContainer />
+      <WithTheme>
+        <ColorSelectorContainer />
+      </WithTheme>
+    </>
   );
 };
 

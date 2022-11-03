@@ -1,3 +1,7 @@
+import { useSelector } from 'react-redux';
+
+import { selectors } from '@/state/api';
+
 import { Stack, Text } from '../../common';
 import { Color } from '../../types';
 
@@ -6,17 +10,27 @@ export type ProfileProps = {
 }
 
 export function Profile(props: ProfileProps) {
+
+
   return (
     <Stack gap="large" padding="medium" color={props.color}>
-      <Text
-        as="h2"
-        size="large"
-        weight="bold"
-      >
-        Profile
-      </Text>
+      <TitleContainer />
       <Text as="p">{description}</Text>
     </Stack>
+  );
+}
+
+function TitleContainer() {
+  const title = useSelector(selectors.selectProfileTitle);
+
+  return (
+    <Text
+      as="h2"
+      size="large"
+      weight="bold"
+    >
+      {title}
+    </Text>
   );
 }
 
