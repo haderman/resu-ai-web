@@ -15,7 +15,7 @@ export function Profile(props: ProfileProps) {
   return (
     <Stack gap="large" padding="medium" color={props.color}>
       <TitleContainer />
-      <Text as="p">{description}</Text>
+      <DescriptionContainer />
     </Stack>
   );
 }
@@ -31,6 +31,14 @@ function TitleContainer() {
     >
       {title}
     </Text>
+  );
+}
+
+function DescriptionContainer() {
+  const description = useSelector(selectors.selectProfileDescription);
+
+  return (
+    <Text as="p">{description}</Text>
   );
 }
 

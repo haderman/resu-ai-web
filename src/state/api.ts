@@ -64,10 +64,13 @@ const selectProfileTitle = createSelector(
   (profile) => profile.title,
 );
 
-const selectUpdateResumeStatus = apiSlice.endpoints.updateResume.select;
+const selectProfileDescription = createSelector(
+  selectProfile,
+  (profile) => profile.description,
+);
 
 export function useUpdateResume() {
-  const [updateResume_, { isLoading }] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
+  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
   const resume = useSelector(selectResumeResult);
 
   function updateResume(content: Partial<ResumeContent>) {
@@ -82,14 +85,25 @@ export function useUpdateResume() {
     }
   }
 
-  return [updateResume, { isLoading }] as const;
+  return [updateResume, meta] as const;
+}
+
+export function useUpdateProfile() {
+  const profile = useSelector(selectProfile);
+  const [updateResume] = useUpdateResume();
+
+  function updateProfile(newProfile: Partial<Profile>) {
+    updateResume({ profile: { ...profile, ...newProfile }});
+  }
+
+  return [updateProfile];
 }
 
 export const selectors = {
   selectResumeStatus,
   selectProfile,
   selectProfileTitle,
-  selectUpdateResumeStatus,
+  selectProfileDescription,
 };
 
 export default apiSlice;

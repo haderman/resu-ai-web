@@ -3,25 +3,25 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectors, useUpdateProfile } from '@/state/api';
-import { Input } from '@/components/editor/common/form';
+import { Textarea } from '@/components/editor/common/form';
 
-export function InputTitleContainer() {
-  const title = useSelector(selectors.selectProfileTitle);
-  const [update] = useUpdateTitle();
+export function InputDescriptionContainer() {
+  const description = useSelector(selectors.selectProfileDescription);
+  const [update] = useUpdateDescription();
 
   function handleChange(value: string) {
     update(value);
   }
 
-  return <InputTitleComponent value={title} onChange={handleChange} />;
+  return <InputDescriptionComponent value={description} onChange={handleChange} />;
 }
 
-type InputTitleComponentProps = {
+type InputDescriptionComponentProps = {
   value: string
   onChange: (value: string) => void
 }
 
-export function InputTitleComponent(props: InputTitleComponentProps) {
+export function InputDescriptionComponent(props: InputDescriptionComponentProps) {
   const [value, setValue] = React.useState(() => props.value);
 
   function handleChange(newValue: string) {
@@ -34,9 +34,9 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
 
   return (
     <StyledFieldset>
-      <StyledLegend>Title</StyledLegend>
+      <StyledLegend>Description</StyledLegend>
       <div>
-        <Input
+        <Textarea
           label="Title"
           value={value}
           onChange={handleChange}
@@ -60,12 +60,12 @@ const StyledLegend = styled.legend`
   color: white;
 `;
 
-function useUpdateTitle() {
+function useUpdateDescription() {
   const [updateProfile, meta] = useUpdateProfile();
 
-  function updateTitle(title: string) {
-    updateProfile({ title });
+  function updateDescription(description: string) {
+    updateProfile({ description });
   }
 
-  return [updateTitle, meta];
+  return [updateDescription, meta] as const;
 }
