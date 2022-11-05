@@ -10,7 +10,7 @@ import { AuthButtonContainer } from '@/components/common';
 import { wrapper } from '@/state/store';
 import { sessionSlice } from '@/state/session';
 import { authProvidersSlice } from '@/state/auth-providers';
-import apiSlice, { useUpdateResume } from '@/state/api';
+import { apiState } from '@/state/api';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -54,7 +54,7 @@ const EditorPage: NextPage = () => {
 };
 
 function LoadResume() {
-  apiSlice.useGetResumeQuery();
+  apiState.resume.useGetResumeQuery();
 
   return null;
 }
@@ -83,7 +83,7 @@ const Title = styled.h1`
 `;
 
 function ResumaSavingIndicator() {
-  const [_, { isLoading }] = useUpdateResume();
+  const [_, { isLoading }] = apiState.resume.useUpdateResume();
 
   return (
     <span>

@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux';
 
-import { selectors } from '@/state/api';
+import { apiState } from '@/state/api';
 
 import { Stack, Text } from '../../common';
 import { Color } from '../../types';
+
+const selectors = apiState.profile.selectors;
 
 export type ProfileProps = {
   color: Color

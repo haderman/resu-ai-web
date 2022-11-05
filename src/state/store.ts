@@ -11,7 +11,7 @@ import { photoSlice } from './photo';
 import { projectsSlice } from './projects';
 import { sessionSlice } from './session';
 import { authProvidersSlice } from './auth-providers';
-import { apiSlice } from './api';
+import apiSlice from './api';
 
 function makeStore() {
   const store = configureStore({

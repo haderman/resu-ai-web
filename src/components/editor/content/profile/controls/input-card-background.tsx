@@ -2,9 +2,11 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectors, useProfileUpdater } from '@/state/api';
+import { apiState } from '@/state/api';
 import { ColorSelector } from '../../../form';
 import { Color, Profile } from '@/shared/types';
+
+const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputCardBackgroundContainer() {
   const color = useSelector(selectors.selectProfileCardBackground);
