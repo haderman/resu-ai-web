@@ -1,10 +1,9 @@
 import { expect } from '@jest/globals';
 
-import { FuzzerSchema, Fuzz } from '@/server/test-helpers/fuzzer';
+import { FuzzerSchema, Fuzz, profileFuzzer } from '@/server/test-helpers';
 import {
   Resume,
   ResumeContent,
-  Profile,
   Skills,
   Skill,
 } from '@/shared/types/resume';
@@ -27,16 +26,6 @@ var skillsFuzzerSchema: FuzzerSchema<Skills> = {
 };
 
 var skillsFuzzer = Fuzz.Fuzzer(skillsFuzzerSchema);
-
-/**
- * Profile schema
- */
-var profileFuzzerSchema: FuzzerSchema<Profile> = {
-  title: Fuzz.string(),
-  description: Fuzz.string(),
-};
-
-var profileFuzzer = Fuzz.Fuzzer(profileFuzzerSchema);
 
 /**
  * ResumeContent schema

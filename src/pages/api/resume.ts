@@ -16,11 +16,12 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Resume |
   }
 
   if (req.method === 'PUT') {
-    return dbApi.createOrUpdateResume(prepareData(req, session))
+    return prepareData(req, session)
+      .then(dbApi.createOrUpdateResume)
       .then(res.status(200).json)
       .catch(err => {
-        console.error(err);
-        res.status(500).json({ msg: 'error creating or updating resume'});
+        console.error(err.message);
+        res.status(500).json({ msg: `error creating or updating resume: ${err.message}` });
       });
   }
 
@@ -36,10 +37,21 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Resume |
   res.status(404).json({ msg: 'not found'});
 }
 
-function prepareData(req: NextApiRequest, session: Session): Resume {
-  return {
-    id: req.body.id ?? generateId(),
-    userId:  session.user.id,
-    content: req.body.content,
-  };
+/**
+ * I wrapped this in a promise so if it fails, it will be caught by the catch block
+ * and the error will be returned to the client.
+*/
+function prepareData(req: NextApiRequest, session: Session): Promise<Resume> {
+  return new Promise((resolve, reject) => {
+    try {
+      const decodedData = Resume.decode({
+        id: req.body.id ?? generateId(),
+        userId:  session.user.id,
+        content: req.body.content,
+      });
+      resolve(decodedData);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

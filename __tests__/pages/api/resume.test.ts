@@ -31,6 +31,29 @@ let resumeMock: Resume = {
   content: {
     fullName: 'John Doe',
     jobTitle: 'Software Engineer',
+    profile: {
+      title: {
+        text: 'Profile',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      description: {
+        text: 'I am a software engineer',
+        color: 'black',
+        size: 'small',
+      },
+      cardStyle: {
+        background: 'white',
+      },
+    },
+    skills: {
+      entries: [
+        { title: 'JavaScript', yearsOfExperience: 5 },
+        { title: 'TypeScript', yearsOfExperience: 3 },
+        { title: 'React', yearsOfExperience: 3 },
+      ],
+    },
   },
 };
 

@@ -2,18 +2,19 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectors, useUpdateProfile } from '@/state/api';
+import { selectors, useProfileUpdater } from '@/state/api';
 import { Input } from '@/components/editor/common/form';
+import { Profile } from '@/shared/types';
 
 export function InputTitleContainer() {
   const title = useSelector(selectors.selectProfileTitle);
   const [update] = useUpdateTitle();
 
   function handleChange(value: string) {
-    update(value);
+    update({ text: value });
   }
 
-  return <InputTitleComponent value={title} onChange={handleChange} />;
+  return <InputTitleComponent value={title.text} onChange={handleChange} />;
 }
 
 type InputTitleComponentProps = {
@@ -61,11 +62,11 @@ const StyledLegend = styled.legend`
 `;
 
 function useUpdateTitle() {
-  const [updateProfile, meta] = useUpdateProfile();
+  const [updater] = useProfileUpdater();
 
-  function updateTitle(title: string) {
-    updateProfile({ title });
+  function updateTitle(title: Partial<Profile['title']>) {
+    updater.updateProfleTitle(title);
   }
 
-  return [updateTitle, meta];
+  return [updateTitle];
 }

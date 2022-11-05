@@ -88,15 +88,31 @@ export function useUpdateResume() {
   return [updateResume, meta] as const;
 }
 
-export function useUpdateProfile() {
+export function useProfileUpdater() {
   const profile = useSelector(selectProfile);
   const [updateResume] = useUpdateResume();
 
   function updateProfile(newProfile: Partial<Profile>) {
-    updateResume({ profile: { ...profile, ...newProfile }});
+    updateResume({
+      profile: Profile.update(profile, newProfile),
+    });
   }
 
-  return [updateProfile];
+  function updateProfleTitle(title: Partial<Profile['title']>) {
+    updateProfile(Profile.updateTitle(profile, title));
+  }
+
+  function updateProfleDescription(description: Partial<Profile['description']>) {
+    updateProfile(Profile.updateDescription(profile, description));
+  }
+
+  const updater = {
+    updateProfile,
+    updateProfleTitle,
+    updateProfleDescription,
+  };
+
+  return [updater] as const;
 }
 
 export const selectors = {

@@ -29,7 +29,7 @@ function TitleContainer() {
       size="large"
       weight="bold"
     >
-      {title}
+      {title.text}
     </Text>
   );
 }
@@ -38,7 +38,7 @@ function DescriptionContainer() {
   const description = useSelector(selectors.selectProfileDescription);
 
   return (
-    <Text as="p">{description}</Text>
+    <Text as="p">{description.text}</Text>
   );
 }
 

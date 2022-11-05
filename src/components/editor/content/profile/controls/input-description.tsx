@@ -2,18 +2,19 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectors, useUpdateProfile } from '@/state/api';
+import { selectors, useProfileUpdater } from '@/state/api';
 import { Textarea } from '@/components/editor/common/form';
+import { Profile } from '@/shared/types';
 
 export function InputDescriptionContainer() {
   const description = useSelector(selectors.selectProfileDescription);
   const [update] = useUpdateDescription();
 
   function handleChange(value: string) {
-    update(value);
+    update({ text: value });
   }
 
-  return <InputDescriptionComponent value={description} onChange={handleChange} />;
+  return <InputDescriptionComponent value={description.text} onChange={handleChange} />;
 }
 
 type InputDescriptionComponentProps = {
@@ -40,6 +41,7 @@ export function InputDescriptionComponent(props: InputDescriptionComponentProps)
           label="Title"
           value={value}
           onChange={handleChange}
+          placeholder="Enter your awesome profile here!"
         />
         <button onClick={handleClick}>
           Save
@@ -61,11 +63,11 @@ const StyledLegend = styled.legend`
 `;
 
 function useUpdateDescription() {
-  const [updateProfile, meta] = useUpdateProfile();
+  const [updater] = useProfileUpdater();
 
-  function updateDescription(description: string) {
-    updateProfile({ description });
+  function updateDescription(description: Partial<Profile['description']>) {
+    updater.updateProfleDescription(description);
   }
 
-  return [updateDescription, meta] as const;
+  return [updateDescription] as const;
 }
