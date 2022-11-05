@@ -1,4 +1,4 @@
-import { Color } from '../../types';
+import { Color } from '@/shared/types';
 
 export type SkillsProps = {
   background: Color;

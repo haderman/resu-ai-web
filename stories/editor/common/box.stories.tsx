@@ -1,9 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import { Color } from '@/shared/types';
+
 import { Container } from '../../helpers/container';
 import { Box, Text } from '../../../src/components/editor/common';
-import { Color } from '../../../src/components/editor/types';
 
 export default {
   title: 'editor/common/box',
@@ -16,7 +17,7 @@ export default {
       defaultValue: 'secondary',
       control: {
         type: 'select',
-        options: Color.values(),
+        options: Color.values,
       }
     },
   },

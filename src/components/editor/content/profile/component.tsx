@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
+import { Color } from '@/shared/types';
 
 import { Stack, Text } from '../../common';
-import { Color } from '../../types';
 
 const selectors = apiState.profile.selectors;
 
@@ -12,8 +12,6 @@ export type ProfileProps = {
 }
 
 export function Profile(props: ProfileProps) {
-
-
   return (
     <Stack gap="large" padding="medium" color={props.color}>
       <TitleContainer />

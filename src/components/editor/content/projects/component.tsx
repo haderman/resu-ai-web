@@ -1,8 +1,9 @@
 import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
+import { Color } from '@/shared/types';
+
 import { Chip, Inline, Stack, Text } from '../../common';
-import { Color } from '../../types';
 
 const PROJECTS: Project[] = [
   {

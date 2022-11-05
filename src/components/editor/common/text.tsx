@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Color, Size, Weight } from '../types';
+import { Color, Size, Weight } from '@/shared/types';
 
 // TODO: add better line height -> read this https://twitter.com/danqing_liu/status/1576997493765611520?s=20&t=T7u0xdkm8QOrLbnNRwoq-A
 

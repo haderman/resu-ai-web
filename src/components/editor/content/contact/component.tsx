@@ -1,8 +1,9 @@
 import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
+import { Color } from '@/shared/types';
+
 import { Stack, Inline, Text } from '../../common';
-import { Color } from '../../types';
 
 export type ContactProps = {
   color: Color

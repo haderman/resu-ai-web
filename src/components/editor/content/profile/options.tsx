@@ -1,10 +1,10 @@
 import { useSelector, useStore } from 'react-redux';
 
 import { selectColor, profileSlice } from '@/state/profile';
+import { Color } from '@/shared/types';
 
 import { ColorSelector } from '../../form';
 import { WithTheme } from '../../themes';
-import { Color } from '../../types';
 import {
   InputTitleContainer,
   InputDescriptionContainer,

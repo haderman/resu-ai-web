@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector, useStore } from 'react-redux';
 
 import { selectSelectedItem, editorSlice } from '@/state';
+
 import { CvItem } from '../types';
 
 const { actions } = editorSlice;
