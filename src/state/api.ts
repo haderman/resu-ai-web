@@ -69,6 +69,11 @@ const selectProfileDescription = createSelector(
   (profile) => profile.description,
 );
 
+const selectProfileCardBackground = createSelector(
+  selectProfile,
+  (profile) => profile.cardStyle.background,
+);
+
 export function useUpdateResume() {
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
   const resume = useSelector(selectResumeResult);
@@ -106,10 +111,15 @@ export function useProfileUpdater() {
     updateProfile(Profile.updateDescription(profile, description));
   }
 
+  function updateCardStyle(style: Partial<Profile['cardStyle']>) {
+    updateProfile(Profile.updateCardStyle(profile, style));
+  }
+
   const updater = {
     updateProfile,
     updateProfleTitle,
     updateProfleDescription,
+    updateCardStyle,
   };
 
   return [updater] as const;
@@ -120,6 +130,7 @@ export const selectors = {
   selectProfile,
   selectProfileTitle,
   selectProfileDescription,
+  selectProfileCardBackground,
 };
 
 export default apiSlice;

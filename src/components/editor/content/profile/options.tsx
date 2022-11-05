@@ -8,6 +8,7 @@ import { Color } from '../../types';
 import {
   InputTitleContainer,
   InputDescriptionContainer,
+  InputCardBackgroundContainer,
 } from './controls';
 
 const { actions } = profileSlice;
@@ -18,7 +19,7 @@ export function ProfileOptions() {
       <InputTitleContainer />
       <InputDescriptionContainer />
       <WithTheme>
-        <ColorSelectorContainer />
+        <InputCardBackgroundContainer />
       </WithTheme>
     </>
   );

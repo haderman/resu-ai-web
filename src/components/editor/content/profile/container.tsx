@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { selectColor } from '@/state/profile';
+import { selectors } from '@/state/api';
 
 import { Profile } from './component';
 
@@ -9,7 +9,7 @@ import { Profile } from './component';
  * @returns Profile component
  */
 export function ProfileContainer() {
-  const color = useSelector(selectColor);
+  const color = useSelector(selectors.selectProfileCardBackground);
 
   return <Profile color={color} />;
 }
