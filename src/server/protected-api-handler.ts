@@ -13,8 +13,8 @@ export function protectedHandler(cb: ProtectedHandlerCallback) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await unstable_getServerSession(req, res, authOptions);
     if (!session) {
-      res.status(401).json({ error: 'Unauthorized' });
-      return;
+      console.log('Unauthorized: ', req.url);
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     await cb(req, res, session);

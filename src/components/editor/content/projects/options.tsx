@@ -6,8 +6,8 @@ import {
   selectBackground,
   selectSkillsColor,
 } from '@/state/projects';
+import { Color } from '@/shared/types';
 
-import { Color } from '../../types';
 import { ColorSelector } from '../../form';
 import { WithTheme } from '../../themes';
 

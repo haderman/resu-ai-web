@@ -8,7 +8,7 @@ export type ColorVariant =
   | 'complementary';
 
 // define the array first, note the const
-const ColorValues = [
+const colors = [
   'primary',
   'secondary',
   'black',
@@ -27,14 +27,26 @@ const ColorValues = [
 ] as const;
 
 // this magic incantation will create a union from that array
-export type Color = (typeof ColorValues)[number];
+export type Color = (typeof colors)[number];
 
 export const Color = {
-  values(){
-    return ColorValues;
+  values: colors,
+  decode(data: unknown): Color {
+    if (typeof data !== 'string') {
+      return 'primary';
+    }
+
+    if (colors.includes(data as Color)) {
+      return data as Color;
+    }
+
+    return 'primary';
+  },
+  encode(color: Color): string {
+    return color;
   },
   gerDefault(): Color {
-    return ColorValues[0];
+    return colors[0];
   }
 };
 

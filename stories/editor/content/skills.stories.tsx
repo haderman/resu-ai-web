@@ -1,9 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import type { Color } from '@/shared/types';
+
 import { Skills } from '@/components/editor/content';
 import type { SkillsData } from '@/components/editor/content/skills';
-import type { Color } from '@/components/editor/types';
 
 import { ResizableBox } from '../../helpers';
 import { Container } from '../../helpers/container';

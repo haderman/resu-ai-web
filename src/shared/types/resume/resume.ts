@@ -14,8 +14,8 @@ export type Resume = {
 export type ResumeContent = {
   fullName: string
   jobTitle: string
-  profile?: Profile
-  skills?: Skills
+  profile: Profile
+  skills: Skills
   experience?: Experience
   contact?: Contact
 }
@@ -69,7 +69,12 @@ export const Resume = {
     return {
       id,
       userId,
-      content,
+      content: {
+        fullName,
+        jobTitle,
+        profile: Profile.decode(content.profile),
+        skills: Skills.decode(content.skills),
+      },
     };
   },
   encode(resume: Resume): Record<string, unknown> {

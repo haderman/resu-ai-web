@@ -6,7 +6,7 @@ import {
   Size,
   FontSizeUnit,
   SpacingUnit
-} from '../types';
+} from '@/shared/types';
 
 // source: https://styled-components.com/docs/api#create-a-declarations-file
 declare module 'styled-components' {

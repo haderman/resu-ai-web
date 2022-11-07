@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test-watch": "jest --watch",
+    "test-watch": "jest --watch --detectOpenHandles",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "setup-local-db": "node ./fauna/setup.js",

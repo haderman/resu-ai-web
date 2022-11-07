@@ -3,7 +3,7 @@ import { useAddonState } from '@storybook/client-api';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { ColorSelector } from '@/components/editor/form';
-import { Color } from '@/components/editor/types';
+import { Color } from '@/shared/types';
 import { Container, ResizableBox } from '../../helpers';
 
 export default {

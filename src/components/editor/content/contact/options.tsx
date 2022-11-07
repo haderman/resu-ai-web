@@ -1,8 +1,8 @@
 import { useSelector, useStore } from 'react-redux';
 
 import { selectColor, contactSlice } from '@/state/contact';
+import { Color } from '@/shared/types';
 
-import { Color } from '../../types';
 import { WithTheme } from '../../themes';
 import { ColorSelector } from '../../form';
 

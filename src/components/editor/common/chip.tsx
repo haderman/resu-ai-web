@@ -1,6 +1,7 @@
 import styled, { DefaultTheme, css } from 'styled-components';
 
-import { Size, Color } from '../types';
+import { Size, Color } from '@/shared/types';
+
 import { Text } from './text';
 import { Inline } from './inline';
 import type { TextProps } from './text';

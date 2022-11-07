@@ -31,6 +31,29 @@ let resumeMock: Resume = {
   content: {
     fullName: 'John Doe',
     jobTitle: 'Software Engineer',
+    profile: {
+      title: {
+        text: 'Profile',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      description: {
+        text: 'I am a software engineer',
+        color: 'black',
+        size: 'small',
+      },
+      cardStyle: {
+        background: 'white',
+      },
+    },
+    skills: {
+      entries: [
+        { title: 'JavaScript', yearsOfExperience: 5 },
+        { title: 'TypeScript', yearsOfExperience: 3 },
+        { title: 'React', yearsOfExperience: 3 },
+      ],
+    },
   },
 };
 
@@ -77,7 +100,7 @@ describe('/api/resume', () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
-    expect(JSON.parse(res._getData())).toEqual([resumeMock]);
+    expect(JSON.parse(res._getData())).toEqual(resumeMock);
   });
 
   test('update resume', async () => {
@@ -100,7 +123,7 @@ describe('/api/resume', () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
-    expect(JSON.parse(res._getData())).toEqual([resumeMockUpdated]);
+    expect(JSON.parse(res._getData())).toEqual(resumeMockUpdated);
   });
 
   test('delete resume', async () => {

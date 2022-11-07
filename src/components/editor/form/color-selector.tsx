@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Color } from '@/components/editor/types';
+import { Color } from '@/shared/types';
 
 export type ColorSelectorProps = {
   label: string
@@ -20,7 +20,7 @@ export function ColorSelector(props: ColorSelectorProps) {
     <StyledFieldset>
       <StyledLegend>{props.label}</StyledLegend>
       <div>
-        {Color.values().map((color) => {
+        {Color.values.map((color) => {
           return (
             <StyledRadio
               key={color}

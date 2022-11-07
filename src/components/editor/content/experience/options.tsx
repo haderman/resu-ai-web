@@ -5,8 +5,8 @@ import {
   selectBackground,
   experienceSlice,
 } from '@/state/experience';
+import { Color } from '@/shared/types';
 
-import { Color } from '../../types';
 import { WithTheme } from '../../themes';
 import { ColorSelector } from '../../form';
 

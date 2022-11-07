@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { Size, Color } from '../types';
+import { Size, Color } from '@/shared/types';
 
 export type BoxProps = React.PropsWithChildren<{
   padding?: Size

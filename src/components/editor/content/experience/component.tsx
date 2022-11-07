@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
+import { Color } from '@/shared/types';
+
 import { Stack, Text } from '../../common';
-import { Color } from '../../types';
 
 const experience = [
   {

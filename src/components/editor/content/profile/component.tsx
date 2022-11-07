@@ -1,5 +1,11 @@
+import { useSelector } from 'react-redux';
+
+import { apiState } from '@/state/api';
+import { Color } from '@/shared/types';
+
 import { Stack, Text } from '../../common';
-import { Color } from '../../types';
+
+const selectors = apiState.profile.selectors;
 
 export type ProfileProps = {
   color: Color
@@ -8,15 +14,31 @@ export type ProfileProps = {
 export function Profile(props: ProfileProps) {
   return (
     <Stack gap="large" padding="medium" color={props.color}>
-      <Text
-        as="h2"
-        size="large"
-        weight="bold"
-      >
-        Profile
-      </Text>
-      <Text as="p">{description}</Text>
+      <TitleContainer />
+      <DescriptionContainer />
     </Stack>
+  );
+}
+
+function TitleContainer() {
+  const title = useSelector(selectors.selectProfileTitle);
+
+  return (
+    <Text
+      as="h2"
+      size="large"
+      weight="bold"
+    >
+      {title.text}
+    </Text>
+  );
+}
+
+function DescriptionContainer() {
+  const description = useSelector(selectors.selectProfileDescription);
+
+  return (
+    <Text as="p">{description.text}</Text>
   );
 }
 

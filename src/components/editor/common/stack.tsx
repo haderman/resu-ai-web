@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
+import { Size } from '@/shared/types';
+
 import { Box, BoxProps } from './box';
-import { Size } from '../types';
 
 export type StackProps = React.PropsWithChildren<BoxProps & {
   gap?: Size;
