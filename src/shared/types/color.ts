@@ -31,21 +31,31 @@ export type Color = (typeof colors)[number];
 
 export const Color = {
   values: colors,
-  decode(data: unknown): Color {
+  /**
+   *
+   * @param data
+   * @param fallback optional if data can't be seriaized, return this value
+   * @returns
+   */
+  decode(data: unknown, fallback?: Color): Color {
     if (typeof data !== 'string') {
-      return 'primary';
+      return fallback ?? Color.getDefault();
     }
 
     if (colors.includes(data as Color)) {
       return data as Color;
     }
 
-    return 'primary';
+    return fallback ?? Color.getDefault();
   },
   encode(color: Color): string {
+    if (typeof color !== 'string') {
+      return Color.getDefault();
+    }
+
     return color;
   },
-  gerDefault(): Color {
+  getDefault(): Color {
     return colors[0];
   }
 };
