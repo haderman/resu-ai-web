@@ -4,7 +4,6 @@ import { createWrapper } from 'next-redux-wrapper';
 
 import { editorSlice } from './editor';
 import { contactSlice } from './contact';
-import { profileSlice } from './profile';
 import { skillsSlice } from './skills';
 import { experienceSlice } from './experience';
 import { photoSlice } from './photo';
@@ -18,7 +17,6 @@ function makeStore() {
     reducer: {
       [editorSlice.name]: editorSlice.reducer,
       [contactSlice.name]: contactSlice.reducer,
-      [profileSlice.name]: profileSlice.reducer,
       [skillsSlice.name]: skillsSlice.reducer,
       [experienceSlice.name]: experienceSlice.reducer,
       [photoSlice.name]: photoSlice.reducer,
