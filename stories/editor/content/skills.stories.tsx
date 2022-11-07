@@ -3,8 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import type { Color } from '@/shared/types';
 
-import { Skills } from '@/components/editor/content';
-import type { SkillsData } from '@/components/editor/content/skills';
+import { Skills, SkillsProps } from '@/components/editor/content';
 
 import { ResizableBox } from '../../helpers';
 import { Container } from '../../helpers/container';
@@ -17,11 +16,11 @@ export default {
     color: { defaultValue: 'blue' as Color },
     data: {
       defaultValue: [
-        { name: 'Typescript', years: 2 },
-        { name: 'Css', years: 6 },
-        { name: 'Html', years: 6 },
-        { name: 'React', years: 5 },
-      ] as SkillsData,
+        { title: 'Typescript', yearsOfExperience: 2 },
+        { title: 'Css', yearsOfExperience: 6 },
+        { title: 'Html', yearsOfExperience: 6 },
+        { title: 'React', yearsOfExperience: 5 },
+      ] as SkillsProps['data'],
     },
   },
 } as ComponentMeta<typeof Skills>;

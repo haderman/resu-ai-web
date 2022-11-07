@@ -1,31 +1,12 @@
 import { expect } from '@jest/globals';
 
-import { FuzzerSchema, Fuzz, profileFuzzer } from '@/server/test-helpers';
+import { Resume, ResumeContent } from '@/shared/types/resume';
 import {
-  Resume,
-  ResumeContent,
-  Skills,
-  Skill,
-} from '@/shared/types/resume';
-
-/**
- * Skills schema
- */
-var skillFuzzerSchema: FuzzerSchema<Skill> = {
-  title: Fuzz.string(),
-  yearsOfExperience: Fuzz.int({
-    min: 0,
-    max: 30,
-  }),
-};
-
-var skillsFuzzerSchema: FuzzerSchema<Skills> = {
-  entries: Fuzz.array({
-    type: Fuzz.Fuzzer(skillFuzzerSchema)(),
-  }),
-};
-
-var skillsFuzzer = Fuzz.Fuzzer(skillsFuzzerSchema);
+  FuzzerSchema,
+  Fuzz,
+  profileFuzzer,
+  skillsFuzzer,
+} from '@/server/test-helpers';
 
 /**
  * ResumeContent schema
@@ -51,6 +32,7 @@ var resumeFuzzerSchema: FuzzerSchema<Resume> = {
 };
 
 var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);
+
 
 /**
  * Resume tests

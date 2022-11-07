@@ -48,11 +48,25 @@ let resumeMock: Resume = {
       },
     },
     skills: {
-      entries: [
+      items: [
         { title: 'JavaScript', yearsOfExperience: 5 },
         { title: 'TypeScript', yearsOfExperience: 3 },
         { title: 'React', yearsOfExperience: 3 },
       ],
+      title: {
+        text: 'Skills',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      itemStyle: {
+        background: 'white',
+        color: 'black',
+        size: 'small',
+      },
+      cardStyle: {
+        background: 'white',
+      },
     },
   },
 };

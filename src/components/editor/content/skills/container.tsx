@@ -1,23 +1,19 @@
 import { useSelector } from 'react-redux';
 
-import {
-  selectColor,
-  selectSkills,
-  selectBackground,
-} from '@/state/skills';
+import { apiState } from '@/state/api';
 
 import { Skills } from './component';
 
+const { selectors } = apiState.skills;
+
 export function SkillsContainer() {
-  const color = useSelector(selectColor);
-  const background = useSelector(selectBackground);
-  const skillsData = useSelector(selectSkills);
+  const skills = useSelector(selectors.selectSkills);
 
   return (
     <Skills
-      data={skillsData}
-      color={color}
-      background={background}
+      data={skills.items}
+      color={skills.itemStyle.background}
+      background={skills.cardStyle.background}
     />
   );
 }
