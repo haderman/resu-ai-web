@@ -18,6 +18,10 @@ export type Profile = {
   },
 };
 
+type Title = Profile['title'];
+type Description = Profile['description'];
+type CardStyle = Profile['cardStyle'];
+
 export const Profile = {
   create(title: string = 'Profile', description: string = ''): Profile {
     return {
@@ -43,7 +47,7 @@ export const Profile = {
       ...newProfile,
     };
   },
-  updateTitle(profile: Profile, newTitle: Partial<Profile['title']>): Profile {
+  updateTitle(profile: Profile, newTitle: Partial<Title>): Profile {
     return {
       ...profile,
       title: {
@@ -52,7 +56,7 @@ export const Profile = {
       },
     };
   },
-  updateDescription(profile: Profile, newDescription: Partial<Profile['description']>): Profile {
+  updateDescription(profile: Profile, newDescription: Partial<Description>): Profile {
     return {
       ...profile,
       description: {
@@ -61,7 +65,7 @@ export const Profile = {
       },
     };
   },
-  updateCardStyle(profile: Profile, newCardStyle: Partial<Profile['cardStyle']>): Profile {
+  updateCardStyle(profile: Profile, newCardStyle: Partial<CardStyle>): Profile {
     return {
       ...profile,
       cardStyle: {
@@ -95,12 +99,12 @@ export const Profile = {
 /**
  * DECODERS
  */
-function decodeTitle(data: unknown): Profile['title'] {
+function decodeTitle(data: unknown): Title {
   if (typeof data !== 'object' || data === null) {
     throw new Error('Invalid profile title data');
   }
 
-  const { text, align, color, size } = data as Profile['title'];
+  const { text, align, color, size } = data as Title;
 
   return {
     text: text || 'Profile',
@@ -110,12 +114,12 @@ function decodeTitle(data: unknown): Profile['title'] {
   };
 }
 
-function decodeDescription(data: unknown): Profile['description'] {
+function decodeDescription(data: unknown): Description {
   if (typeof data !== 'object' || data === null) {
     throw new Error('Invalid profile description data');
   }
 
-  const { text, color, size } = data as Profile['description'];
+  const { text, color, size } = data as Description;
 
   return {
     text: text || '',
@@ -124,12 +128,12 @@ function decodeDescription(data: unknown): Profile['description'] {
   };
 }
 
-function decodeCardStyle(data: unknown): Profile['cardStyle'] {
+function decodeCardStyle(data: unknown): CardStyle {
   if (typeof data !== 'object' || data === null) {
     throw new Error('Invalid profile card style data');
   }
 
-  const { background } = data as Profile['cardStyle'];
+  const { background } = data as CardStyle;
 
   return {
     background: Color.decode(background),
@@ -139,7 +143,7 @@ function decodeCardStyle(data: unknown): Profile['cardStyle'] {
 /**
  * ENCODERS
  */
-export function encodeTitle(title: Profile['title']): unknown {
+export function encodeTitle(title: Title): Record<keyof Title, unknown> {
   return {
     text: title.text,
     align: Alignment.encode(title.align),
@@ -148,7 +152,7 @@ export function encodeTitle(title: Profile['title']): unknown {
   };
 }
 
-export function encodeDescription(description: Profile['description']): unknown {
+export function encodeDescription(description: Description): Record<keyof Description, unknown> {
   return {
     text: description.text,
     color: Color.encode(description.color),
@@ -156,7 +160,7 @@ export function encodeDescription(description: Profile['description']): unknown 
   };
 }
 
-export function encodeCardStyle(cardStyle: Profile['cardStyle']): unknown {
+export function encodeCardStyle(cardStyle: CardStyle): Record<keyof CardStyle, unknown> {
   return {
     background: Color.encode(cardStyle.background),
   };
