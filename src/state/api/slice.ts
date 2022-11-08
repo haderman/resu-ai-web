@@ -20,18 +20,18 @@ export const apiSlice = createApi({
       query: () => 'resume',
       transformResponse: Resume.decode,
     }),
-    updateResume: builder.mutation<Resume, Resume>({
-      query: (resume) => ({
-        url: 'resume',
-        method: 'PUT',
-        body: resume,
-      }),
+    updateResume: builder.mutation<void, Resume>({
+      query: (resume) => {
+        return {
+          url: 'resume',
+          method: 'PUT',
+          body: resume,
+        };
+      },
       onQueryStarted: async (resume, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
-            if (draft) {
-              draft.content = resume.content;
-            }
+            updateDraft(draft, resume.content);
           })
         );
         try {
@@ -40,7 +40,7 @@ export const apiSlice = createApi({
           patchResult.undo();
         }
       },
-      transformResponse: Resume.decode,
+      // transformResponse: Resume.decode,
     }),
   }),
 });
@@ -51,14 +51,13 @@ export const selectResumeResult = apiSlice.endpoints.getResume.select();
 
 export function useUpdateResume() {
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
-  const resume = useSelector(selectResumeResult);
-
+  const { data } = useSelector(selectResumeResult);
   function updateResume(content: Partial<ResumeContent>) {
-    if (resume.data) {
+    if (data) {
       updateResume_({
-        ...resume.data,
+        ...data,
         content: {
-          ...resume.data.content,
+          ...data.content,
           ...content,
         },
       });
@@ -66,6 +65,31 @@ export function useUpdateResume() {
   }
 
   return [updateResume, meta] as const;
+}
+
+/**
+ * This is kind of a deep merge, instead of replace the whole content
+ *
+ *  draft.content = content
+ *
+ * it replaces more specific properties so it takes adventage of immer
+ * and it's going to update only the specific property that changed into the state
+ * for example, it would update:
+ *
+ *  draft.content.profile.title = content.profile.title
+ *
+ * then Immer is going to update only the title property of the profile in the state
+ * saving some re-rendering
+ */
+function updateDraft(draft: Resume, content: ResumeContent): void {
+  for (const outerKey in content) {
+    const contentValue: any = content[outerKey as keyof ResumeContent];
+    for (const innerKey in contentValue) {
+      // TODO: I don't know how to type this properly
+      // @ts-ignore
+      draft.content[outerKey][innerKey] = contentValue[innerKey];
+    }
+  }
 }
 
 export default apiSlice;
