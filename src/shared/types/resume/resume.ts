@@ -8,17 +8,17 @@ import { Skills } from './skills';
 export type Resume = {
   id: string
   userId: string
-  content: ResumeContent
+  content: {
+    fullName: string
+    jobTitle: string
+    profile: Profile
+    skills: Skills
+    experience?: Experience
+    contact?: Contact
+  }
 }
 
-export type ResumeContent = {
-  fullName: string
-  jobTitle: string
-  profile: Profile
-  skills: Skills
-  experience?: Experience
-  contact?: Contact
-}
+export type ResumeContent = Resume['content'];
 
 export const Resume = {
   create(userId: string, content: ResumeContent): Resume {
