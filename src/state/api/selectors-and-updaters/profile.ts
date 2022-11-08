@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { Profile, ResumeContent } from '@/shared/types';
+import { Profile } from '@/shared/types';
 
-import apiSlice, { selectResumeResult } from '../slice';
+import { selectResumeResult, useUpdateResume } from '../slice';
 
 const selectResumeStatus = createSelector(
   selectResumeResult,
@@ -29,25 +29,6 @@ const selectProfileCardBackground = createSelector(
   selectProfile,
   (profile) => profile.cardStyle.background,
 );
-
-export function useUpdateResume() {
-  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
-  const resume = useSelector(selectResumeResult);
-
-  function updateResume(content: Partial<ResumeContent>) {
-    if (resume.data) {
-      updateResume_({
-        ...resume.data,
-        content: {
-          ...resume.data.content,
-          ...content,
-        },
-      });
-    }
-  }
-
-  return [updateResume, meta] as const;
-}
 
 export function useProfileUpdater() {
   const profile = useSelector(selectProfile);
