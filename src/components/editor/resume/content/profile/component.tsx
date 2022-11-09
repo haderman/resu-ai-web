@@ -2,8 +2,8 @@ import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
+import { Stack, Text } from '@/components/editor/common';
 
-import { Stack, Text } from '../../common';
 
 const selectors = apiState.profile.selectors;
 

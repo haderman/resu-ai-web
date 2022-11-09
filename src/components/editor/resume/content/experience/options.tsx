@@ -6,9 +6,8 @@ import {
   experienceSlice,
 } from '@/state/experience';
 import { Color } from '@/shared/types';
-
-import { WithTheme } from '../../themes';
-import { ColorSelector } from '../../form';
+import { WithTheme } from '@/components/editor/themes';
+import { ColorSelector } from '@/components/editor/form';
 
 const { actions } = experienceSlice;
 

@@ -7,9 +7,8 @@ import {
   selectSkillsColor,
 } from '@/state/projects';
 import { Color } from '@/shared/types';
-
-import { ColorSelector } from '../../form';
-import { WithTheme } from '../../themes';
+import { ColorSelector } from '@/components/editor/form';
+import { WithTheme } from '@/components/editor/themes';
 
 const { actions } = projectsSlice;
 

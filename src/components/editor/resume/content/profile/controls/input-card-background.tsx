@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
-import { ColorSelector } from '../../../form';
-import { Color, Profile } from '@/shared/types';
+import { ColorSelector } from '@/components/editor/form';
+import { Color } from '@/shared/types';
 
 const { selectors, useProfileUpdater } = apiState.profile;
 

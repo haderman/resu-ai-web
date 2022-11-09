@@ -2,8 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import type { Color } from '@/shared/types';
-
-import { Skills, SkillsProps } from '@/components/editor/content';
+import { Skills, SkillsProps } from '@/components/editor/resume/content';
 
 import { ResizableBox } from '../../helpers';
 import { Container } from '../../helpers/container';

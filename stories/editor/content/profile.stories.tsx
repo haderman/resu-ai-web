@@ -1,8 +1,9 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import { Profile } from '@/components/editor/resume/content';
+
 import { Container } from '../../helpers/container';
-import { Profile } from '../../../src/components/editor/content';
 
 export default {
   title: 'editor/content/profile',

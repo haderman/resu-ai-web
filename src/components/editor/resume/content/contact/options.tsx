@@ -1,14 +1,13 @@
 import { useSelector, useStore } from 'react-redux';
 
-import { selectColor, photoSlice } from '@/state/photo';
+import { selectColor, contactSlice } from '@/state/contact';
 import { Color } from '@/shared/types';
+import { WithTheme } from '@/components/editor/themes';
+import { ColorSelector } from '@/components/editor/form';
 
-import { WithTheme } from '../../themes';
-import { ColorSelector } from '../../form';
+const { actions } = contactSlice;
 
-const { actions } = photoSlice;
-
-export function PhotoOptions() {
+export function ContactOptions() {
   return (
     <WithTheme>
       <ColorSelectorContainer />
@@ -26,7 +25,7 @@ function ColorSelectorContainer() {
 
   return (
     <ColorSelector
-      label="Background color"
+      label="Color"
       value={color}
       onChange={handleColorChange}
     />

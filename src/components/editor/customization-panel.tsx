@@ -12,7 +12,7 @@ import {
   ExperienceOptions,
   PhotoOptions,
   ProjectsOptions,
-} from './content';
+} from './resume/content';
 
 export function CustomizationPanel() {
   const selectedItem = useSelector(selectSelectedItem);

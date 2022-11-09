@@ -1,8 +1,9 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import { Contact } from '@/components/editor/resume/content';
+
 import { Container } from '../../helpers/container';
-import { Contact } from '../../../src/components/editor/content';
 
 export default {
   title: 'editor/content/contact',

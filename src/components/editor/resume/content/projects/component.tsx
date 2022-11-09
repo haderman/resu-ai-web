@@ -2,8 +2,7 @@ import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
 import { Color } from '@/shared/types';
-
-import { Chip, Inline, Stack, Text } from '../../common';
+import { Chip, Inline, Stack, Text } from '@/components/editor/common';
 
 const PROJECTS: Project[] = [
   {

@@ -1,4 +1,4 @@
-import { WithTheme } from '../../themes';
+import { WithTheme } from '@/components/editor/themes';
 import {
   InputCardBackgroundContainer,
   InputChipsContainer,

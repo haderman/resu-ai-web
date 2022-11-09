@@ -2,24 +2,24 @@ import * as React from 'react';
 import styled from 'styled-components';
 import useResizeObserver from 'use-resize-observer';
 
-import { CVDoc } from './cv-doc';
+import { Resume } from './resume';
 import { WithTheme } from './themes';
 
 export function Preview() {
   const previewRef = React.useRef<HTMLDivElement>(null);
-  const CvDocRef = React.useRef<HTMLDivElement>(null);
-  useSetScale(previewRef, CvDocRef);
+  const resumeRef = React.useRef<HTMLDivElement>(null);
+  useSetScale(previewRef, resumeRef);
 
   return (
     <StyledPreview ref={previewRef}>
       <WithTheme>
-        <MemoizedCVDoc ref={CvDocRef} />
+        <MemoizedResume ref={resumeRef} />
       </WithTheme>
     </StyledPreview>
   );
 }
 
-const MemoizedCVDoc = React.memo(CVDoc);
+const MemoizedResume = React.memo(Resume);
 
 const StyledPreview = styled.div`
   display: flex;

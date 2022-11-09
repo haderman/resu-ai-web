@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
-
-import { ColorSelector } from '../../../form';
+import { ColorSelector } from '@/components/editor/form';
 
 const { selectors, useUpdater } = apiState.skills;
 

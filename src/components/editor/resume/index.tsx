@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { SelectableCard } from '../common';
 import {
   ContactContainer,
   ExperienceContainer,
@@ -9,12 +8,14 @@ import {
   ProjectsContainer,
   SkillsContainer,
   ProfileContainer,
-} from '../content';
+} from './content';
 
-export type CVDocProps = {};
+import { SelectableCard } from '../common';
 
-export const CVDoc = React.forwardRef<HTMLDivElement, CVDocProps>(
-  function CVDocComponent(props: CVDocProps, ref) {
+export type ResumeProps = {};
+
+export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
+  function ResumeComponent(props: ResumeProps, ref) {
     return (
       <Layout ref={ref}>
         <PhotoSection>
