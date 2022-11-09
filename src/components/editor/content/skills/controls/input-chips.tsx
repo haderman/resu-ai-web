@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
-import { Input } from '@/components/editor/common/form';
+import { Input } from '@/components/editor/form';
 
 const { selectors, useUpdater } = apiState.skills;
 

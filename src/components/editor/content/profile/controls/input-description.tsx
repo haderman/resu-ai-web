@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
-import { Textarea } from '@/components/editor/common/form';
+import { Textarea } from '@/components/editor/form';
 import { Profile } from '@/shared/types';
 
 const { selectors, useProfileUpdater } = apiState.profile;
