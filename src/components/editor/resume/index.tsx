@@ -9,6 +9,7 @@ import {
   SkillsContainer,
   ProfileContainer,
 } from './content';
+import { LayoutA, LayoutB } from './layouts';
 
 import { SelectableCard } from '../common';
 
@@ -17,38 +18,26 @@ export type ResumeProps = {};
 export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
   function ResumeComponent(props: ResumeProps, ref) {
     return (
-      <Layout ref={ref}>
-        <PhotoSection>
-          <SelectableCard item="photo">
-            <PhotoContainer />
-          </SelectableCard>
-        </PhotoSection>
-        <ContactSection>
-          <SelectableCard item="contact">
-            <ContactContainer />
-          </SelectableCard>
-        </ContactSection>
-        <WhoIAmSection>
-          <SelectableCard item="profile">
-            <ProfileContainer />
-          </SelectableCard>
-        </WhoIAmSection>
-        <SkillsSection>
-          <SelectableCard item="skills">
-            <SkillsContainer />
-          </SelectableCard>
-        </SkillsSection>
-        <ExperienceSection>
-          <SelectableCard item="experience">
-            <ExperienceContainer />
-          </SelectableCard>
-        </ExperienceSection>
-        <ProjectsSection>
-          <SelectableCard item="projects">
-            <ProjectsContainer />
-          </SelectableCard>
-        </ProjectsSection>
-      </Layout>
+      <LayoutA ref={ref}>
+        <SelectableCard item="photo">
+          <PhotoContainer />
+        </SelectableCard>
+        <SelectableCard item="profile">
+          <ProfileContainer />
+        </SelectableCard>
+        <SelectableCard item="contact">
+          <ContactContainer />
+        </SelectableCard>
+        <SelectableCard item="skills">
+          <SkillsContainer />
+        </SelectableCard>
+        <SelectableCard item="experience">
+          <ExperienceContainer />
+        </SelectableCard>
+        <SelectableCard item="projects">
+          <ProjectsContainer />
+        </SelectableCard>
+      </LayoutA>
     );
   }
 );
