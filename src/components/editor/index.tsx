@@ -1,11 +1,23 @@
 import styled from 'styled-components';
 
-export type LayoutProps = {
+import { Preview } from './preview';
+import { CustomizationPanel } from './customization-panel';
+
+export function Editor() {
+  return (
+    <Layout
+      customizationPanel={<CustomizationPanel />}
+      preview={<Preview />}
+    />
+  );
+}
+
+type LayoutProps = {
   customizationPanel: React.ReactNode;
   preview: React.ReactNode;
 }
 
-export function Layout(props: LayoutProps) {
+function Layout(props: LayoutProps) {
   const {
     customizationPanel: CustomizationPanel,
     preview: Preview,
