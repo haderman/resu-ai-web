@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Profile } from '@/shared/types';
 
-import { selectResumeResult, useUpdateResume } from '../slice';
+import { selectResumeResult, useResumeUpdaters } from '../slice';
 
 const selectResumeStatus = createSelector(
   selectResumeResult,
@@ -32,10 +32,10 @@ const selectProfileCardBackground = createSelector(
 
 export function useProfileUpdater() {
   const profile = useSelector(selectProfile);
-  const [updateResume] = useUpdateResume();
+  const [resumeUpdaters] = useResumeUpdaters();
 
   function updateProfile(newProfile: Partial<Profile>) {
-    updateResume({
+    resumeUpdaters.updateContent({
       profile: Profile.update(profile, newProfile),
     });
   }

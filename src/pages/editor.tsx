@@ -83,7 +83,7 @@ const Title = styled.h1`
 `;
 
 function ResumaSavingIndicator() {
-  const [_, { isLoading }] = apiState.resume.useUpdateResume();
+  const [_, { isLoading }] = apiState.resume.useResumeUpdaters();
 
   return (
     <span>

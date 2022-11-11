@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Skills } from '@/shared/types';
 
-import { selectResumeResult, useUpdateResume } from '../slice';
+import { selectResumeResult, useResumeUpdaters } from '../slice';
 
 const selectResumeStatus = createSelector(
   selectResumeResult,
@@ -37,10 +37,10 @@ const selectItemStyle = createSelector(
 
 export function useUpdater() {
   const skills = useSelector(selectSkills);
-  const [updateResume] = useUpdateResume();
+  const [resumeUpdater] = useResumeUpdaters();
 
   function updateSkills(newSkills: Partial<Skills>) {
-    updateResume({
+    resumeUpdater.updateContent({
       skills: Skills.update(skills, newSkills),
     });
   }

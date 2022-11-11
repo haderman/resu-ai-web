@@ -1,8 +1,7 @@
 import { HYDRATE } from 'next-redux-wrapper';
-import { createSelector } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Resume, Profile, ResumeContent } from '@/shared/types';
+import { Resume, ResumeContent, ResumeStyle } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
 
@@ -31,7 +30,8 @@ export const apiSlice = createApi({
       onQueryStarted: async (resume, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
-            updateDraft(draft, resume.content);
+            updateDraftContent(draft, resume.content);
+            updateDraftStyle(draft, resume.style);
           })
         );
         try {
@@ -40,7 +40,6 @@ export const apiSlice = createApi({
           patchResult.undo();
         }
       },
-      // transformResponse: Resume.decode,
     }),
   }),
 });
@@ -49,10 +48,11 @@ export const { useGetResumeQuery } = apiSlice;
 
 export const selectResumeResult = apiSlice.endpoints.getResume.select();
 
-export function useUpdateResume() {
+export function useResumeUpdaters() {
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
   const { data } = useSelector(selectResumeResult);
-  function updateResume(content: Partial<ResumeContent>) {
+
+  function updateContent(content: Partial<ResumeContent>) {
     if (data) {
       updateResume_({
         ...data,
@@ -64,7 +64,24 @@ export function useUpdateResume() {
     }
   }
 
-  return [updateResume, meta] as const;
+  function updateStyle(style: Partial<ResumeStyle>) {
+    if (data) {
+      updateResume_({
+        ...data,
+        style: {
+          ...data.style,
+          ...style,
+        },
+      });
+    }
+  }
+
+  const updaters = {
+    updateContent,
+    updateStyle,
+  };
+
+  return [updaters, meta] as const;
 }
 
 /**
@@ -81,7 +98,7 @@ export function useUpdateResume() {
  * then Immer is going to update only the title property of the profile in the state
  * saving some re-rendering
  */
-function updateDraft(draft: Resume, content: ResumeContent): void {
+function updateDraftContent(draft: Resume, content: ResumeContent): void {
   for (const outerKey in content) {
     const contentValue: any = content[outerKey as keyof ResumeContent];
     for (const innerKey in contentValue) {
@@ -89,6 +106,14 @@ function updateDraft(draft: Resume, content: ResumeContent): void {
       // @ts-ignore
       draft.content[outerKey][innerKey] = contentValue[innerKey];
     }
+  }
+}
+
+function updateDraftStyle(draft: Resume, style: ResumeStyle): void {
+  for (const outerKey in style) {
+    // TODO: I don't know how to type this properly
+    // @ts-ignore
+    draft.style[outerKey] = style[outerKey as keyof ResumeStyle];
   }
 }
 
