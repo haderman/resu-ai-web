@@ -1,5 +1,5 @@
-import { Color } from '../color';
-import { Size, Alignment } from '../units';
+import { Color } from '../../color';
+import { Size, Alignment } from '../../units';
 
 export type Skills = {
   title: {

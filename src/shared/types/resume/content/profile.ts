@@ -1,5 +1,5 @@
-import { Size, Alignment } from '../units';
-import { Color } from '../color';
+import { Size, Alignment } from '../../units';
+import { Color } from '../../color';
 
 export type Profile = {
   title: {

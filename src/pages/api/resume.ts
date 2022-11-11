@@ -48,6 +48,7 @@ function prepareData(req: NextApiRequest, session: Session): Promise<Resume> {
         id: req.body.id ?? generateId(),
         userId:  session.user.id,
         content: req.body.content,
+        style: req.body.style,
       });
       resolve(decodedData);
     } catch (error) {

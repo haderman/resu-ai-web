@@ -1,6 +1,7 @@
 import JestFuzz from 'jest-fuzz';
 import { Alignment, Size } from '@/shared/types/units';
 import { Color } from '@/shared/types/color';
+import { ResumeLayout, ResumeTheme } from '@/shared/types';
 
 export const Fuzz = {
   ...JestFuzz,
@@ -8,19 +9,19 @@ export const Fuzz = {
     return () => undefined;
   },
   size() {
-    return () => {
-      return Size.values[Math.floor(Math.random() * Size.values.length)];
-    };
+    return oneOf(Size.values);
   },
   alignment() {
-    return () => {
-      return Alignment.values[Math.floor(Math.random() * Alignment.values.length)];
-    };
+    return oneOf(Alignment.values);;
   },
   color() {
-    return () => {
-      return Color.values[Math.floor(Math.random() * Color.values.length)];
-    };
+    return oneOf(Color.values);
+  },
+  theme() {
+    return oneOf(ResumeTheme.values);;
+  },
+  layout() {
+    return oneOf(ResumeLayout.values);
   }
 };
 
@@ -34,7 +35,15 @@ export type Fuzzer =
   | ReturnType<typeof Fuzz.undefined>
   | ReturnType<typeof Fuzz.size>
   | ReturnType<typeof Fuzz.alignment>
-  | ReturnType<typeof Fuzz.color>;
+  | ReturnType<typeof Fuzz.color>
+  | ReturnType<typeof Fuzz.theme>
+  | ReturnType<typeof Fuzz.layout>;
 
 export type FuzzerSchema<T> = Record<keyof T, Fuzzer>;
 
+/**
+ * heleprs
+ */
+function oneOf<T>(values: readonly T[]): () => T {
+  return () => values[Math.floor(Math.random() * values.length)];
+}

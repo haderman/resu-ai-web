@@ -23,16 +23,26 @@ var contentFuzzerSchema: FuzzerSchema<ResumeContent> = {
 var contentFuzzer = Fuzz.Fuzzer(contentFuzzerSchema);
 
 /**
+ * ResumeStyle schema
+ */
+var styleFuzzerSchema: FuzzerSchema<Resume['style']> = {
+  theme: Fuzz.theme(),
+  layout: Fuzz.layout(),
+};
+
+var styleFuzzer = Fuzz.Fuzzer(styleFuzzerSchema);
+
+/**
  * Resume schema
  */
 var resumeFuzzerSchema: FuzzerSchema<Resume> = {
   id: Fuzz.string(),
   userId: Fuzz.string(),
   content: contentFuzzer(),
+  style: styleFuzzer(),
 };
 
 var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);
-
 
 /**
  * Resume tests

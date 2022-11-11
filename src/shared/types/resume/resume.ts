@@ -1,9 +1,12 @@
 import { generateId } from '@/shared/helpers';
 
-import { Contact } from './contact';
-import { Experience } from './experience';
-import { Profile } from './profile';
-import { Skills } from './skills';
+import {
+  Contact,
+  Experience,
+  Profile,
+  Skills,
+} from './content';
+import { ResumeLayout, ResumeTheme } from './style';
 
 export type Resume = {
   id: string
@@ -15,10 +18,15 @@ export type Resume = {
     skills: Skills
     experience?: Experience
     contact?: Contact
+  },
+  style: {
+    theme: ResumeTheme
+    layout: ResumeLayout
   }
 }
 
 export type ResumeContent = Resume['content'];
+export type ResumeStyle = Resume['style'];
 
 export const Resume = {
   create(userId: string, content: ResumeContent): Resume {
@@ -26,14 +34,22 @@ export const Resume = {
       id: generateId(),
       userId,
       content,
+      style: {
+        theme: 'default',
+        layout: 'layout-a',
+      },
     };
   },
-  update(resume: Resume, content: ResumeContent): Resume {
+  update(resume: Resume, values: Pick<Resume, 'content' | 'style'> ): Resume {
     return {
       ...resume,
       content: {
         ...resume.content,
-        ...content,
+        ...values.content,
+      },
+      style: {
+        ...resume.style,
+        ...values.style,
       },
     };
   },
@@ -42,7 +58,7 @@ export const Resume = {
       throw new Error('Invalid resume data');
     }
 
-    const { id, userId, content } = data as Resume;
+    const { id, userId, content, style } = data as Resume;
 
     if (typeof id !== 'string') {
       throw new Error('Invalid resume id');
@@ -75,6 +91,10 @@ export const Resume = {
         profile: Profile.decode(content.profile),
         skills: Skills.decode(content.skills),
       },
+      style: {
+        theme: ResumeTheme.decode(style.theme),
+        layout: ResumeLayout.decode(style.layout),
+      },
     };
   },
   encode(resume: Resume): Record<string, unknown> {
@@ -82,6 +102,10 @@ export const Resume = {
       id: resume.id,
       userId: resume.userId,
       content: resume.content,
+      style: {
+        theme: ResumeTheme.encode(resume.style.theme),
+        layout: ResumeLayout.encode(resume.style.layout),
+      },
     };
   },
 };

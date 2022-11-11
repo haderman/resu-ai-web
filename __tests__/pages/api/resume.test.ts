@@ -69,21 +69,26 @@ let resumeMock: Resume = {
       },
     },
   },
+  style: {
+    theme: 'dark-space',
+    layout: 'layout-a',
+  }
 };
 
 let resumeMockUpdated: Resume = {
   ...resumeMock,
   content: {
     ...resumeMock.content,
-  }
+    fullName: 'Software Engineer (edited)',
+    jobTitle: 'Software Engineer (edited)',
+  },
+  style: {
+    ...resumeMock.style,
+  },
 };
-
-resumeMockUpdated.content.jobTitle = 'Software Engineer (edited)';
-resumeMockUpdated.content.fullName = 'John Doe (edited)';
 
 // @ts-ignore
 nextAuth.unstable_getServerSession.mockResolvedValue(sessionMock);
-
 
 /**
  * Tests
