@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { selectSelectedItem } from '@/state';
 
-import { ThemeSwitch } from './form';
 import { CvItem } from './types';
 import {
   ContactOptions,
@@ -33,7 +32,6 @@ export function CustomizationPanel() {
 
   return (
     <StyledControls>
-      <ThemeSwitch />
       {ControlsComponent}
     </StyledControls>
   );

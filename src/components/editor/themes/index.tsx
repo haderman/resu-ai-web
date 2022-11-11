@@ -2,16 +2,18 @@ import * as React from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import { selectTheme } from '@/state';
+import { apiState } from '@/state/api';
+import { ResumeTheme } from '@/shared/types';
+
 import { defaultTheme } from './default';
 import { darkSpaceTheme } from './dark-space';
 
-export type CvTheme = 'default' | 'dark-space';
+const { selectors } = apiState.style;
 
 export type WithThemeProps = React.PropsWithChildren<{}>;
 
 export function WithTheme(props: WithThemeProps) {
-  const theme = useSelector(selectTheme);
+  const theme = useSelector(selectors.selectTheme);
   const themeValues = React.useMemo(() => getTheme(theme), [theme]);
 
   return (
@@ -21,7 +23,7 @@ export function WithTheme(props: WithThemeProps) {
   );
 }
 
-export function getTheme(theme?: CvTheme): DefaultTheme {
+export function getTheme(theme?: ResumeTheme): DefaultTheme {
   switch (theme) {
     case 'dark-space':
       return darkSpaceTheme;
@@ -30,10 +32,4 @@ export function getTheme(theme?: CvTheme): DefaultTheme {
       return defaultTheme;
   }
 }
-
-export const CvTheme = {
-  getAllThemes(): DefaultTheme[] {
-    return [darkSpaceTheme, defaultTheme];
-  },
-};
 

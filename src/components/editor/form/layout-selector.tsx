@@ -2,40 +2,40 @@ import { useSelector, useStore } from 'react-redux';
 import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
-import { ResumeTheme } from '@/shared/types';
+import { ResumeLayout } from '@/shared/types';
 
 const { selectors, useUpdaters } = apiState.style;
 
-export function ThemeSwitch() {
-  const theme = useSelector(selectors.selectTheme);
+export function LayoutSelector() {
+  const layout = useSelector(selectors.selectLayout);
   const [updaters] = useUpdaters();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    updaters.updateTheme(event.target.value as ResumeTheme);
+    updaters.updateLayout(event.target.value as ResumeLayout);
   }
 
   return (
     <StyledFieldset>
-      <StyledLegend>Theme: </StyledLegend>
+      <StyledLegend>Layout: </StyledLegend>
       <label>
         <input
           type="radio"
-          name="theme"
-          value="dark-space"
+          name="layout"
+          value="layout-a"
           onChange={handleChange}
-          checked={theme === 'dark-space'}
+          checked={layout === 'layout-a'}
         />
-        Dark Space
+        A
       </label>
       <label>
         <input
           type="radio"
-          name="theme"
-          value="default"
+          name="layout"
+          value="layout-b"
           onChange={handleChange}
-          checked={theme === 'default'}
+          checked={layout === 'layout-b'}
         />
-        Light Space
+        B
       </label>
     </StyledFieldset>
   );
