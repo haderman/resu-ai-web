@@ -13,7 +13,7 @@ export function Textarea(props: TextareaProps) {
   }
 
   return (
-    <StyledTextarea
+    <textarea
       value={props.value}
       onChange={handleChange}
       placeholder={props.placeholder}

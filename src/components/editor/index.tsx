@@ -2,7 +2,7 @@ import * as React from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { Resume } from './resume';
-import { CustomizationPanel } from './customization-panel';
+import { Panel } from './panel';
 import { Toolbar } from './toolbar';
 
 import styles from './editor.module.scss';
@@ -14,7 +14,7 @@ export function Editor() {
 
   return (
     <div className={styles.layout}>
-      <CustomizationPanel id="panel" data-area="panel" />
+      <Panel />
       <div className={styles['inner-layout']}>
         <Toolbar id="toolbar" />
         <div className="resume-container" ref={innerLayoutRef}>

@@ -17,14 +17,6 @@
     grid-area: inner-layout;
     min-height: 100%;
   }
-
-  & [data-area="panel"] {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    background-color: hsl(210 10% 10%);
-  }
 }
 
 .inner-layout {

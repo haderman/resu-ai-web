@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { selectSelectedItem } from '@/state';
 
-import { CvItem } from './types';
+import { CvItem } from '../types';
 import {
   ContactOptions,
   ProfileOptions,
@@ -10,14 +10,15 @@ import {
   ExperienceOptions,
   PhotoOptions,
   ProjectsOptions,
-} from './resume/content';
+} from '../resume/content';
+import styles from './panel.module.scss';
 
-export type CustomizationPanelProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'id'>;
+export type PanelProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'id'>;
 
-export function CustomizationPanel(props: CustomizationPanelProps) {
+export function Panel(props: PanelProps) {
   const selectedItem = useSelector(selectSelectedItem);
 
-  const customizationOptionsMap: Record<CvItem, JSX.Element | null> = {
+  const optionsMap: Record<CvItem, JSX.Element | null> = {
     contact: <ContactOptions />,
     education: null,
     experience: <ExperienceOptions />,
@@ -27,12 +28,12 @@ export function CustomizationPanel(props: CustomizationPanelProps) {
     projects: <ProjectsOptions />,
   };
 
-  const ControlsComponent = selectedItem && selectedItem in customizationOptionsMap
-    ? customizationOptionsMap[selectedItem]
+  const ControlsComponent = selectedItem && selectedItem in optionsMap
+    ? optionsMap[selectedItem]
     : null;
 
   return (
-    <div {...props}>
+    <div {...props} className={styles.panel}>
       {ControlsComponent}
     </div>
   );
