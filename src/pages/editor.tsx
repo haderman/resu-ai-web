@@ -1,7 +1,7 @@
+import styled from 'styled-components';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
-import styled from 'styled-components';
 import { unstable_getServerSession } from 'next-auth';
 import { getProviders } from 'next-auth/react';
 

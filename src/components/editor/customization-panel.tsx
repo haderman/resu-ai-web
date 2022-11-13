@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 
 import { selectSelectedItem } from '@/state';
 
@@ -13,7 +12,9 @@ import {
   ProjectsOptions,
 } from './resume/content';
 
-export function CustomizationPanel() {
+export type CustomizationPanelProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'id'>;
+
+export function CustomizationPanel(props: CustomizationPanelProps) {
   const selectedItem = useSelector(selectSelectedItem);
 
   const customizationOptionsMap: Record<CvItem, JSX.Element | null> = {
@@ -31,17 +32,9 @@ export function CustomizationPanel() {
     : null;
 
   return (
-    <StyledControls>
+    <div {...props}>
       {ControlsComponent}
-    </StyledControls>
+    </div>
   );
 }
 
-const StyledControls = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  padding: 10px;
-  background-color: hsl(210 10% 10%);
-`;
