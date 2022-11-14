@@ -10,11 +10,12 @@ import {
   SkillsContainer,
   ProfileContainer,
 } from './content';
-import { LayoutA, LayoutB } from './layouts';
 
 import { SelectableCard } from '../common';
 import { WithTheme } from '../themes';
 import { useSelector } from 'react-redux';
+
+import layout from './layouts/layout.module.scss';
 
 const { selectors } = apiState.style;
 
@@ -22,12 +23,9 @@ export type ResumeProps = {};
 
 export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
   function ResumeComponent(props: ResumeProps, ref) {
-    const layout = useSelector(selectors.selectLayout);
-    const LayoutComponent = layout === 'layout-a' ? LayoutA : LayoutB;
-
     return (
       <WithTheme>
-        <LayoutComponent ref={ref}>
+        <Layout ref={ref}>
           <SelectableCard item="photo">
             <PhotoContainer />
           </SelectableCard>
@@ -46,8 +44,19 @@ export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
           <SelectableCard item="projects">
             <ProjectsContainer />
           </SelectableCard>
-        </LayoutComponent>
+        </Layout>
       </WithTheme>
+    );
+  }
+);
+
+const Layout = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
+  function LayoutComponent(props, ref) {
+    const selectedLayout = useSelector(selectors.selectLayout);
+    return (
+      <div ref={ref} className={layout.container} data-area={selectedLayout}>
+        {props.children}
+      </div>
     );
   }
 );
