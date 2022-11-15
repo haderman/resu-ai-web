@@ -10,7 +10,11 @@ export function ThemeContainer(props: ThemeContainerProps) {
   const selectedTheme = useSelector(selectors.selectTheme);
 
   return (
-    <div className="theme-container" data-resume-theme={selectedTheme}>
+    <div
+      className="theme-container"
+      data-resume-theme={selectedTheme}
+      style={{ height: '100%' }}
+    >
       {props.children}
     </div>
   );

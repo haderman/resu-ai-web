@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeThemeName } from '@/shared/types';
+import { ResumeTheme } from '@/shared/types/theme';
 
 const { selectors, useUpdaters } = apiState.style;
 
@@ -10,7 +10,7 @@ export function ThemeSwitch() {
   const [updaters] = useUpdaters();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    updaters.updateTheme(event.target.value as ResumeThemeName);
+    updaters.updateTheme(event.target.value as ResumeTheme);
   }
 
   return (

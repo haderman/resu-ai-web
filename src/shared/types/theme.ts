@@ -1,10 +1,90 @@
-type ResumePropertyName = `--resume-${string}`;
+import { Color } from './color';
+import { Alignment, Weight, Size } from './units';
 
-export type ResumeTheme = {
-  [key: string]: ResumePropertyName | ResumeTheme
+const themeNames = [
+  'default',
+  'dark-space',
+] as const;
+
+export type ResumeTheme = typeof themeNames[number];
+
+export const ResumeTheme = {
+  values: themeNames,
+  decode(data: unknown): ResumeTheme {
+    if (typeof data !== 'string') {
+      throw new Error('Invalid resume theme');
+    }
+
+    if (!themeNames.includes(data as ResumeTheme)) {
+      throw new Error('Invalid resume theme');
+    }
+
+    return data as ResumeTheme;
+  },
+  encode(theme: ResumeTheme): string {
+    return theme;
+  },
+  getGap(variant: GapVariant): CssVar {
+    return toCssVar(resumeThemeValues.gap[variant]);
+  },
+  getGapClassName(variant: GapVariant): ClassName {
+    return toClassName(resumeThemeValues.gap[variant]);
+  },
+  getFont(variant: FontSizeVariant): CssVar {
+    return toCssVar(resumeThemeValues.fontSize[variant]);
+  },
+  getFontClassName(variant: FontSizeVariant): ClassName {
+    return toClassName(resumeThemeValues.fontSize[variant]);
+  },
+  getFontWeight(variant: FontWeightVariant): CssVar {
+    return toCssVar(resumeThemeValues.fontWeight[variant]);
+  },
+  getFontWeightClassName(variant: FontWeightVariant): ClassName {
+    return toClassName(resumeThemeValues.fontWeight[variant]);
+  },
+  getBorderRadius(variant: BorderRadiusVariant): CssVar {
+    return toCssVar(resumeThemeValues.borderRadius[variant]);
+  },
+  getBorderRadiusClassName(variant: BorderRadiusVariant): ClassName {
+    return toClassName(resumeThemeValues.borderRadius[variant]);
+  },
+  getColor(color: Color, variant: keyof ColorVariant): CssVar {
+    return toCssVar(resumeThemeValues.colors[color][variant]);
+  }
 };
 
-export const ResumeTheme: ResumeTheme = {
+type GapVariant = keyof ResumeThemeValues['gap'];
+type FontSizeVariant = keyof ResumeThemeValues['fontSize'];
+type FontWeightVariant = keyof ResumeThemeValues['fontWeight'];
+type BorderRadiusVariant = keyof ResumeThemeValues['borderRadius'];
+type ColorVariant = {
+  foreground: CssVarDeclaration
+  background: CssVarDeclaration
+  faded: CssVarDeclaration
+
+  // text color with high contrast to background
+  text: CssVarDeclaration
+};
+
+type ResumeThemeValues = {
+  gap: Record<Size, CssVarDeclaration>
+  padding: Record<Size, CssVarDeclaration>;
+  borderRadius: Record<Size, CssVarDeclaration>
+  fontSize: Record<Size, CssVarDeclaration>
+  fontWeight: Record<Weight, CssVarDeclaration>
+  lineHeight: {
+    normal: CssVarDeclaration
+  }
+  colors: {
+    [key in Color]: ColorVariant
+  }
+}
+
+type CssVar = `var(--resume-${string})`;
+type CssVarDeclaration = `--resume-${string}`;
+type ClassName = `resume-${string}`;
+
+const resumeThemeValues: ResumeThemeValues = {
   gap: {
     default: '--resume-gap-default',
     small: '--resume-gap-small',
@@ -131,3 +211,14 @@ export const ResumeTheme: ResumeTheme = {
     },
   },
 } as const;
+
+/**
+ * HELPERS
+ */
+ function toClassName(value: CssVarDeclaration): ClassName {
+  return value.replace('--', '') as ClassName;
+}
+
+function toCssVar(value: CssVarDeclaration): CssVar {
+  return `var(${value})`;
+}

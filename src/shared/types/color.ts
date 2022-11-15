@@ -1,12 +1,3 @@
-export type ColorVariant =
-  | 'default'
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'accent'
-  | 'accent-contrast'
-  | 'complementary';
-
 // define the array first, note the const
 const colors = [
   'primary',
@@ -27,7 +18,7 @@ const colors = [
 ] as const;
 
 // this magic incantation will create a union from that array
-export type Color = (typeof colors)[number];
+export type Color = typeof colors[number];
 
 export const Color = {
   values: colors,
@@ -59,14 +50,3 @@ export const Color = {
     return colors[0];
   }
 };
-
-export type ColorConfig = {
-  foreground: string
-  background: string
-  faded: string
-
-  // text color with high contrast to background
-  text: string
-}
-
-export type Palette = Record<Color, ColorConfig>;
