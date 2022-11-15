@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { ResumeTheme } from '@/themes';
@@ -13,8 +12,8 @@ const { selectors } = apiState.style;
 export type WithThemeProps = React.PropsWithChildren<{}>;
 
 export function WithTheme(props: WithThemeProps) {
-  const theme = useSelector(selectors.selectTheme);
-  const themeValues = React.useMemo(() => getTheme(theme), [theme]);
+  // const theme = useSelector(selectors.selectTheme);
+  const themeValues = getTheme('dark-space');
 
   return (
     <ThemeProvider theme={themeValues}>

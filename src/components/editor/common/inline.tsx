@@ -1,16 +1,38 @@
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 import { Size } from '@/shared/types';
 
 import { Box, BoxProps } from './box';
+import { ResumeTheme } from '@/themes';
 
-export type InlineProps = React.PropsWithChildren<BoxProps & {
+export type InlineProps = BoxProps & {
   gap?: Size
   alignItems?: 'start' | 'center' | 'end'
   childrenWithSameWidth?: boolean
-}>;
+};
 
-export const Inline = styled(Box)<InlineProps>`
+export function Inline(props: InlineProps) {
+  const className = classNames(
+    'inline',
+    'wrap',
+    ResumeTheme.getGapClassName(props.gap),
+    {
+      'children-same-size': props.childrenWithSameWidth,
+    }
+  );
+  const style: React.CSSProperties = {
+    alignItems: props.alignItems,
+  };
+
+  return (
+    <Box {...props} className={className} style={style}>
+      {props.children}
+    </Box>
+  );
+}
+
+export const Inline_ = styled(Box)<InlineProps>`
   display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;

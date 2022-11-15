@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 export type TextareaProps = {
   label: string
   value: string
@@ -20,11 +18,3 @@ export function Textarea(props: TextareaProps) {
     />
   );
 }
-
-const StyledTextarea = styled.textarea`
-  flex: 1;
-  resize: vertical;
-  width: 100%;
-  min-height: 200px;
-  max-height: 250px;
-`;

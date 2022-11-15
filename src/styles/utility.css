@@ -1,0 +1,21 @@
+.width-full { width: 100%; }
+.width-fit-content { width: fit-content; }
+
+.height-unset { height: unset; }
+.height-fit-content { height: fit-content; }
+
+.color-inherit { color: inherit; }
+
+.background-transparent { background-color: transparent; }
+
+.inline {
+  display: inline-flex;
+  flex-direction: row;
+}
+.wrap { flex-wrap: wrap; }
+.children-same-size > * { flex: 1; }
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}

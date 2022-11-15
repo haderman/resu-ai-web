@@ -23,11 +23,24 @@ export const ResumeTheme = {
   encode(theme: ResumeTheme): string {
     return theme;
   },
-  getGap(variant: GapVariant): CssVar {
+
+  /**
+   * Getters
+   *
+   * I don't want to expose the object structure because I might change it
+   * lager so I think this way avoid to refactor a lot
+   */
+  getGap(variant: GapVariant = 'default'): CssVar {
     return toCssVar(resumeThemeValues.gap[variant]);
   },
-  getGapClassName(variant: GapVariant): ClassName {
+  getGapClassName(variant: GapVariant = 'default'): ClassName {
     return toClassName(resumeThemeValues.gap[variant]);
+  },
+  getPadding(variant: PaddingVariant): CssVar {
+    return toCssVar(resumeThemeValues.padding[variant]);
+  },
+  getPaddingClassName(variant: PaddingVariant = 'default'): ClassName {
+    return toClassName(resumeThemeValues.padding[variant]);
   },
   getFont(variant: FontSizeVariant): CssVar {
     return toCssVar(resumeThemeValues.fontSize[variant]);
@@ -41,18 +54,19 @@ export const ResumeTheme = {
   getFontWeightClassName(variant: FontWeightVariant): ClassName {
     return toClassName(resumeThemeValues.fontWeight[variant]);
   },
-  getBorderRadius(variant: BorderRadiusVariant): CssVar {
+  getBorderRadius(variant: BorderRadiusVariant = 'default'): CssVar {
     return toCssVar(resumeThemeValues.borderRadius[variant]);
   },
-  getBorderRadiusClassName(variant: BorderRadiusVariant): ClassName {
+  getBorderRadiusClassName(variant: BorderRadiusVariant = 'default'): ClassName {
     return toClassName(resumeThemeValues.borderRadius[variant]);
   },
   getColor(color: Color, variant: keyof ColorVariant): CssVar {
     return toCssVar(resumeThemeValues.colors[color][variant]);
-  }
+  },
 };
 
 type GapVariant = keyof ResumeThemeValues['gap'];
+type PaddingVariant = keyof ResumeThemeValues['padding'];
 type FontSizeVariant = keyof ResumeThemeValues['fontSize'];
 type FontWeightVariant = keyof ResumeThemeValues['fontWeight'];
 type BorderRadiusVariant = keyof ResumeThemeValues['borderRadius'];

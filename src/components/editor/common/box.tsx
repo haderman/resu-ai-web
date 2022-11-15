@@ -1,29 +1,38 @@
-import styled, { css } from 'styled-components';
+import classNames from 'classnames';
 
+import { ResumeTheme } from '@/themes';
 import { Size, Color } from '@/shared/types';
 
 export type BoxProps = React.PropsWithChildren<{
   padding?: Size
   fitContent?: boolean
   color?: Color
-  borderRadius?: Size
+  borderRadius?: Size,
+  className?: string
+  style?: React.CSSProperties
 }>
 
-export const Box = styled.div<BoxProps>`
-  width: ${props => props.fitContent ? 'fit-content' : '100%'};
-  height: ${props => props.fitContent ? 'fit-content' : 'unset'};
-  padding: ${props => props.theme.padding[props.padding ?? 'default']};
-  border-radius: ${props => props.theme.borderRadius[props.borderRadius ?? 'default']};
+export function Box(props: BoxProps) {
+  const className = classNames(
+    props.fitContent ? 'width-fit-content' : 'width-full',
+    props.fitContent ? 'height-fit-content' : 'height-unset',
+    ResumeTheme.getPaddingClassName(props.padding),
+    ResumeTheme.getBorderRadiusClassName(props.borderRadius),
+    props.className,
+  );
 
-  ${props => props.color ? colorBox : noColorBox};
-`;
 
-const colorBox = css<BoxProps>`
-  color: ${props => props.theme.colors[props.color as Color].text};
-  background: ${props => props.theme.colors[props.color as Color].background};
-`;
+  const style: React.CSSProperties = props.color ? {
+    color: ResumeTheme.getColor(props.color, 'text'),
+    backgroundColor: ResumeTheme.getColor(props.color, 'background'),
+  } : {
+    color: 'inherit',
+    background: 'transparent',
+  };
 
-const noColorBox = css`
-  color: inherit;
-  background: transparent;
-`;
+  return (
+    <div className={className} style={{ ...props.style, ...style }}>
+      {props.children}
+    </div>
+  );
+}
