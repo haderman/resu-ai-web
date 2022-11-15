@@ -8,7 +8,7 @@ import { wrapper } from '../state';
 import { SyncSessionWithReduxStore } from '../components/common';
 
 import '../styles/globals.css';
-import '../styles/resume-theme.css';
+import '../themes/resume-theme.css';
 
 type AppPropsWithSession = AppProps<{ session: Session }>;
 

@@ -1,5 +1,4 @@
-import { Color } from './color';
-import { Alignment, Weight, Size } from './units';
+import { Color, Alignment, Weight, Size } from '@/shared/types';
 
 const themeNames = [
   'default',

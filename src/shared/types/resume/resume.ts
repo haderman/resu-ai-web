@@ -1,5 +1,5 @@
 import { generateId } from '@/shared/helpers';
-import { ResumeTheme } from '@/shared/types/theme';
+import { ResumeTheme } from '@/themes';
 
 import {
   Contact,

@@ -3,7 +3,7 @@ import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeTheme } from '@/shared/types/theme';
+import { ResumeTheme } from '@/themes';
 
 import { defaultTheme } from './default';
 import { darkSpaceTheme } from './dark-space';

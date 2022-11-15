@@ -1,5 +1,5 @@
 import { Color } from '@/shared/types';
-import { ResumeTheme } from '@/shared/types/theme';
+import { ResumeTheme } from '@/themes';
 
 export type ColorSelectorProps = {
   label: string

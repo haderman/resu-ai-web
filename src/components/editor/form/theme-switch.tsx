@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeTheme } from '@/shared/types/theme';
+import { ResumeTheme } from '@/themes';
 
 const { selectors, useUpdaters } = apiState.style;
 
