@@ -1,0 +1,184 @@
+.theme-container {
+  height: 100%;
+
+  --resume-gap-default: 0mm;
+  --resume-gap-small: 1mm;
+  --resume-gap-medium: 2mm;
+  --resume-gap-large: 4mm;
+
+  --resume-padding-default: 0mm;
+  --resume-padding-small: 1mm;
+  --resume-padding-medium: 2mm;
+  --resume-padding-large: 4mm;
+
+  --resume-font-size-default: inherit;
+  --resume-font-size-small: 10pt;
+  --resume-font-size-medium: 12pt;
+  --resume-font-size-large: 16pt;
+
+  --resume-font-weight-default: 200;
+  --resume-font-weight-light: 100;
+  --resume-font-weight-regular: 200;
+  --resume-font-weight-bold: 700;
+
+  --resume-line-height-normal: 1.5;
+
+  --resume-border-radius-default: 0mm;
+  --resume-border-radius-small: 1mm;
+  --resume-border-radius-medium: 2mm;
+  --resume-border-radius-large: 4mm;
+}
+
+.theme-container[data-resume-theme='default'] {
+  --resume-primary-background-color: hsl(0, 0%, 100%);
+  --resume-primary-text-color: hsl(0, 0%, 6%);
+  --resume-primary-foreground-color: hsl(0, 0%, 100%);
+  --resume-primary-faded-color: hsl(0, 0%, 100%);
+
+  --resume-secondary-background-color: hsl(0, 0%, 80%);
+  --resume-secondary-foreground-color: hsl(0, 0%, 95%);
+  --resume-secondary-faded-color: hsl(0, 0%, 90%);
+  --resume-secondary-text-color: hsl(0, 0%, 20%);
+
+  --resume-almost_black-background-color: hsl(0, 0%, 6%);
+  --resume-almost_black-foreground-color: hsl(0, 0%, 6%);
+  --resume-almost_black-faded-color: hsl(0, 0%, 6%);
+  --resume-almost_black-text-color: hsl(0, 0%, 90%);
+
+  --resume-black-background-color: hsl(0, 0%, 0%);
+  --resume-black-foreground-color: hsl(0, 0%, 0%);
+  --resume-black-faded-color: hsl(0, 0%, 0%);
+  --resume-black-text-color: hsl(0, 0%, 90%);
+
+  --resume-almost_white-background-color: hsl(0, 0%, 95%);
+  --resume-almost_white-foreground-color: hsl(0, 0%, 95%);
+  --resume-almost_white-faded-color: hsl(0, 0%, 90%);
+  --resume-almost_white-text-color: hsl(0, 0%, 6%);
+
+  --resume-white-background-color: hsl(0, 0%, 100%);
+  --resume-white-foreground-color: hsl(0, 0%, 100%);
+  --resume-white-faded-color: hsl(0, 0%, 100%);
+  --resume-white-text-color: hsl(0, 0%, 6%);
+
+  --resume-gray-background-color: hsl(0, 0%, 65%);
+  --resume-gray-foreground-color: hsl(0, 0%, 80%);
+  --resume-gray-faded-color: hsl(0, 0%, 80%);
+  --resume-gray-text-color: hsl(0, 0%, 20%);
+
+  --resume-gray-light-background-color: hsl(0, 0%, 80%);
+  --resume-gray-light-foreground-color: hsl(0, 0%, 95%);
+  --resume-gray-light-faded-color: hsl(0, 0%, 90%);
+  --resume-gray-light-text-color: hsl(0, 0%, 20%);
+
+  --resume-blue-background-color: hsl(199, 55%, 45%);
+  --resume-blue-foreground-color: hsl(199, 55%, 55%);
+  --resume-blue-faded-color: hsl(199, 55%, 65%);
+  --resume-blue-text-color: hsl(0, 0%, 100%);
+
+  --resume-red-background-color: hsl(0, 55%, 45%);
+  --resume-red-foreground-color: hsl(0, 55%, 55%);
+  --resume-red-faded-color: hsl(0, 55%, 65%);
+  --resume-red-text-color: hsl(0, 0%, 100%);
+
+  --resume-green-background-color: hsl(120, 55%, 45%);
+  --resume-green-foreground-color: hsl(120, 55%, 55%);
+  --resume-green-faded-color: hsl(120, 55%, 65%);
+  --resume-green-text-color: hsl(0, 0%, 100%);
+
+  --resume-yellow-background-color: hsl(60, 55%, 45%);
+  --resume-yellow-foreground-color: hsl(60, 55%, 55%);
+  --resume-yellow-faded-color: hsl(60, 55%, 65%);
+  --resume-yellow-text-color: hsl(0, 0%, 100%);
+
+  --resume-orange-background-color: hsl(30, 55%, 45%);
+  --resume-orange-foreground-color: hsl(30, 55%, 55%);
+  --resume-orange-faded-color: hsl(30, 55%, 65%);
+  --resume-orange-text-color: hsl(0, 0%, 100%);
+
+  --resume-purple-background-color: hsl(300, 55%, 45%);
+  --resume-purple-foreground-color: hsl(300, 55%, 55%);
+  --resume-purple-faded-color: hsl(300, 55%, 65%);
+  --resume-purple-text-color: hsl(0, 0%, 100%);
+
+  --resume-pink-background-color: hsl(300, 55%, 70%);
+  --resume-pink-foreground-color: hsl(300, 55%, 90%);
+  --resume-pink-faded-color: hsl(300, 55%, 65%);
+  --resume-pink-text-color: hsl(0, 0%, 100%);
+}
+
+.theme-container[data-resume-theme='dark-space'] {
+  --resume-primary-background-color: hsl(0, 0%, 0%);
+  --resume-primary-text-color: hsl(0, 0%, 90%);
+  --resume-primary-foreground-color: hsl(0, 0%, 0%);
+  --resume-primary-faded-color: hsl(0, 0%, 0%);
+
+  --resume-secondary-background-color: hsl(0, 0%, 20%);
+  --resume-secondary-foreground-color: hsl(0, 0%, 5%);
+  --resume-secondary-faded-color: hsl(0, 0%, 10%);
+  --resume-secondary-text-color: hsl(0, 0%, 80%);
+
+  --resume-almost_black-background-color: hsl(0, 0%, 6%);
+  --resume-almost_black-foreground-color: hsl(0, 0%, 6%);
+  --resume-almost_black-faded-color: hsl(0, 0%, 6%);
+  --resume-almost_black-text-color: hsl(0, 0%, 90%);
+
+  --resume-black-background-color: hsl(0, 0%, 0%);
+  --resume-black-foreground-color: hsl(0, 0%, 0%);
+  --resume-black-faded-color: hsl(0, 0%, 0%);
+  --resume-black-text-color: hsl(0, 0%, 90%);
+
+  --resume-almost_white-background-color: hsl(0, 0%, 95%);
+  --resume-almost_white-foreground-color: hsl(0, 0%, 95%);
+  --resume-almost_white-faded-color: hsl(0, 0%, 90%);
+  --resume-almost_white-text-color: hsl(0, 0%, 6%);
+
+  --resume-white-background-color: hsl(0, 0%, 100%);
+  --resume-white-foreground-color: hsl(0, 0%, 100%);
+  --resume-white-faded-color: hsl(0, 0%, 100%);
+  --resume-white-text-color: hsl(0, 0%, 6%);
+
+  --resume-gray-background-color: hsl(0, 0%, 35%);
+  --resume-gray-foreground-color: hsl(0, 0%, 20%);
+  --resume-gray-faded-color: hsl(0, 0%, 20%);
+  --resume-gray-text-color: hsl(0, 0%, 80%);
+
+  --resume-gray-light-background-color: hsl(0, 0%, 20%);
+  --resume-gray-light-foreground-color: hsl(0, 0%, 5%);
+  --resume-gray-light-faded-color: hsl(0, 0%, 10%);
+  --resume-gray-light-text-color: hsl(0, 0%, 80%);
+
+  --resume-blue-background-color: hsl(199, 55%, 45%);
+  --resume-blue-foreground-color: hsl(199, 55%, 55%);
+  --resume-blue-faded-color: hsl(199, 55%, 65%);
+  --resume-blue-text-color: hsl(0, 0%, 100%);
+
+  --resume-red-background-color: hsl(0, 55%, 45%);
+  --resume-red-foreground-color: hsl(0, 55%, 55%);
+  --resume-red-faded-color: hsl(0, 55%, 65%);
+  --resume-red-text-color: hsl(0, 0%, 100%);
+
+  --resume-green-background-color: hsl(120, 55%, 45%);
+  --resume-green-foreground-color: hsl(120, 55%, 55%);
+  --resume-green-faded-color: hsl(120, 55%, 65%);
+  --resume-green-text-color: hsl(0, 0%, 100%);
+
+  --resume-yellow-background-color: hsl(60, 55%, 45%);
+  --resume-yellow-foreground-color: hsl(60, 55%, 55%);
+  --resume-yellow-faded-color: hsl(60, 55%, 65%);
+  --resume-yellow-text-color: hsl(0, 0%, 100%);
+
+  --resume-orange-background-color: hsl(30, 55%, 45%);
+  --resume-orange-foreground-color: hsl(30, 55%, 55%);
+  --resume-orange-faded-color: hsl(30, 55%, 65%);
+  --resume-orange-text-color: hsl(0, 0%, 100%);
+
+  --resume-purple-background-color: hsl(300, 55%, 45%);
+  --resume-purple-foreground-color: hsl(300, 55%, 55%);
+  --resume-purple-faded-color: hsl(300, 55%, 65%);
+  --resume-purple-text-color: hsl(0, 0%, 100);
+
+  --resume-pink-background-color: hsl(300, 55%, 70%);
+  --resume-pink-foreground-color: hsl(300, 55%, 90%);
+  --resume-pink-faded-color: hsl(300, 55%, 65%);
+  --resume-pink-text-color: hsl(0, 0%, 100%);
+}

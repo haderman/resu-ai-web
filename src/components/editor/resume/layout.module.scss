@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-const BaseLayout = styled.div`
+.container {
   position: relative;
 
   // Page size for A4 pages - https://github.com/w3c/csswg-drafts/issues/328
@@ -8,8 +6,8 @@ const BaseLayout = styled.div`
   width: 210mm;
   min-width: 210mm;
 
-  background-color: ${(props) => props.theme.colors.primary.background};
-  color: ${(props) => props.theme.colors.primary.text};
+  background-color: black; // ${(props) => props.theme.colors.primary.background};
+  color: white;// ${(props) => props.theme.colors.primary.text};
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
@@ -31,18 +29,6 @@ const BaseLayout = styled.div`
       top: 0;
     }
   }
-`;
-
-export const LayoutB = styled(BaseLayout)`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, min-content);
-  grid-template-areas:
-    'child1 child2 child2'
-    'child3 child4 child4'
-    'child6 child6 child6'
-    'child5 child5 child5'
-    ;
 
   & > div:nth-child(1) {
     grid-area: child1;
@@ -67,4 +53,27 @@ export const LayoutB = styled(BaseLayout)`
   & > div:nth-child(6) {
     grid-area: child6;
   }
-`;
+
+}
+
+.container[data-layout="layout-a"] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, min-content);
+  grid-template-areas:
+    'child1 child2 child2'
+    'child3 child4 child4'
+    'child5 child5 child5'
+    'child6 child6 child6';
+}
+
+.container[data-layout="layout-b"] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, min-content);
+  grid-template-areas:
+    'child1 child2 child2'
+    'child3 child4 child4'
+    'child6 child6 child6'
+    'child5 child5 child5';
+}

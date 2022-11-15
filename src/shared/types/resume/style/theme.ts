@@ -1,24 +1,24 @@
-const resumeThemesValues = [
+const themeNames = [
   'default',
   'dark-space',
 ] as const;
 
-export type ResumeTheme = typeof resumeThemesValues[number];
+export type ResumeThemeName = typeof themeNames[number];
 
-export const ResumeTheme = {
-  values: resumeThemesValues,
-  decode(data: unknown): ResumeTheme {
+export const ResumeThemeName = {
+  values: themeNames,
+  decode(data: unknown): ResumeThemeName {
     if (typeof data !== 'string') {
       throw new Error('Invalid resume theme');
     }
 
-    if (!ResumeTheme.values.includes(data as ResumeTheme)) {
+    if (!themeNames.includes(data as ResumeThemeName)) {
       throw new Error('Invalid resume theme');
     }
 
-    return data as ResumeTheme;
+    return data as ResumeThemeName;
   },
-  encode(theme: ResumeTheme): string {
+  encode(theme: ResumeThemeName): string {
     return theme;
   },
 };

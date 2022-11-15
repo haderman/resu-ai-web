@@ -11,6 +11,7 @@ import { wrapper } from '@/state/store';
 import { sessionSlice } from '@/state/session';
 import { authProvidersSlice } from '@/state/auth-providers';
 import { apiState } from '@/state/api';
+import { ThemeContainer } from '@/components/common';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -40,7 +41,7 @@ const EditorPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LoadResume />
-      <Container>
+      <ThemeContainer>
         <Header>
           <Title>My CV</Title>
           <Link href="/">Home</Link>
@@ -48,7 +49,7 @@ const EditorPage: NextPage = () => {
           <AuthButtonContainer />
         </Header>
         <Editor />
-      </Container>
+      </ThemeContainer>
     </>
   );
 };

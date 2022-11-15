@@ -30,7 +30,7 @@ export function ColorSelector(props: ColorSelectorProps) {
               name={color}
               value={color}
               style={{
-                backgroundColor: theme.colors[color].background,
+                backgroundColor: `var(--resume-${color}-background-color)`,
               }}
               data-checked={color === props.value ? 'true' : 'false'}
               checked={props.value === color}

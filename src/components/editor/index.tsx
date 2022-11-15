@@ -15,11 +15,9 @@ export function Editor() {
   return (
     <div className={styles.layout}>
       <Panel />
-      <div className={styles['inner-layout']}>
-        <Toolbar id="toolbar" />
-        <div className="resume-container" ref={innerLayoutRef}>
-          <Resume ref={resumeRef} />
-        </div>
+      <Toolbar />
+      <div className={styles['resume-container']} ref={innerLayoutRef}>
+        <Resume ref={resumeRef} />
       </div>
     </div>
   );

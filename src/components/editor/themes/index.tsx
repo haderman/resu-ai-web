@@ -3,7 +3,7 @@ import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeTheme } from '@/shared/types';
+import { ResumeThemeName } from '@/shared/types';
 
 import { defaultTheme } from './default';
 import { darkSpaceTheme } from './dark-space';
@@ -23,7 +23,7 @@ export function WithTheme(props: WithThemeProps) {
   );
 }
 
-export function getTheme(theme?: ResumeTheme): DefaultTheme {
+export function getTheme(theme?: ResumeThemeName): DefaultTheme {
   switch (theme) {
     case 'dark-space':
       return darkSpaceTheme;

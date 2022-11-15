@@ -1,7 +1,7 @@
 import JestFuzz from 'jest-fuzz';
 import { Alignment, Size } from '@/shared/types/units';
 import { Color } from '@/shared/types/color';
-import { ResumeLayout, ResumeTheme } from '@/shared/types';
+import { ResumeLayout, ResumeThemeName } from '@/shared/types';
 
 export const Fuzz = {
   ...JestFuzz,
@@ -18,7 +18,7 @@ export const Fuzz = {
     return oneOf(Color.values);
   },
   theme() {
-    return oneOf(ResumeTheme.values);;
+    return oneOf(ResumeThemeName.values);;
   },
   layout() {
     return oneOf(ResumeLayout.values);

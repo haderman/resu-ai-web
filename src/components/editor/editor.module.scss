@@ -1,68 +1,32 @@
 .layout {
-  position: relative;
-  min-height: 100%;
   display: grid;
-  grid-template-areas:
-    'panel inner-layout';
+  height: 100%;
   grid-template-columns: 400px 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: 40px 1fr;
+  grid-template-areas:
+    "panel toolbar"
+    "panel resume-container";
 
-  & > *:first-child {
+  & > div:first-child {
     grid-area: panel;
     overflow: auto;
     min-height: 100%;
   }
 
-  & > *:last-child {
-    grid-area: inner-layout;
-    min-height: 100%;
-  }
-}
-
-.inner-layout {
-  position: relative;
-  min-height: 100%;
-  justify-content: center;
-  justify-items: center;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 40px 1fr;
-  grid-template-areas:
-    'toolbar'
-    'preview';
-
-  & > *:first-child {
+  & > div:nth-child(2) {
     grid-area: toolbar;
-    position: sticky;
-    top: 0;
-    z-index: 1;
   }
 
-  & > *:last-child {
-    grid-area: preview;
-  }
-
-  & :global(.resume-container) {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  & .toolbar {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 20px;
-    padding: 10px 20px;
-    border-bottom: 1px solid hsl(210, 10%, 15%);
-    background-color: hsl(210 10% 5% / 0.8);
-    backdrop-filter: blur(5px);
+  & > div:nth-child(3) {
+    grid-area: resume-container;
   }
 }
 
-
+.resume-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+}

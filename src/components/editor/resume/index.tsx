@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 
@@ -13,9 +14,8 @@ import {
 
 import { SelectableCard } from '../common';
 import { WithTheme } from '../themes';
-import { useSelector } from 'react-redux';
 
-import layout from './layouts/layout.module.scss';
+import layout from './layout.module.scss';
 
 const { selectors } = apiState.style;
 
@@ -53,8 +53,9 @@ export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
 const Layout = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
   function LayoutComponent(props, ref) {
     const selectedLayout = useSelector(selectors.selectLayout);
+
     return (
-      <div ref={ref} className={layout.container} data-area={selectedLayout}>
+      <div ref={ref} className={layout.container} data-layout={selectedLayout}>
         {props.children}
       </div>
     );

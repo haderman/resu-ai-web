@@ -6,7 +6,7 @@ import {
   Profile,
   Skills,
 } from './content';
-import { ResumeLayout, ResumeTheme } from './style';
+import { ResumeLayout, ResumeThemeName } from './style';
 
 export type Resume = {
   id: string
@@ -20,7 +20,7 @@ export type Resume = {
     contact?: Contact
   },
   style: {
-    theme: ResumeTheme
+    theme: ResumeThemeName
     layout: ResumeLayout
   }
 }
@@ -92,7 +92,7 @@ export const Resume = {
         skills: Skills.decode(content.skills),
       },
       style: {
-        theme: ResumeTheme.decode(style.theme),
+        theme: ResumeThemeName.decode(style.theme),
         layout: ResumeLayout.decode(style.layout),
       },
     };
@@ -103,7 +103,7 @@ export const Resume = {
       userId: resume.userId,
       content: resume.content,
       style: {
-        theme: ResumeTheme.encode(resume.style.theme),
+        theme: ResumeThemeName.encode(resume.style.theme),
         layout: ResumeLayout.encode(resume.style.layout),
       },
     };
