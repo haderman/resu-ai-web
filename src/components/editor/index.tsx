@@ -4,6 +4,7 @@ import useResizeObserver from 'use-resize-observer';
 import { Resume } from './resume';
 import { Panel } from './panel';
 import { Toolbar } from './toolbar';
+import { Header } from './header';
 
 import styles from './editor.module.scss';
 
@@ -14,6 +15,7 @@ export function Editor() {
 
   return (
     <div className={styles.layout}>
+      <Header />
       <Panel />
       <Toolbar />
       <div className={styles['resume-container']} ref={innerLayoutRef}>
