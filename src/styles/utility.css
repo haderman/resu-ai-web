@@ -5,8 +5,10 @@
 .height-fit-content { height: fit-content; }
 
 .color-inherit { color: inherit; }
-
 .background-transparent { background-color: transparent; }
+
+.padding-0 { padding: 0; }
+.margin-0 { margin: 0; }
 
 .inline {
   display: inline-flex;

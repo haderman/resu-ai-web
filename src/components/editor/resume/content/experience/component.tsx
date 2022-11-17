@@ -70,7 +70,7 @@ type ItemProps = {
 
 function Item(props: ItemProps) {
   return (
-    <Stack padding="large" borderRadius="medium" color={props.color} className={styles.container}>
+    <Stack padding="medium" borderRadius="medium" color={props.color} className={styles.card}>
       <Text as="h3" color="blue" weight="bold">
         {props.startDate} - {props.endDate}
       </Text>

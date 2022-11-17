@@ -14,6 +14,7 @@ export function Stack(props: StackProps) {
   const className = classNames(
     'stack',
     ResumeTheme.getGapClassName(props.gap),
+    props.className,
   );
 
   return (

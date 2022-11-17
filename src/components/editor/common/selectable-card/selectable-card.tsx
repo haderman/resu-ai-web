@@ -4,7 +4,8 @@ import { useSelector, useStore } from 'react-redux';
 
 import { selectSelectedItem, editorSlice } from '@/state';
 
-import { CvItem } from '../types';
+import { CvItem } from '../../types';
+import styles from './style.module.scss';
 
 const { actions } = editorSlice;
 
@@ -21,6 +22,17 @@ export function SelectableCard(props: SelectableCardProps) {
     evt.stopPropagation();
     store.dispatch(actions.setSelectedItem(props.item));
   }
+
+  return (
+    <div
+      tabIndex={0}
+      onFocus={handleFocus}
+      data-is-slected={selectedItem === props.item}
+      className={styles.selectable}
+    >
+      {props.children}
+    </div>
+  );
 
   return (
     <StyledSelectableCard

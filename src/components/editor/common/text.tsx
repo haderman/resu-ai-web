@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import classNames from 'classnames';
 
 import { Color, Size, Weight } from '@/shared/types';
+import { ResumeTheme } from '@/themes';
 
 // TODO: add better line height -> read this https://twitter.com/danqing_liu/status/1576997493765611520?s=20&t=T7u0xdkm8QOrLbnNRwoq-A
 
@@ -11,12 +12,23 @@ export type TextProps = React.PropsWithChildren<{
   weight?: Weight
 }>
 
-export const Text = styled.span<TextProps>`
-  margin: 0;
-  padding: 0;
+export function Text(props: TextProps) {
+  console.log('props.as: ', props.as);
+  const Component = props.as || 'span';
+  const className = classNames(
+    ResumeTheme.getFontWeightClassName(props.weight),
+    ResumeTheme.getFontSizeClassName(props.size),
+    ResumeTheme.getLineHeightClassName('normal'),
+  );
+  const style: React.CSSProperties = {
+    color: props.color
+      ? ResumeTheme.getColor(props.color, 'foreground')
+      : 'inherit',
+  };
 
-  color: ${props => props.color ? props.theme.colors[props.color].foreground : 'inherit'};
-  font-size: ${props => props.theme.fontSize[props.size ?? 'default']};
-  font-weight: ${props => props.theme.fontWeight[props.weight ?? 'regular']};
-  line-height: ${props => props.theme.lineHeight.normal};
-`;
+  return (
+    <Component className={className} style={style}>
+      {props.children}
+    </Component>
+  );
+}

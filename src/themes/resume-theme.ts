@@ -42,16 +42,16 @@ export const ResumeTheme = {
   getPaddingClassName(variant: PaddingVariant = 'default'): ClassName {
     return toClassName(resumeThemeValues.padding[variant]);
   },
-  getFont(variant: FontSizeVariant): CssVar {
+  getFontSize(variant: FontSizeVariant = 'medium'): CssVar {
     return toCssVar(resumeThemeValues.fontSize[variant]);
   },
-  getFontClassName(variant: FontSizeVariant): ClassName {
+  getFontSizeClassName(variant: FontSizeVariant = 'default'): ClassName {
     return toClassName(resumeThemeValues.fontSize[variant]);
   },
-  getFontWeight(variant: FontWeightVariant): CssVar {
+  getFontWeight(variant: FontWeightVariant = 'regular'): CssVar {
     return toCssVar(resumeThemeValues.fontWeight[variant]);
   },
-  getFontWeightClassName(variant: FontWeightVariant): ClassName {
+  getFontWeightClassName(variant: FontWeightVariant = 'regular'): ClassName {
     return toClassName(resumeThemeValues.fontWeight[variant]);
   },
   getBorderRadius(variant: BorderRadiusVariant = 'default'): CssVar {
@@ -63,6 +63,12 @@ export const ResumeTheme = {
   getColor(color: Color, variant: keyof ColorVariant): CssVar {
     return toCssVar(resumeThemeValues.colors[color][variant]);
   },
+  getLineHeight(variant: LineHeightVariant = 'normal'): CssVar {
+    return toCssVar(resumeThemeValues.lineHeight[variant]);
+  },
+  getLineHeightClassName(variant: LineHeightVariant = 'normal'): ClassName {
+    return toClassName(resumeThemeValues.lineHeight[variant]);
+  }
 };
 
 type GapVariant = keyof ResumeThemeValues['gap'];
@@ -70,6 +76,7 @@ type PaddingVariant = keyof ResumeThemeValues['padding'];
 type FontSizeVariant = keyof ResumeThemeValues['fontSize'];
 type FontWeightVariant = keyof ResumeThemeValues['fontWeight'];
 type BorderRadiusVariant = keyof ResumeThemeValues['borderRadius'];
+type LineHeightVariant = keyof ResumeThemeValues['lineHeight'];
 type ColorVariant = {
   foreground: CssVarDeclaration
   background: CssVarDeclaration

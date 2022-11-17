@@ -17,7 +17,7 @@ export function ColorSelector(props: ColorSelectorProps) {
   return (
     <fieldset>
       <legend>{props.label}</legend>
-      <div>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {Color.values.map((color) => {
           return (
             <input

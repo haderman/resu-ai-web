@@ -1,4 +1,3 @@
-import { WithTheme } from '@/components/editor/themes';
 import {
   InputTitleContainer,
   InputDescriptionContainer,
@@ -10,9 +9,7 @@ export function ProfileOptions() {
     <>
       <InputTitleContainer />
       <InputDescriptionContainer />
-      <WithTheme>
-        <InputCardBackgroundContainer />
-      </WithTheme>
+      <InputCardBackgroundContainer />
     </>
   );
 };

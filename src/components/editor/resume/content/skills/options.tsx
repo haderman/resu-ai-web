@@ -1,4 +1,3 @@
-import { WithTheme } from '@/components/editor/themes';
 import {
   InputCardBackgroundContainer,
   InputChipsContainer,
@@ -9,10 +8,8 @@ export function SkillsOptions() {
   return (
     <>
       <InputChipsContainer />
-      <WithTheme>
-        <InputCardBackgroundContainer />
-        <InputItemColorContainer />
-      </WithTheme>
+      <InputCardBackgroundContainer />
+      <InputItemColorContainer />
     </>
   );
 };
