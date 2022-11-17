@@ -13,7 +13,6 @@ export type TextProps = React.PropsWithChildren<{
 }>
 
 export function Text(props: TextProps) {
-  console.log('props.as: ', props.as);
   const Component = props.as || 'span';
   const className = classNames(
     ResumeTheme.getFontWeightClassName(props.weight),

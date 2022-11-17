@@ -4,6 +4,7 @@ import { ResumeTheme } from '@/themes';
 import { Size, Color } from '@/shared/types';
 
 export type BoxProps = React.PropsWithChildren<{
+  as?: keyof JSX.IntrinsicElements
   padding?: Size
   fitContent?: boolean
   color?: Color
@@ -30,9 +31,11 @@ export function Box(props: BoxProps) {
     background: 'transparent',
   };
 
+  const Component = props.as || 'div';
+
   return (
-    <div className={className} style={{ ...props.style, ...style }}>
+    <Component className={className} style={{ ...props.style, ...style }}>
       {props.children}
-    </div>
+    </Component>
   );
 }

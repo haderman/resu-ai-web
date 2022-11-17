@@ -1,10 +1,9 @@
-import styled from 'styled-components';
 import classNames from 'classnames';
 
 import { Size } from '@/shared/types';
+import { ResumeTheme } from '@/themes';
 
 import { Box, BoxProps } from './box';
-import { ResumeTheme } from '@/themes';
 
 export type InlineProps = BoxProps & {
   gap?: Size
@@ -31,17 +30,3 @@ export function Inline(props: InlineProps) {
     </Box>
   );
 }
-
-export const Inline_ = styled(Box)<InlineProps>`
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: ${({ alignItems }) => alignItems || 'unset'};
-  gap: ${props => props.theme.gap[props.gap ?? 'default']};
-
-  > * {
-    ${({ childrenWithSameWidth }) => childrenWithSameWidth && `
-      flex: 1;
-    `}
-  }
-`;

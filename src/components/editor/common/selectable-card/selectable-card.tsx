@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { useSelector, useStore } from 'react-redux';
 
 import { selectSelectedItem, editorSlice } from '@/state';
@@ -33,27 +32,4 @@ export function SelectableCard(props: SelectableCardProps) {
       {props.children}
     </div>
   );
-
-  return (
-    <StyledSelectableCard
-      tabIndex={0}
-      isSelected={selectedItem === props.item}
-      onFocus={handleFocus}
-    >
-      {props.children}
-    </StyledSelectableCard>
-  );
 }
-
-const StyledSelectableCard = styled.div<{isSelected: boolean}>`
-  display: flex;
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  ${(props) => props.isSelected && `
-    outline: 2px solid ${props.theme.colors.gray.background};
-    transform: scale(1);
-    z-index: 1;
-  `};
-`;

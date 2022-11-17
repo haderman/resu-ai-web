@@ -2,16 +2,13 @@ import { useSelector, useStore } from 'react-redux';
 
 import { selectColor, photoSlice } from '@/state/photo';
 import { Color } from '@/shared/types';
-import { WithTheme } from '@/components/editor/themes';
 import { ColorSelector } from '@/components/editor/form';
 
 const { actions } = photoSlice;
 
 export function PhotoOptions() {
   return (
-    <WithTheme>
-      <ColorSelectorContainer />
-    </WithTheme>
+    <ColorSelectorContainer />
   );
 };
 
