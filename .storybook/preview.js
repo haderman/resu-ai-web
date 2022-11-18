@@ -1,10 +1,14 @@
-import './style.css';
-
 import { themes } from '@storybook/theming';
 import { addDecorator, addParameters } from '@storybook/react';
-import { WithThemeProvider } from 'storybook-addon-styled-components-themes';
+import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
 
-import { CvTheme } from '../src/components/editor/themes';
+// import themes from '!!style-loader?injectType=lazyStyleTag!css-loader!../src/themes/resume-theme.css'
+
+import './style.css';
+import '../src/themes/resume-theme.css';
+import '../src/styles/utility.css';
+
+import { ResumeTheme } from '../src/themes';
 
 export const parameters = {
   darkMode: {
@@ -15,16 +19,20 @@ export const parameters = {
   }
 };
 
-addParameters({
-  styledComponentsThemes: {
-    themes: CvTheme.getAllThemes(),
-    initialTheme: 0, // optional
-    label: 'name', // optional
-  },
-});
+// export const decorators = [
+//   cssVariablesTheme,
+// ];
+
+// addParameters({
+//   styledComponentsThemes: {
+//     themes: CvTheme.getAllThemes(),
+//     initialTheme: 0, // optional
+//     label: 'name', // optional
+//   },
+// });
 
 addDecorator(story => (
-  <WithThemeProvider>
+  <div className="theme-container" data-resume-theme="dark-space">
     {story()}
-  </WithThemeProvider>
+  </div>
 ));

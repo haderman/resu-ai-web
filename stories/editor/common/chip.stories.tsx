@@ -2,9 +2,9 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Size } from '@/shared/types';
+import { Chip, Text } from '@/components/editor/common';
 
 import { Container } from '../../helpers/container';
-import { Chip, Text } from '../../../src/components/editor/common';
 
 export default {
   title: 'editor/common/chip',
