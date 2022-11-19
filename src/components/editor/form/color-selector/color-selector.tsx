@@ -1,6 +1,8 @@
 import { Color } from '@/shared/types';
 import { ResumeTheme } from '@/themes';
 
+import styles from './style.module.scss';
+
 export type ColorSelectorProps = {
   label: string
   value: Color
@@ -17,7 +19,7 @@ export function ColorSelector(props: ColorSelectorProps) {
   return (
     <fieldset>
       <legend>{props.label}</legend>
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+      <div className={styles.container} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {Color.values.map((color) => {
           return (
             <input
