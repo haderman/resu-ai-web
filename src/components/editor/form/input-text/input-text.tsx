@@ -1,3 +1,5 @@
+import styles from './input-text.module.scss';
+
 export type InputProps = {
   label: string
   value: string
@@ -16,7 +18,7 @@ export function Input(props: InputProps) {
       value={props.value}
       onChange={handleChange}
       placeholder={props.placeholder}
-      style={{ flex: 1 }}
+      className={styles.input}
     />
   );
 }

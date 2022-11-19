@@ -1,10 +1,12 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import useResizeObserver from 'use-resize-observer';
 
 import { Resume } from './resume';
-import { CustomizationPanel } from './customization-panel';
+import { Panel } from './panel';
 import { Toolbar } from './toolbar';
+import { Header } from './header';
+
+import styles from './editor.module.scss';
 
 export function Editor() {
   const resumeRef = React.useRef<HTMLDivElement>(null);
@@ -12,63 +14,16 @@ export function Editor() {
   useSetScale(innerLayoutRef, resumeRef);
 
   return (
-    <StyledLayout>
-      <CustomizationPanel />
-      <InnerLayout ref={innerLayoutRef}>
-        <Toolbar />
+    <div className={styles.layout}>
+      <Header />
+      <Panel />
+      <Toolbar />
+      <div className={styles['resume-container']} ref={innerLayoutRef}>
         <Resume ref={resumeRef} />
-      </InnerLayout>
-    </StyledLayout>
+      </div>
+    </div>
   );
 }
-
-const StyledLayout = styled.div`
-  position: relative;
-  min-height: 100%;
-  display: grid;
-  grid-template-columns: 400px 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas:
-    'panel inner-layout';
-
-  & > *:first-child {
-    grid-area: panel;
-    overflow: auto;
-    min-height: 100%;
-  }
-
-  & > *:last-child {
-    grid-area: inner-layout;
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 100%;
-  }
-`;
-
-const InnerLayout = styled.div`
-  position: relative;
-  min-height: 100%;
-  justify-content: center;
-  justify-items: center;
-  gap: 20px;
-  display: grid;
-  grid-template-columns: 20px 1fr 20px;
-  grid-template-rows: 40px 1fr;
-  grid-template-areas:
-    'toolbar toolbar toolbar'
-    '. preview .';
-
-  & > *:first-child {
-    grid-area: toolbar;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-
-  & > *:last-child {
-    grid-area: preview;
-  }
-`;
 
 /**
  * this is to scale the CV document to fit the screen so the user is going to see the

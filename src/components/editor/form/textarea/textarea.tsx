@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './textarea.module.scss';
 
 export type TextareaProps = {
   label: string
@@ -13,18 +13,11 @@ export function Textarea(props: TextareaProps) {
   }
 
   return (
-    <StyledTextarea
+    <textarea
       value={props.value}
       onChange={handleChange}
       placeholder={props.placeholder}
+      className={styles.textarea}
     />
   );
 }
-
-const StyledTextarea = styled.textarea`
-  flex: 1;
-  resize: vertical;
-  width: 100%;
-  min-height: 200px;
-  max-height: 250px;
-`;

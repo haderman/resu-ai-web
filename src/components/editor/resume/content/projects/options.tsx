@@ -8,17 +8,16 @@ import {
 } from '@/state/projects';
 import { Color } from '@/shared/types';
 import { ColorSelector } from '@/components/editor/form';
-import { WithTheme } from '@/components/editor/themes';
 
 const { actions } = projectsSlice;
 
 export function ProjectsOptions() {
   return (
-    <WithTheme>
+    <>
       <BackgroundSelectorContainer />
       <ColorSelectorContainer />
       <SkillsColorSelectorContainer />
-    </WithTheme>
+    </>
   );
 };
 

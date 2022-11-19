@@ -6,17 +6,16 @@ import {
   experienceSlice,
 } from '@/state/experience';
 import { Color } from '@/shared/types';
-import { WithTheme } from '@/components/editor/themes';
 import { ColorSelector } from '@/components/editor/form';
 
 const { actions } = experienceSlice;
 
 export function ExperienceOptions() {
   return (
-    <WithTheme>
+    <>
       <BackgroundSelectorContainer />
       <ColorSelectorContainer />
-    </WithTheme>
+    </>
   );
 };
 

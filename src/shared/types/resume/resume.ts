@@ -1,4 +1,5 @@
 import { generateId } from '@/shared/helpers';
+import { ResumeTheme } from '@/themes';
 
 import {
   Contact,
@@ -6,7 +7,7 @@ import {
   Profile,
   Skills,
 } from './content';
-import { ResumeLayout, ResumeTheme } from './style';
+import { ResumeLayout } from './style';
 
 export type Resume = {
   id: string

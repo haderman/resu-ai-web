@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-
 import { Color } from '@/shared/types';
 import { Stack, Text } from '@/components/editor/common';
+
+import styles from './styles.module.scss';
 
 const experience = [
   {
@@ -70,7 +70,7 @@ type ItemProps = {
 
 function Item(props: ItemProps) {
   return (
-    <Stack padding="large" borderRadius="medium" color={props.color}>
+    <Stack padding="medium" borderRadius="medium" color={props.color} className={styles.card}>
       <Text as="h3" color="blue" weight="bold">
         {props.startDate} - {props.endDate}
       </Text>
@@ -81,18 +81,13 @@ function Item(props: ItemProps) {
         {' - '}
         <Text size="small">{props.location}</Text>
       </Text>
-      <StyledUl>
+      <ul>
         {props.description.map((txt, idx) =>
           <li key={idx}>
             <Text size="small">{txt}</Text>
           </li>
         )}
-      </StyledUl>
+      </ul>
     </Stack>
   );
 }
-
-const StyledUl = styled.ul`
-  margin: 0;
-  padding-left: 8mm;
-`;

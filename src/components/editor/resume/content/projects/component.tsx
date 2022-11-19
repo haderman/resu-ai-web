@@ -1,4 +1,3 @@
-import { useTheme } from 'styled-components';
 import { IconBrandGithub, IconWorld } from '@tabler/icons';
 
 import { Color } from '@/shared/types';
@@ -65,8 +64,6 @@ type ProjectCardProps = Project & {
 }
 
 function ProjectCard(props: ProjectCardProps) {
-  const theme = useTheme();
-
   return (
     <Stack gap="medium" padding="medium" color={props.color} borderRadius="medium">
       <Text as="h3" weight="bold" size="small">{props.name}</Text>
@@ -74,16 +71,22 @@ function ProjectCard(props: ProjectCardProps) {
       <Text as="h3" weight="bold" size="small">Skills:</Text>
       <Chip.Container gap="small">
         {props.technologies.map((tech) =>
-          <Chip key={tech} color={props.skillsColor}>{tech}</Chip>
+          <Chip
+            key={tech}
+            color={props.skillsColor}
+            size="small"
+          >
+            {tech}
+          </Chip>
         )}
       </Chip.Container>
       <Inline alignItems="center" gap="medium">
-        <IconBrandGithub stroke={1} size={theme.fontSize.medium} />
+        <IconBrandGithub stroke={1} size="1rem" />
         <Text size="small" weight="light">{props.repository}</Text>
       </Inline>
       {props.website &&
         <Inline alignItems="center" gap="medium">
-          <IconWorld stroke={1} size={theme.fontSize.medium} />
+          <IconWorld stroke={1} size="1rem" />
           <Text size="small" weight="light">{props.website}</Text>
         </Inline>
       }

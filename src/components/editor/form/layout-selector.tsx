@@ -1,5 +1,4 @@
-import { useSelector, useStore } from 'react-redux';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { ResumeLayout } from '@/shared/types';
@@ -15,8 +14,8 @@ export function LayoutSelector() {
   }
 
   return (
-    <StyledFieldset>
-      <StyledLegend>Layout: </StyledLegend>
+    <div>
+      <span>Layout: </span>
       <label>
         <input
           type="radio"
@@ -37,16 +36,7 @@ export function LayoutSelector() {
         />
         B
       </label>
-    </StyledFieldset>
+    </div>
   );
 }
 
-const StyledFieldset = styled.div`
-  display: flex;
-  border-color: hsl(0 0% 35%);
-  border-style: none;
-`;
-
-const StyledLegend = styled.span`
-  color: white;
-`;

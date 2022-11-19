@@ -1,8 +1,18 @@
-import styled from 'styled-components';
 import { Resizable } from 're-resizable';
+import React from 'react';
 
-export const ResizableBox = styled(Resizable)`
-  display: flex;
-  padding: 10px;
-  border: 1px dashed #ccc;
-`;
+export type ResizableBoxProps = React.PropsWithChildren<{}>;
+
+export function ResizableBox(props: ResizableBoxProps) {
+  const style = {
+    display: 'flex',
+    padding: '10px',
+    border: '1px dashed #ccc',
+  };
+
+  return (
+    <Resizable style={style}>
+      {props.children}
+    </Resizable>
+  );
+}

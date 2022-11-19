@@ -1,16 +1,14 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import Head from 'next/head';
-import styled from 'styled-components';
 import { unstable_getServerSession } from 'next-auth';
 import { getProviders } from 'next-auth/react';
 
 import { Editor } from '@/components/editor';
-import { AuthButtonContainer } from '@/components/common';
 import { wrapper } from '@/state/store';
 import { sessionSlice } from '@/state/session';
 import { authProvidersSlice } from '@/state/auth-providers';
 import { apiState } from '@/state/api';
+import { ThemeContainer } from '@/components/common';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -40,15 +38,9 @@ const EditorPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LoadResume />
-      <Container>
-        <Header>
-          <Title>My CV</Title>
-          <Link href="/">Home</Link>
-          <ResumaSavingIndicator />
-          <AuthButtonContainer />
-        </Header>
+      <ThemeContainer>
         <Editor />
-      </Container>
+      </ThemeContainer>
     </>
   );
 };
@@ -60,34 +52,3 @@ function LoadResume() {
 }
 
 export default EditorPage;
-
-const Container = styled.div`
-  height: 100%;
-  display: grid;
-  grid-template-rows: 70px 1fr;
-`;
-
-const Header = styled.header`
-  background-color: hsl(210 10% 5%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  gap: 20px;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: greenyellow;
-`;
-
-function ResumaSavingIndicator() {
-  const [_, { isLoading }] = apiState.resume.useResumeUpdaters();
-
-  return (
-    <span>
-      {isLoading ? 'Saving...' : ''}
-    </span>
-  );
-}

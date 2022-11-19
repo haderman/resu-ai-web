@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
 import { Input } from '@/components/editor/form';
@@ -44,8 +43,8 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
   }
 
   return (
-    <StyledFieldset>
-      <StyledLegend>Skills</StyledLegend>
+    <fieldset>
+      <legend>Skills</legend>
       <div>
         <Input
           label="Title"
@@ -56,17 +55,6 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
           Save
         </button>
       </div>
-    </StyledFieldset>
+    </fieldset>
   );
 }
-
-const StyledFieldset = styled.fieldset`
-  padding: 10px;
-  background-color: hsl(0 0% 15%);
-  border-color: hsl(0 0% 35%);
-  border-style: solid;
-`;
-
-const StyledLegend = styled.legend`
-  color: white;
-`;

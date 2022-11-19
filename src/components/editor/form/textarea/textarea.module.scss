@@ -1,0 +1,10 @@
+.textarea {
+  resize: vertical;
+  width: 100%;
+  min-height: 200px;
+  max-height: 250px;
+  padding: 4px;
+
+  background-color: hsl(210 5% 5%);
+  border-color: hsl(210 35% 35%);
+}

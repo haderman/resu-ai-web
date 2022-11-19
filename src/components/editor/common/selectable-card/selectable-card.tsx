@@ -1,10 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { useSelector, useStore } from 'react-redux';
 
 import { selectSelectedItem, editorSlice } from '@/state';
 
-import { CvItem } from '../types';
+import { CvItem } from '../../types';
+import styles from './style.module.scss';
 
 const { actions } = editorSlice;
 
@@ -23,25 +23,13 @@ export function SelectableCard(props: SelectableCardProps) {
   }
 
   return (
-    <StyledSelectableCard
+    <div
       tabIndex={0}
-      isSelected={selectedItem === props.item}
       onFocus={handleFocus}
+      data-is-slected={selectedItem === props.item}
+      className={styles.selectable}
     >
       {props.children}
-    </StyledSelectableCard>
+    </div>
   );
 }
-
-const StyledSelectableCard = styled.div<{isSelected: boolean}>`
-  display: flex;
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  ${(props) => props.isSelected && `
-    outline: 2px solid ${props.theme.colors.gray.background};
-    transform: scale(1);
-    z-index: 1;
-  `};
-`;

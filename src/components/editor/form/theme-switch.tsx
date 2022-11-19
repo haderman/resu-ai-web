@@ -1,8 +1,7 @@
-import { useSelector, useStore } from 'react-redux';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeTheme } from '@/shared/types';
+import { ResumeTheme } from '@/themes';
 
 const { selectors, useUpdaters } = apiState.style;
 
@@ -15,8 +14,8 @@ export function ThemeSwitch() {
   }
 
   return (
-    <StyledFieldset>
-      <StyledLegend>Theme: </StyledLegend>
+    <div>
+      <span>Theme: </span>
       <label>
         <input
           type="radio"
@@ -37,16 +36,7 @@ export function ThemeSwitch() {
         />
         Light Space
       </label>
-    </StyledFieldset>
+    </div>
   );
 }
 
-const StyledFieldset = styled.div`
-  display: flex;
-  border-color: hsl(0 0% 35%);
-  border-style: none;
-`;
-
-const StyledLegend = styled.span`
-  color: white;
-`;

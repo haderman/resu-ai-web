@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 
 import { apiState } from '@/state/api';
 import { Textarea } from '@/components/editor/form';
@@ -36,8 +35,8 @@ export function InputDescriptionComponent(props: InputDescriptionComponentProps)
   }
 
   return (
-    <StyledFieldset>
-      <StyledLegend>Description</StyledLegend>
+    <fieldset>
+      <legend>Description</legend>
       <div>
         <Textarea
           label="Title"
@@ -49,20 +48,9 @@ export function InputDescriptionComponent(props: InputDescriptionComponentProps)
           Save
         </button>
       </div>
-    </StyledFieldset>
+    </fieldset>
   );
 }
-
-const StyledFieldset = styled.fieldset`
-  padding: 10px;
-  background-color: hsl(0 0% 15%);
-  border-color: hsl(0 0% 35%);
-  border-style: solid;
-`;
-
-const StyledLegend = styled.legend`
-  color: white;
-`;
 
 function useUpdateDescription() {
   const [updater] = useProfileUpdater();
