@@ -1,58 +1,43 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import useResizeObserver from 'use-resize-observer';
 
-import { apiState } from '@/state/api';
+import { Resume } from './page';
+import { Toolbar } from './toolbar';
 
-import {
-  ContactContainer,
-  ExperienceContainer,
-  PhotoContainer,
-  ProjectsContainer,
-  SkillsContainer,
-  ProfileContainer,
-} from './content';
-import { SelectableCard } from '../common';
-import layout from './layout.module.scss';
+import styles from './resume.module.scss';
 
-const { selectors } = apiState.style;
+export type ResumeContainerProps = React.DataHTMLAttributes<{}>;
 
-export type ResumeProps = {};
+export function ResumeContainer(props: ResumeContainerProps) {
+  const resumeRef = React.useRef<HTMLDivElement>(null);
+  const innerLayoutRef = React.useRef<HTMLDivElement>(null);
+  useSetScale(innerLayoutRef, resumeRef);
 
-export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
-  function ResumeComponent(props: ResumeProps, ref) {
-    return (
-      <Layout ref={ref}>
-        <SelectableCard item="photo">
-          <PhotoContainer />
-        </SelectableCard>
-        <SelectableCard item="profile">
-          <ProfileContainer />
-        </SelectableCard>
-        <SelectableCard item="contact">
-          <ContactContainer />
-        </SelectableCard>
-        <SelectableCard item="skills">
-          <SkillsContainer />
-        </SelectableCard>
-        <SelectableCard item="experience">
-          <ExperienceContainer />
-        </SelectableCard>
-        <SelectableCard item="projects">
-          <ProjectsContainer />
-        </SelectableCard>
-      </Layout>
-    );
-  }
-);
+  return (
+    <div className={styles.container} ref={innerLayoutRef} {...props}>
+      <Toolbar />
+      <Resume ref={resumeRef} />
+    </div>
+  );
+}
 
-const Layout = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
-  function LayoutComponent(props, ref) {
-    const selectedLayout = useSelector(selectors.selectLayout);
+/**
+ * this is to scale the CV document to fit the screen so the user is going to see the
+ * size (at scale to aviod overflow) of the document as it will be printed
+ *
+ * @param parentRef the ref of the parent element that is going to containt the available width
+ * @param childRef the ref of the child element that is going to be scaled to fit the parent
+ */
+ function useSetScale(parentRef: React.RefObject<HTMLDivElement>, childRef: React.RefObject<HTMLDivElement>) {
+  const { width: parentWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: parentRef });
+  const { width: childWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: childRef });
 
-    return (
-      <div ref={ref} className={layout.container} data-layout={selectedLayout}>
-        {props.children}
-      </div>
-    );
-  }
-);
+  React.useEffect(() => {
+    // 40 is the padding of the preview given by grid-template-columns: 20px 1fr 20px;
+    const scale = parentWidth > childWidth ? 1 : (parentWidth - 40) / childWidth;
+    if (childRef.current) {
+      childRef.current.style.transform = `scale(${scale})`;
+      childRef.current.style.transformOrigin = 'top center';
+    }
+  }, [parentWidth, childWidth, childRef]);
+}

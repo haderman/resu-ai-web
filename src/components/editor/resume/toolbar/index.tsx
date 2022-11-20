@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ThemeSwitch, LayoutSelector } from '../form';
+import { ThemeSwitch, LayoutSelector } from '../../form';
 import styles from './toolbar.module.scss';
 
 export type ToolbarProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'id'>;

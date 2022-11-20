@@ -2,33 +2,31 @@
   display: grid;
   height: 100%;
   grid-template-columns: 400px 1fr;
-  grid-template-rows: 60px 40px 1fr;
+  grid-template-rows: 60px 1fr;
   grid-template-areas:
-    "header_ header_"
-    "panel toolbar"
+    "header header"
     "panel resume-container";
 
-  background:
-    linear-gradient(90deg, hsl(210deg 21% 3%) 10px, transparent 1%) 50%,
-    linear-gradient(hsl(210deg 21% 3%) 10px, transparent 1%) 50%,
-    hsl(210deg 21% 10%);
-  background-size: 12px 12px;
+  background-color: hsl(210deg 15% 6%);
 
-  & > div:first-child {
-    grid-area: header_;
+  & > div[data-section='header'] {
+    grid-area: header;
   }
 
-  & > div:nth-child(2) {
+  & > div[data-section='panel'] {
     grid-area: panel;
-    overflow: auto;
-    min-height: 100%;
+    padding: 20px;
   }
 
-  & > div:nth-child(3) {
+  & > div[data-section='toolbar'] {
     grid-area: toolbar;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
   }
 
-  & > div:nth-child(4) {
+  & > div[data-section='resume'] {
     grid-area: resume-container;
   }
 }

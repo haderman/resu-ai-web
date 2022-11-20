@@ -1,13 +1,16 @@
 .panel {
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
   padding: 10px;
-  background-color: hsl(210 10% 10%);
+  background-color: hsl(210 10% 15% / 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid hsl(210 10% 25%);
 
   & > fieldset {
     padding: 10px;
-    background-color: hsl(210 10% 15%);
     border-radius: 6px;
     border: none;
 

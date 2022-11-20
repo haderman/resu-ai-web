@@ -1,13 +1,28 @@
 .container {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.page {
+  margin-top: 80px;
 
   // Page size for A4 pages - https://github.com/w3c/csswg-drafts/issues/328
   height: 297mm;
   width: 210mm;
   min-width: 210mm;
 
-  background-color: black; // ${(props) => props.theme.colors.primary.background};
-  color: white;// ${(props) => props.theme.colors.primary.text};
+  background-color: var(--resume-primary-background-color);
+  color: var(--resume-primary-text-color);
+  border: 1px solid hsl(210deg 5% 35%);
+}
+
+.layout {
+  position: relative;
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0;
@@ -56,7 +71,7 @@
 
 }
 
-.container[data-layout="layout-a"] {
+.layout[data-layout="layout-a"] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, min-content);
@@ -67,7 +82,7 @@
     'child6 child6 child6';
 }
 
-.container[data-layout="layout-b"] {
+.layout[data-layout="layout-b"] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, min-content);

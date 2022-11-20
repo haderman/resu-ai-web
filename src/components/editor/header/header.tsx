@@ -5,9 +5,11 @@ import { AuthButtonContainer } from '@/components/common';
 
 import style from './header.module.scss';
 
-export function Header() {
+export type HeaderProps = React.DataHTMLAttributes<{}>;
+
+export function Header(props: HeaderProps) {
   return (
-    <div className={style.header}>
+    <div className={style.header} {...props}>
       <h1>My CV</h1>
       <Link href="/">Home</Link>
       <ResumeSavingIndicator />
