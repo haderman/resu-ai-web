@@ -1,35 +1,59 @@
 import React from 'react';
+import useResizeObserver from 'use-resize-observer';
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+
 import styles from './resume.module.scss';
 
-const BLOCKS = Array(10)
+const BLOCKS = Array(13)
   .fill(undefined)
   .map((val, idx) => ({
     id: `block-${idx}`,
+    height: 0,
+    content: 'Lorem: ',
   }));
 
 export function PagesManager() {
   const pagesContainerRef = React.useRef<HTMLDivElement>(null);
-  const blockRefMap = React.useRef<Record<Block['id'], HTMLDivElement | null>>({});
   const [pages, setPages] = React.useState<Page[]>([BLOCKS]);
+  const [blocks, setBlocks] = React.useState<Block[]>(BLOCKS);
 
-  React.useEffect(
+  React.useLayoutEffect(
     () => {
       if (pagesContainerRef.current === null) {
         return;
       }
 
-      const blocksWithHeight = composeBlocksWithHeight(BLOCKS, blockRefMap.current);
-      const pages_ = composePages(pagesContainerRef.current, blocksWithHeight);
-      setPages(pages_);
+      setPages(composePages(pagesContainerRef.current, blocks));
     },
-    [pagesContainerRef.current, blockRefMap.current]
+    [pagesContainerRef.current, blocks]
   );
+
+  function handleOnResize(blockId: string) {
+    return ({ height }: Size) => {
+      setBlocks(blocks => blocks.map(block =>
+        block.id === blockId
+          ? {...block, height}
+          : block
+        )
+      );
+    };
+  }
+
+  function handleOnChangeContent(blockId: string) {
+    return (content: string) => {
+      setBlocks(blocks => blocks.map(block =>
+        block.id === blockId
+          ? {...block, content}
+          : block
+        )
+      );
+    };
+  }
 
   return (
     <>
       {BLOCKS.length}
       <div
-        // ref={pagesContainerRef}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -42,15 +66,18 @@ export function PagesManager() {
           return (
             <Page key={idx}>
               {page.map((block, jdx) =>
-                <Block
+                <MemoizedBlock
                   key={block.id}
                   id={block.id}
-                  ref={ref => {
-                    blockRefMap.current[block.id] = ref;
-                  }}
+                  onResize={handleOnResize(block.id)}
                 >
-                  {block.id}
-                </Block>
+                  <MemoizedBlockContent
+                    content={block.content}
+                    onChange={handleOnChangeContent(block.id)}
+                  >
+                    {block.id}
+                  </MemoizedBlockContent>
+                </MemoizedBlock>
               )}
             </Page>
           );
@@ -83,47 +110,89 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
   }
 );
 
-const Block = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{ id: string, children: React.ReactNode }>>(
-  function Block(props, ref) {
-    return (
-      <div
-        id={props.id}
-        ref={ref}
-        data-kind="block"
-        style={{
-          width: '100%',
-          height: randomHeight(),
-          backgroundColor: 'hsl(210deg 10% 20%)',
-          borderRadius: 10,
-          marginBottom: 20,
-          border: 'none',
-        }}
-      >
-        {props.children}
-      </div>
-    );
+type BlockProps = React.PropsWithChildren<{
+  id: string
+  children: React.ReactNode
+  onResize: (size: Size) => void
+}>;
+
+type Size = {
+  width: number
+  height: number
+};
+
+const MemoizedBlock = React.memo(Block);
+
+function Block(props: BlockProps) {
+  const { ref } = useResizeObserver<HTMLDivElement>({
+    onResize(size) {
+      props.onResize({
+        width: size.width ?? 1,
+        height: size.height ?? 1
+      });
+    },
+  });
+
+  return (
+    <div
+      id={props.id}
+      ref={ref}
+      data-kind="block"
+      style={{
+        width: '100%',
+        backgroundColor: 'hsl(210deg 10% 20%)',
+        borderRadius: 10,
+        marginBottom: 20,
+        border: 'none',
+      }}
+    >
+      {props.children}
+    </div>
+  );
+}
+
+const MemoizedBlockContent = React.memo(BlockContent);
+
+type BlockContentProps = React.PropsWithChildren<{
+  content: string
+  onChange: (content: string) => void
+}>;
+
+function BlockContent(props: BlockContentProps) {
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  function handleOnChange(event: ContentEditableEvent) {
+    props.onChange(event.target.value);
   }
 
-);
+  return (
+    <div style={{ width: '100%', height: randomHeight(), padding: 10, fontSize: 16, display: 'block' }}>
+      {props.children}
+      <ContentEditable
+        innerRef={ref}
+        html={props.content}
+        onChange={handleOnChange}
+      />
+    </div>
+  );
+}
 
 type Page = Block[];
 
 type Block = {
   id: string
-};
-
-type BlockWithHeight = Block & {
   height: number
+  content: string
 };
 
 function randomHeight() {
-  return 246;
+  return 'auto';
   let min = 100;
   let max = 500;
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function composePages($pagesContainer: HTMLElement, blocks: BlockWithHeight[]) {
+function composePages($pagesContainer: HTMLElement, blocks: Block[]) {
   const pageComputedStyle = getElementComputedStyle($pagesContainer as HTMLElement);
   let pages: Array<Block[]> = [[]];
   let total = 0;
@@ -133,11 +202,11 @@ function composePages($pagesContainer: HTMLElement, blocks: BlockWithHeight[]) {
   blocks.forEach(block => {
     if (total + block.height < limit) {
       total = total +block.height + 20;
-      pages[currentPageNum].push({ id: block.id });
+      pages[currentPageNum].push(block);
     } else {
       total = block.height + 20;
       currentPageNum++;
-      pages[currentPageNum] = [{ id: block.id }];
+      pages[currentPageNum] = [block];
     }
   });
 
@@ -146,28 +215,10 @@ function composePages($pagesContainer: HTMLElement, blocks: BlockWithHeight[]) {
 
 function getElementComputedStyle($element: HTMLElement) {
   const { paddingTop, paddingBottom, marginBottom } = window.getComputedStyle($element);
-  console.log('$element.offsetHeight: ', $element.offsetHeight);
   return {
     height: $element.offsetHeight,
     paddingTop: Math.ceil(parseFloat(paddingTop)),
     paddingBottom: Math.ceil(parseFloat(paddingBottom)),
     marginBottom: 20, //Math.ceil(parseFloat(marginBottom)),
   };
-}
-
-function composeBlocksWithHeight(blocks: Block[], blocksRefMap: Record<Block['id'], HTMLDivElement | null>) {
-  return blocks.map(block => {
-    if (block.id in blocksRefMap) {
-      const blockComputedStyle = getElementComputedStyle(blocksRefMap[block.id] as HTMLElement);
-      return {
-        ...block,
-        height: blockComputedStyle.height,
-      };
-    } else {
-      return {
-        ...block,
-        height: 0,
-      };
-    }
-  });
 }
