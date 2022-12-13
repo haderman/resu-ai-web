@@ -5,6 +5,7 @@ import {
   selectBackground,
   selectSkillsColor,
 } from '@/state/projects';
+import { SelectableCard } from '@/components/editor/common';
 
 import { Projects } from './component';
 
@@ -14,10 +15,12 @@ export function ProjectsContainer() {
   const skillsColor = useSelector(selectSkillsColor);
 
   return (
-    <Projects
-      color={color}
-      background={background}
-      skillsColor={skillsColor}
-    />
+    <SelectableCard item="projects">
+      <Projects
+        color={color}
+        background={background}
+        skillsColor={skillsColor}
+      />
+    </SelectableCard>
   );
 }

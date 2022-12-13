@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
+import { SelectableCard } from '@/components/editor/common';
 
 import { Profile } from './component';
 
@@ -13,6 +14,10 @@ const selectors = apiState.profile.selectors;
 export function ProfileContainer() {
   const color = useSelector(selectors.selectProfileCardBackground);
 
-  return <Profile color={color} />;
+  return (
+    <SelectableCard item="profile">
+      <Profile color={color} />
+    </SelectableCard>
+  );
 }
 

@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { selectColor } from '@/state/photo';
+import { SelectableCard } from '@/components/editor/common';
 
 import { Photo } from './component';
 
@@ -11,5 +12,9 @@ import { Photo } from './component';
 export function PhotoContainer() {
   const color = useSelector(selectColor);
 
-  return <Photo background={color} />;
+  return (
+    <SelectableCard item="photo">
+      <Photo background={color} />
+    </SelectableCard>
+  );
 }

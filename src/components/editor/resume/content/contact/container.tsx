@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { selectColor } from '@/state/contact';
+import { SelectableCard } from '@/components/editor/common';
 
 import { Contact } from './component';
 
@@ -11,5 +12,9 @@ import { Contact } from './component';
 export function ContactContainer() {
   const color = useSelector(selectColor);
 
-  return <Contact color={color} />;
+  return (
+    <SelectableCard item="contact">
+      <Contact color={color} />
+    </SelectableCard>
+  );
 }
