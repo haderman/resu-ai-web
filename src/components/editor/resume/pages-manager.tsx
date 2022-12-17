@@ -1,16 +1,67 @@
 import React from 'react';
 import useResizeObserver from 'use-resize-observer';
-import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+
+import {
+  ContactContainer,
+  ExperienceContainer,
+  PhotoContainer,
+  ProjectsContainer,
+  SkillsContainer,
+  ProfileContainer,
+} from './content';
 
 import styles from './resume.module.scss';
 
-const BLOCKS = Array(13)
-  .fill(undefined)
-  .map((val, idx) => ({
-    id: `block-${idx}`,
-    height: 0,
-    content: 'Lorem: ',
-  }));
+const BLOCKS = [{
+  id: 'block-1',
+  height: 1,
+  component: <ContactContainer />,
+}, {
+  id: 'block-2',
+  height: 1,
+  component: <ExperienceContainer />,
+}, {
+  id: 'block-3',
+  height: 1,
+  component: <PhotoContainer />,
+}, {
+  id: 'block-4',
+  height: 1,
+  component: <ProjectsContainer />,
+}, {
+  id: 'block-5',
+  height: 1,
+  component: <SkillsContainer />,
+}, {
+  id: 'block-6',
+  height: 1,
+  component: <ProfileContainer />,
+}, {
+  id: 'block-7',
+  height: 1,
+  component: <ContactContainer />,
+}, {
+  id: 'block-8',
+  height: 1,
+  component: <ExperienceContainer />,
+}, {
+  id: 'block-9',
+  height: 1,
+  component: <PhotoContainer />,
+}, {
+  id: 'block-10',
+  height: 1,
+  component: <ProjectsContainer />,
+}, {
+  id: 'block-11',
+  height: 1,
+  component: <SkillsContainer />,
+}, {
+  id: 'block-12',
+  height: 1,
+  component: <ProfileContainer />,
+}];
+
 
 export function PagesManager() {
   const pagesContainerRef = React.useRef<HTMLDivElement>(null);
@@ -25,7 +76,7 @@ export function PagesManager() {
 
       setPages(composePages(pagesContainerRef.current, blocks));
     },
-    [pagesContainerRef.current, blocks]
+    [pagesContainerRef, blocks]
   );
 
   function handleOnResize(blockId: string) {
@@ -39,27 +90,14 @@ export function PagesManager() {
     };
   }
 
-  function handleOnChangeContent(blockId: string) {
-    return (content: string) => {
-      setBlocks(blocks => blocks.map(block =>
-        block.id === blockId
-          ? {...block, content}
-          : block
-        )
-      );
-    };
-  }
-
   return (
     <>
-      {BLOCKS.length}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           gap: 60,
           paddingBottom: 40,
-          boxSizing: 'border-box',
         }}
       >
         {pages.map((page, idx) => {
@@ -71,39 +109,32 @@ export function PagesManager() {
                   id={block.id}
                   onResize={handleOnResize(block.id)}
                 >
-                  <MemoizedBlockContent
-                    content={block.content}
-                    onChange={handleOnChangeContent(block.id)}
-                  >
-                    {block.id}
-                  </MemoizedBlockContent>
+                  {block.component}
                 </MemoizedBlock>
               )}
             </Page>
           );
         })}
       </div>
-      <div style={{ visibility: 'hidden' }}>
+      <Hidden>
         <Page ref={pagesContainerRef} />
-      </div>
+      </Hidden>
     </>
+  );
+}
+
+function Hidden(props: React.PropsWithChildren<{}>) {
+  return (
+    <div style={{ visibility: 'hidden', position: 'absolute', bottom: '200%', }}>
+      {props.children}
+    </div>
   );
 }
 
 const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
   function PageComponent(props, ref) {
     return (
-      <div
-        ref={ref}
-        className={styles.page}
-        data-kind="page"
-        style={{
-          marginTop: 0,
-          padding: '10mm',
-          gap: 20,
-          overflow: 'hidden',
-        }}
-      >
+      <div ref={ref} className={styles.page} data-kind="page">
         {props.children}
       </div>
     );
@@ -134,45 +165,8 @@ function Block(props: BlockProps) {
   });
 
   return (
-    <div
-      id={props.id}
-      ref={ref}
-      data-kind="block"
-      style={{
-        width: '100%',
-        backgroundColor: 'hsl(210deg 10% 20%)',
-        borderRadius: 10,
-        marginBottom: 20,
-        border: 'none',
-      }}
-    >
+    <div id={props.id} ref={ref} data-kind="block">
       {props.children}
-    </div>
-  );
-}
-
-const MemoizedBlockContent = React.memo(BlockContent);
-
-type BlockContentProps = React.PropsWithChildren<{
-  content: string
-  onChange: (content: string) => void
-}>;
-
-function BlockContent(props: BlockContentProps) {
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  function handleOnChange(event: ContentEditableEvent) {
-    props.onChange(event.target.value);
-  }
-
-  return (
-    <div style={{ width: '100%', height: randomHeight(), padding: 10, fontSize: 16, display: 'block' }}>
-      {props.children}
-      <ContentEditable
-        innerRef={ref}
-        html={props.content}
-        onChange={handleOnChange}
-      />
     </div>
   );
 }
@@ -182,15 +176,8 @@ type Page = Block[];
 type Block = {
   id: string
   height: number
-  content: string
+  component: JSX.Element
 };
-
-function randomHeight() {
-  return 'auto';
-  let min = 100;
-  let max = 500;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function composePages($pagesContainer: HTMLElement, blocks: Block[]) {
   const pageComputedStyle = getElementComputedStyle($pagesContainer as HTMLElement);
@@ -201,10 +188,10 @@ function composePages($pagesContainer: HTMLElement, blocks: Block[]) {
 
   blocks.forEach(block => {
     if (total + block.height < limit) {
-      total = total +block.height + 20;
+      total = total +block.height;
       pages[currentPageNum].push(block);
     } else {
-      total = block.height + 20;
+      total = block.height;
       currentPageNum++;
       pages[currentPageNum] = [block];
     }
