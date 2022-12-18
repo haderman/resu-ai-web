@@ -10,7 +10,7 @@ export type PhotoProps = {
 export function Photo(props: PhotoProps) {
 
   return (
-    <Box color={props.background} as="picture">
+    <Box color={props.background} as="picture" style={{ height: '2in', width: '2in', position: 'relative' }} >
       <Image
         src="/profile-photo.png"
         alt="CV photo"
