@@ -12,7 +12,6 @@ import {
   SkillsContainer,
   ProfileContainer,
 } from './content';
-import { SelectableCard } from '../common';
 import styles from './resume.module.scss';
 
 const { selectors } = apiState.style;
