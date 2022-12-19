@@ -1,7 +1,8 @@
 import React from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-import { pageSlice, selectPageDimensions } from '@/state/page';
+import { pageSlice, selectPageHeight } from '@/state/page';
+import { blocksSlice, selectBlocks } from '@/state/blocks';
 import { PageDimensions } from '@/shared/types/page';
 import {
   ContactContainer,
@@ -14,79 +15,10 @@ import {
 
 import styles from './resume.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-
-const { actions } = pageSlice;
-
-const BLOCKS = [{
-  id: 'block-1',
-  height: 1,
-  component: <ContactContainer />,
-}, {
-  id: 'block-2',
-  height: 1,
-  component: <ExperienceContainer />,
-}, {
-  id: 'block-3',
-  height: 1,
-  component: <PhotoContainer />,
-}, {
-  id: 'block-4',
-  height: 1,
-  component: <ProjectsContainer />,
-}, {
-  id: 'block-5',
-  height: 1,
-  component: <SkillsContainer />,
-}, {
-  id: 'block-6',
-  height: 1,
-  component: <ProfileContainer />,
-}, {
-  id: 'block-7',
-  height: 1,
-  component: <ContactContainer />,
-}, {
-  id: 'block-8',
-  height: 1,
-  component: <ExperienceContainer />,
-}, {
-  id: 'block-9',
-  height: 1,
-  component: <PhotoContainer />,
-}, {
-  id: 'block-10',
-  height: 1,
-  component: <ProjectsContainer />,
-}, {
-  id: 'block-11',
-  height: 1,
-  component: <SkillsContainer />,
-}, {
-  id: 'block-12',
-  height: 1,
-  component: <ProfileContainer />,
-}];
-
+import { Block } from '@/shared/types/block';
 
 export function PagesManager() {
-  const [blocks, setBlocks] = React.useState<Block[]>(BLOCKS);
-
-  const pageDimensions = useSelector(selectPageDimensions);
-  const pages = React.useMemo(
-    () => composePages(pageDimensions, blocks),
-    [pageDimensions, blocks]
-  );
-
-  function handleOnResize(blockId: string) {
-    return ({ height }: Size) => {
-      setBlocks(blocks => blocks.map(block =>
-        block.id === blockId
-          ? {...block, height}
-          : block
-        )
-      );
-    };
-  }
+  const pages = usePages();
 
   return (
     <>
@@ -102,12 +34,14 @@ export function PagesManager() {
           return (
             <Page key={idx}>
               {page.map((block, jdx) =>
-                <Block
-                  id={block.id}
-                  key={block.id}
-                  onResize={handleOnResize(block.id)}
-                >
-                  {block.component}
+                <Block id={block.id} key={block.id}>
+                  {block.section === 'contact' ? <ContactContainer />
+                  :block.section === 'experience' ? <ExperienceContainer />
+                  :block.section === 'photo' ? <PhotoContainer />
+                  :block.section === 'projects' ? <ProjectsContainer />
+                  :block.section === 'skills' ? <SkillsContainer />
+                  :block.section === 'profile' ? <ProfileContainer />
+                  :null}
                 </Block>
               )}
             </Page>
@@ -130,7 +64,7 @@ function HiddenPageForMeasuring() {
       }
 
       const dimensions = getDimensions(pagesContainerRef.current);
-      dispatch(actions.setDimensions(dimensions));
+      dispatch(pageSlice.actions.setDimensions(dimensions));
     },
     [dispatch]
   );
@@ -163,21 +97,18 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
 type BlockProps = React.PropsWithChildren<{
   id: string
   children: React.ReactNode
-  onResize: (size: Size) => void
 }>;
 
-type Size = {
-  width: number
-  height: number
-};
-
 function Block(props: BlockProps) {
+  const dispatch = useDispatch();
   const { ref } = useResizeObserver<HTMLDivElement>({
     onResize(size) {
-      props.onResize({
-        width: size.width ?? 1,
-        height: size.height ?? 1
-      });
+      dispatch(
+        blocksSlice.actions.updateBlock({
+          id: props.id,
+          height: size.height ?? 1,
+        })
+      );
     },
   });
 
@@ -188,22 +119,35 @@ function Block(props: BlockProps) {
   );
 }
 
-type Page = Block[];
+function getDimensions($element: HTMLElement): PageDimensions {
+  const { paddingTop, paddingBottom, marginBottom } = window.getComputedStyle($element);
+  return {
+    offsetHeight: $element.offsetHeight,
+    paddingTop: Math.ceil(parseFloat(paddingTop)),
+    paddingBottom: Math.ceil(parseFloat(paddingBottom)),
+    marginBottom: Math.ceil(parseFloat(marginBottom)),
+  };
+}
 
-type Block = {
-  id: string
-  height: number
-  component: JSX.Element
-};
+function usePages(): Block[][] {
+  const pageHeight = useSelector(selectPageHeight);
+  const blocks = useSelector(selectBlocks);
 
-function composePages(pageDimensions: PageDimensions, blocks: Block[]) {
+  const pages = React.useMemo(
+    () => composePages(pageHeight, blocks),
+    [pageHeight, blocks]
+  );
+
+  return pages;
+}
+
+function composePages(pageHeight: number, blocks: Block[]) {
   let pages: Array<Block[]> = [[]];
   let total = 0;
   let currentPageNum = 0;
-  const limit = PageDimensions.calcLimit(pageDimensions);
 
   blocks.forEach(block => {
-    if (total + block.height < limit) {
+    if (total + block.height < pageHeight) {
       total = total + block.height;
       pages[currentPageNum].push(block);
     } else {
@@ -214,14 +158,4 @@ function composePages(pageDimensions: PageDimensions, blocks: Block[]) {
   });
 
   return pages;
-}
-
-function getDimensions($element: HTMLElement): PageDimensions {
-  const { paddingTop, paddingBottom, marginBottom } = window.getComputedStyle($element);
-  return {
-    offsetHeight: $element.offsetHeight,
-    paddingTop: Math.ceil(parseFloat(paddingTop)),
-    paddingBottom: Math.ceil(parseFloat(paddingBottom)),
-    marginBottom: Math.ceil(parseFloat(marginBottom)),
-  };
 }

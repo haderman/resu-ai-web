@@ -8,7 +8,7 @@ export type PageDimensions = {
 export type PageKind = 'A4' | 'Letter' | 'Custom';
 
 export const PageDimensions = {
-  calcLimit(pDim: PageDimensions): number {
+  calcHeight(pDim: PageDimensions): number {
     return pDim.offsetHeight - pDim.paddingTop - pDim.paddingBottom;
   },
 };

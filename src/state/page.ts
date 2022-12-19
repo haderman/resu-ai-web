@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
@@ -25,9 +25,6 @@ export const pageSlice = createSlice({
     setDimensions(state, action: PayloadAction<PageDimensions>) {
       state.dimensions = action.payload;
     },
-    // setColor(state, action: PayloadAction<Color>) {
-    //   state.color = action.payload;
-    // },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -47,6 +44,11 @@ export function selectPageDimensions(state: AppState): PageDimensions {
   return state.page.dimensions;
 }
 
-// export function selectColor(state: AppState): Color {
-//   return state.contact.color;
-// }
+export const selectPageHeight = createSelector(
+  selectPageDimensions,
+  (dimensions) => PageDimensions.calcHeight(dimensions),
+);
+
+export const selectors = {
+  selectPageHeight,
+};
