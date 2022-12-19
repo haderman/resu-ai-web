@@ -1,6 +1,8 @@
 import React from 'react';
 import useResizeObserver from 'use-resize-observer';
 
+import { pageSlice, selectPageDimensions } from '@/state/page';
+import { PageDimensions } from '@/shared/types/page';
 import {
   ContactContainer,
   ExperienceContainer,
@@ -11,6 +13,9 @@ import {
 } from './content';
 
 import styles from './resume.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+
+const { actions } = pageSlice;
 
 const BLOCKS = [{
   id: 'block-1',
@@ -64,19 +69,12 @@ const BLOCKS = [{
 
 
 export function PagesManager() {
-  const pagesContainerRef = React.useRef<HTMLDivElement>(null);
-  const [pages, setPages] = React.useState<Page[]>([BLOCKS]);
   const [blocks, setBlocks] = React.useState<Block[]>(BLOCKS);
 
-  React.useLayoutEffect(
-    () => {
-      if (pagesContainerRef.current === null) {
-        return;
-      }
-
-      setPages(composePages(pagesContainerRef.current, blocks));
-    },
-    [pagesContainerRef, blocks]
+  const pageDimensions = useSelector(selectPageDimensions);
+  const pages = React.useMemo(
+    () => composePages(pageDimensions, blocks),
+    [pageDimensions, blocks]
   );
 
   function handleOnResize(blockId: string) {
@@ -96,30 +94,51 @@ export function PagesManager() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 60,
           paddingBottom: 40,
+          gap: 60,
         }}
       >
         {pages.map((page, idx) => {
           return (
             <Page key={idx}>
               {page.map((block, jdx) =>
-                <MemoizedBlock
-                  key={block.id}
+                <Block
                   id={block.id}
+                  key={block.id}
                   onResize={handleOnResize(block.id)}
                 >
                   {block.component}
-                </MemoizedBlock>
+                </Block>
               )}
             </Page>
           );
         })}
       </div>
-      <Hidden>
-        <Page ref={pagesContainerRef} />
-      </Hidden>
+      <HiddenPageForMeasuring />
     </>
+  );
+}
+
+function HiddenPageForMeasuring() {
+  const pagesContainerRef = React.useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+
+  React.useEffect(
+    function getPageComputedStyleAndSendItToStore() {
+      if (pagesContainerRef.current === null) {
+        return;
+      }
+
+      const dimensions = getDimensions(pagesContainerRef.current);
+      dispatch(actions.setDimensions(dimensions));
+    },
+    [dispatch]
+  );
+
+  return (
+    <Hidden>
+      <Page ref={pagesContainerRef} />
+    </Hidden>
   );
 }
 
@@ -152,8 +171,6 @@ type Size = {
   height: number
 };
 
-const MemoizedBlock = React.memo(Block);
-
 function Block(props: BlockProps) {
   const { ref } = useResizeObserver<HTMLDivElement>({
     onResize(size) {
@@ -179,16 +196,15 @@ type Block = {
   component: JSX.Element
 };
 
-function composePages($pagesContainer: HTMLElement, blocks: Block[]) {
-  const pageComputedStyle = getElementComputedStyle($pagesContainer as HTMLElement);
+function composePages(pageDimensions: PageDimensions, blocks: Block[]) {
   let pages: Array<Block[]> = [[]];
   let total = 0;
   let currentPageNum = 0;
-  const limit = pageComputedStyle.height - pageComputedStyle.paddingTop - pageComputedStyle.paddingBottom;
+  const limit = PageDimensions.calcLimit(pageDimensions);
 
   blocks.forEach(block => {
     if (total + block.height < limit) {
-      total = total +block.height;
+      total = total + block.height;
       pages[currentPageNum].push(block);
     } else {
       total = block.height;
@@ -200,12 +216,12 @@ function composePages($pagesContainer: HTMLElement, blocks: Block[]) {
   return pages;
 }
 
-function getElementComputedStyle($element: HTMLElement) {
+function getDimensions($element: HTMLElement): PageDimensions {
   const { paddingTop, paddingBottom, marginBottom } = window.getComputedStyle($element);
   return {
-    height: $element.offsetHeight,
+    offsetHeight: $element.offsetHeight,
     paddingTop: Math.ceil(parseFloat(paddingTop)),
     paddingBottom: Math.ceil(parseFloat(paddingBottom)),
-    marginBottom: 20, //Math.ceil(parseFloat(marginBottom)),
+    marginBottom: Math.ceil(parseFloat(marginBottom)),
   };
 }
