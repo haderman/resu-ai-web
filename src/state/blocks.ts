@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Action, AnyAction, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 import { Block, BlockId } from '@/shared/types/block';
+import type { ResumeSection } from '@/shared/types/resume';
 
 import { AppState } from './store';
+import { apiSlice } from './api/slice';
 
 export type BlocksState = {
   idToDataMap: Record<BlockId, Block>
@@ -25,13 +27,20 @@ export const blocksSlice = createSlice({
       state.idToDataMap[id].height = height;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.blocks,
-      };
-    },
+  extraReducers(builder) {
+    builder
+      .addCase(HYDRATE, (state, action: AnyAction) => {
+        return {
+          ...state,
+          ...action.payload.blocks,
+        };
+      })
+      .addMatcher(
+        apiSlice.endpoints.updateResume.matchFulfilled,
+        (state, action) => {
+          console.log('---- updateResume . matchFulfilled ------ ', action);
+        }
+      );
   },
 });
 
@@ -79,3 +88,26 @@ function getMockBlockIds(): BlockId[] {
   return ['1', '2', '3', '4', '5', '6'];
 }
 
+const blocks: ResumeSection[] = [
+  'photo',
+  'profile',
+  'contact',
+  'skills',
+  'experience',
+  'projects',
+];
+
+const blocks2 = [
+  ['profile'],
+  ['contact', 'skills'],
+  ['experience'],
+  ['projects'],
+];
+
+const blocks3: ResumeSection[][] = [
+  ['profile'],
+  ['contact'],
+  ['skills'],
+  ['experience'],
+  ['projects'],
+];

@@ -7,7 +7,8 @@ import {
   Profile,
   Skills,
 } from './content';
-import { ResumeLayout } from './style';
+import { ResumeLayoutType } from './layout-type';
+import { ResumeSection } from './resume-section';
 
 export type Resume = {
   id: string
@@ -22,12 +23,16 @@ export type Resume = {
   },
   style: {
     theme: ResumeTheme
-    layout: ResumeLayout
-  }
+  },
+  layout: {
+    type: ResumeLayoutType,
+    sections: ResumeSection[]
+  },
 }
 
 export type ResumeContent = Resume['content'];
 export type ResumeStyle = Resume['style'];
+export type ResumeLayout = Resume['layout'];
 
 export const Resume = {
   create(userId: string, content: ResumeContent): Resume {
@@ -37,7 +42,17 @@ export const Resume = {
       content,
       style: {
         theme: 'default',
-        layout: 'layout-a',
+      },
+      layout: {
+        type: 'layout-a',
+        sections: [
+          'profile',
+          'contact',
+          'photo',
+          'skills',
+          'experience',
+          'projects',
+        ],
       },
     };
   },
@@ -59,7 +74,7 @@ export const Resume = {
       throw new Error('Invalid resume data');
     }
 
-    const { id, userId, content, style } = data as Resume;
+    const { id, userId, content, style, layout } = data as Resume;
 
     if (typeof id !== 'string') {
       throw new Error('Invalid resume id');
@@ -83,6 +98,14 @@ export const Resume = {
       throw new Error('Invalid resume jobTitle');
     }
 
+    if (typeof style !== 'object' || style === null) {
+      throw new Error('Invalid resume style');
+    }
+
+    // if (typeof layout !== 'object' || layout === null) {
+    //   throw new Error('Invalid resume layout');
+    // }
+
     return {
       id,
       userId,
@@ -94,7 +117,10 @@ export const Resume = {
       },
       style: {
         theme: ResumeTheme.decode(style.theme),
-        layout: ResumeLayout.decode(style.layout),
+      },
+      layout: {
+        type: ResumeLayoutType.decode(layout.type),
+        sections: layout?.sections ?? ['profile', 'skills'],
       },
     };
   },
@@ -105,7 +131,10 @@ export const Resume = {
       content: resume.content,
       style: {
         theme: ResumeTheme.encode(resume.style.theme),
-        layout: ResumeLayout.encode(resume.style.layout),
+      },
+      layout: {
+        type: ResumeLayoutType.encode(resume.layout.type),
+        sections: resume.layout.sections,
       },
     };
   },

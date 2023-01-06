@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import { Resume, ResumeContent } from '@/shared/types/resume';
+import { Resume, ResumeContent, ResumeSection } from '@/shared/types/resume';
 import {
   FuzzerSchema,
   Fuzz,
@@ -27,10 +27,19 @@ var contentFuzzer = Fuzz.Fuzzer(contentFuzzerSchema);
  */
 var styleFuzzerSchema: FuzzerSchema<Resume['style']> = {
   theme: Fuzz.theme(),
-  layout: Fuzz.layout(),
 };
 
 var styleFuzzer = Fuzz.Fuzzer(styleFuzzerSchema);
+
+/**
+ * ResumeLayout schema
+ */
+var layoutFuzzerSchema: FuzzerSchema<Resume['layout']> = {
+  type: Fuzz.layoutType(),
+  sections: Fuzz.array(ResumeSection.values),
+};
+
+var layoutFuzzer = Fuzz.Fuzzer(layoutFuzzerSchema);
 
 /**
  * Resume schema
@@ -40,6 +49,7 @@ var resumeFuzzerSchema: FuzzerSchema<Resume> = {
   userId: Fuzz.string(),
   content: contentFuzzer(),
   style: styleFuzzer(),
+  layout: layoutFuzzer(),
 };
 
 var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);

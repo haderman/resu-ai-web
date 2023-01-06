@@ -1,16 +1,16 @@
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { ResumeLayout } from '@/shared/types';
+import { ResumeLayoutType } from '@/shared/types';
 
-const { selectors, useUpdaters } = apiState.style;
+const { selectors, useUpdaters } = apiState.layout;
 
 export function LayoutSelector() {
-  const layout = useSelector(selectors.selectLayout);
+  const layout = useSelector(selectors.selectLayoutType);
   const [updaters] = useUpdaters();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    updaters.updateLayout(event.target.value as ResumeLayout);
+    updaters.updateLayout(ResumeLayoutType.decode(event.target.value));
   }
 
   return (

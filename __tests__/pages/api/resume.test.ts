@@ -71,8 +71,14 @@ let resumeMock: Resume = {
   },
   style: {
     theme: 'dark-space',
-    layout: 'layout-a',
-  }
+  },
+  layout: {
+    type: 'layout-a',
+    sections: [
+      'profile',
+      'skills',
+    ],
+  },
 };
 
 let resumeMockUpdated: Resume = {
@@ -84,6 +90,9 @@ let resumeMockUpdated: Resume = {
   },
   style: {
     ...resumeMock.style,
+  },
+  layout: {
+    ...resumeMock.layout,
   },
 };
 

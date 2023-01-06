@@ -1,7 +1,7 @@
 import JestFuzz from 'jest-fuzz';
 import { Alignment, Size } from '@/shared/types/units';
 import { Color } from '@/shared/types/color';
-import { ResumeLayout } from '@/shared/types';
+import { ResumeLayoutType } from '@/shared/types';
 import { ResumeTheme } from '@/themes';
 
 export const Fuzz = {
@@ -21,8 +21,8 @@ export const Fuzz = {
   theme() {
     return oneOf(ResumeTheme.values);;
   },
-  layout() {
-    return oneOf(ResumeLayout.values);
+  layoutType() {
+    return oneOf(ResumeLayoutType.values);
   }
 };
 
@@ -38,7 +38,7 @@ export type Fuzzer =
   | ReturnType<typeof Fuzz.alignment>
   | ReturnType<typeof Fuzz.color>
   | ReturnType<typeof Fuzz.theme>
-  | ReturnType<typeof Fuzz.layout>;
+  | ReturnType<typeof Fuzz.layoutType>;
 
 export type FuzzerSchema<T> = Record<keyof T, Fuzzer>;
 

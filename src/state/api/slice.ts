@@ -1,7 +1,7 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Resume, ResumeContent, ResumeStyle } from '@/shared/types';
+import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
 
@@ -76,9 +76,22 @@ export function useResumeUpdaters() {
     }
   }
 
+  function updateLayout(layout: Partial<ResumeLayout>) {
+    if (data) {
+      updateResume_({
+        ...data,
+        layout: {
+          ...data.layout,
+          ...layout,
+        },
+      });
+    }
+  }
+
   const updaters = {
     updateContent,
     updateStyle,
+    updateLayout,
   };
 
   return [updaters, meta] as const;

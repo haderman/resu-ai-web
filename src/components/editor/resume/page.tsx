@@ -14,7 +14,7 @@ import {
 } from './content';
 import styles from './resume.module.scss';
 
-const { selectors } = apiState.style;
+const { selectors } = apiState.layout;
 
 export type ResumeProps = {};
 
@@ -35,7 +35,7 @@ export const Resume = React.forwardRef<HTMLDivElement, ResumeProps>(
 
 const Layout = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
   function LayoutComponent(props, ref) {
-    const selectedLayout = useSelector(selectors.selectLayout);
+    const selectedLayout = useSelector(selectors.selectLayoutType);
 
     return (
       <div ref={ref} className={classNames(styles.layout, styles.page)} data-layout={selectedLayout}>
