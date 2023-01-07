@@ -26,6 +26,9 @@ export const blocksSlice = createSlice({
       const { id, height } = action.payload;
       state.idToDataMap[id].height = height;
     },
+    composeBlocks(state, action: Action) {
+      // TODO: implement this action
+    },
   },
   extraReducers(builder) {
     builder

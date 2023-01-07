@@ -3,6 +3,7 @@ import useResizeObserver from 'use-resize-observer';
 
 import { pageSlice, selectPageHeight } from '@/state/page';
 import { blocksSlice, selectBlocks } from '@/state/blocks';
+import { apiState } from '@/state/api';
 import { PageDimensions } from '@/shared/types/page';
 import {
   ContactContainer,
@@ -18,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Block } from '@/shared/types/block';
 
 export function PagesManager() {
+  useBlockLayoutSync();
   const pages = usePages();
 
   return (
@@ -127,6 +129,21 @@ function getDimensions($element: HTMLElement): PageDimensions {
     paddingBottom: Math.ceil(parseFloat(paddingBottom)),
     marginBottom: Math.ceil(parseFloat(marginBottom)),
   };
+}
+
+function useBlockLayoutSync() {
+  const dispatch = useDispatch();
+  const layout = useSelector(apiState.layout.selectors.selectLayout);
+
+  React.useEffect(
+    function dispatchComposeBlocks() {
+      if (layout === null) {
+        return;
+      }
+
+      dispatch(blocksSlice.actions.composeBlocks());
+    }, [layout, dispatch]
+  );
 }
 
 function usePages(): Block[][] {

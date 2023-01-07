@@ -4,9 +4,15 @@ import { ResumeLayoutType } from '@/shared/types';
 
 import { selectResumeResult, useResumeUpdaters } from '../slice';
 
-const selectLayoutType = createSelector(
+const selectLayout = createSelector(
   selectResumeResult,
-  (result) => result.data?.layout.type,
+  (result) => result.data?.layout,
+);
+
+// refactor this code to use selectLayout
+const selectLayoutType = createSelector(
+  selectLayout,
+  (layout) => layout?.type,
 );
 
 export function useUpdaters() {
@@ -24,5 +30,6 @@ export function useUpdaters() {
 }
 
 export const selectors = {
+  selectLayout,
   selectLayoutType,
 };
