@@ -4,6 +4,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const apiSlice = createApi({
   // The cache reducer expects to be added at `state.api` (already default - this is optional)
@@ -46,7 +48,18 @@ export const apiSlice = createApi({
 
 export const { useGetResumeQuery } = apiSlice;
 
-export const selectResumeResult = apiSlice.endpoints.getResume.select();
+const selectResumeResult = apiSlice.endpoints.getResume.select();
+
+export const selectResumeStatus = createSelector(
+  selectResumeResult,
+  (result) => result.status,
+);
+
+
+export const selectResume = createSelector(
+  selectResumeResult,
+  (result) => result.data
+);
 
 export function useResumeUpdaters() {
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
@@ -76,15 +89,15 @@ export function useResumeUpdaters() {
     }
   }
 
-  function updateLayout(layout: Partial<ResumeLayout>) {
+  function updateLayout(layout: ResumeLayout) {
     if (data) {
-      updateResume_({
-        ...data,
-        layout: {
-          ...data.layout,
-          ...layout,
-        },
-      });
+      updateResume_({ ...data, layout });
+    }
+  }
+
+  function updateSections(sections: ResumeSections) {
+    if (data) {
+      updateResume_({ ...data, sections });
     }
   }
 
@@ -92,6 +105,7 @@ export function useResumeUpdaters() {
     updateContent,
     updateStyle,
     updateLayout,
+    updateSections,
   };
 
   return [updaters, meta] as const;

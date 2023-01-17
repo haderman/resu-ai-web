@@ -1,28 +1,27 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ResumeLayout } from '@/shared/types';
-
 import { selectResume, useResumeUpdaters } from '../slice';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
-const selectLayout = createSelector(
+const selectSections = createSelector(
   selectResume,
-  (resume) => resume?.layout,
+  (resume) => resume?.sections,
 );
 
 export function useUpdaters() {
   const [resumeUpdater] = useResumeUpdaters();
 
-  function updateLayout(layout: ResumeLayout) {
-    resumeUpdater.updateLayout(layout);
+  function updateSections(sections: ResumeSections) {
+    resumeUpdater.updateSections(sections);
   }
 
   const updaters = {
-    updateLayout,
+    updateSections,
   };
 
   return [updaters] as const;
 }
 
 export const selectors = {
-  selectLayout,
+  selectSections,
 };

@@ -2,11 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { ResumeStyle } from '@/shared/types';
 
-import { selectResumeResult, useResumeUpdaters } from '../slice';
+import { selectResume, useResumeUpdaters } from '../slice';
 
 const selectTheme = createSelector(
-  selectResumeResult,
-  (result) => result.data?.style.theme,
+  selectResume,
+  (resume) => resume?.style.theme,
 );
 
 export function useUpdaters() {

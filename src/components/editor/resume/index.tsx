@@ -2,7 +2,6 @@ import * as React from 'react';
 import dynamic from 'next/dynamic';
 import useResizeObserver from 'use-resize-observer';
 
-import { Resume } from './page';
 import { Toolbar } from './toolbar';
 
 import styles from './resume.module.scss';
@@ -28,7 +27,6 @@ export function ResumeContainer(props: ResumeContainerProps) {
       <div ref={resumeRef} style={{ marginTop: 80 }}>
         <MemoizedPagesManager />
       </div>
-      {/* <Resume ref={resumeRef} /> */}
     </div>
   );
 }

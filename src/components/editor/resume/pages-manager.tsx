@@ -1,10 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useResizeObserver from 'use-resize-observer';
 
 import { pageSlice, selectPageHeight } from '@/state/page';
 import { blocksSlice, selectBlocks } from '@/state/blocks';
 import { apiState } from '@/state/api';
 import { PageDimensions } from '@/shared/types/page';
+import { Block, BlockTemplate } from '@/shared/types';
+
 import {
   ContactContainer,
   ExperienceContainer,
@@ -13,10 +16,7 @@ import {
   SkillsContainer,
   ProfileContainer,
 } from './content';
-
 import styles from './resume.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { Block } from '@/shared/types/block';
 
 export function PagesManager() {
   useBlockLayoutSync();
@@ -36,15 +36,23 @@ export function PagesManager() {
           return (
             <Page key={idx}>
               {page.map((block, jdx) =>
-                <Block id={block.id} key={block.id}>
-                  {block.section === 'contact' ? <ContactContainer />
-                  :block.section === 'experience' ? <ExperienceContainer />
-                  :block.section === 'photo' ? <PhotoContainer />
-                  :block.section === 'projects' ? <ProjectsContainer />
-                  :block.section === 'skills' ? <SkillsContainer />
-                  :block.section === 'profile' ? <ProfileContainer />
-                  :null}
-                </Block>
+                <BlockComponent
+                  id={block.id}
+                  key={block.id}
+                  slots={block.template.slots}
+                >
+                  {block.template.sections.map((section) => {
+                    switch (section) {
+                      case 'contact': return <ContactContainer />;
+                      case 'experience': return <ExperienceContainer />;
+                      case 'photo': return <PhotoContainer />;
+                      case 'projects': return <ProjectsContainer />;
+                      case 'skills': return <SkillsContainer />;
+                      case 'profile': return <ProfileContainer />;
+                      default: return null;
+                    }
+                  })}
+                </BlockComponent>
               )}
             </Page>
           );
@@ -96,12 +104,13 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
   }
 );
 
-type BlockProps = React.PropsWithChildren<{
+type BlockComponentProps = React.PropsWithChildren<{
   id: string
+  slots: BlockTemplate['slots']
   children: React.ReactNode
 }>;
 
-function Block(props: BlockProps) {
+function BlockComponent(props: BlockComponentProps) {
   const dispatch = useDispatch();
   const { ref } = useResizeObserver<HTMLDivElement>({
     onResize(size) {
@@ -115,7 +124,12 @@ function Block(props: BlockProps) {
   });
 
   return (
-    <div id={props.id} ref={ref} data-kind="block">
+    <div
+      id={props.id}
+      ref={ref}
+      className={styles.block}
+      data-block-layout={props.slots}
+    >
       {props.children}
     </div>
   );
@@ -133,16 +147,16 @@ function getDimensions($element: HTMLElement): PageDimensions {
 
 function useBlockLayoutSync() {
   const dispatch = useDispatch();
-  const layout = useSelector(apiState.layout.selectors.selectLayout);
+  const resume = useSelector(apiState.resume.selectors.selectResume);
 
   React.useEffect(
     function dispatchComposeBlocks() {
-      if (layout === null) {
+      if (resume?.layout === undefined) {
         return;
       }
 
-      dispatch(blocksSlice.actions.composeBlocks());
-    }, [layout, dispatch]
+      dispatch(blocksSlice.actions.composeBlocks(resume));
+    }, [resume?.layout, dispatch]
   );
 }
 

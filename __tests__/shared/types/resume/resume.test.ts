@@ -1,19 +1,19 @@
 import { expect } from '@jest/globals';
 
-import { Resume, ResumeContent, ResumeSection } from '@/shared/types/resume';
+import { Resume, ResumeContent } from '@/shared/types/resume';
 import {
   FuzzerSchema,
   Fuzz,
   profileFuzzer,
   skillsFuzzer,
+  basicInfoFuzzer,
 } from '@/server/test-helpers';
 
 /**
  * ResumeContent schema
  */
 var contentFuzzerSchema: FuzzerSchema<ResumeContent> = {
-  fullName: Fuzz.string(),
-  jobTitle: Fuzz.string(),
+  basicInfo: basicInfoFuzzer(),
   profile: profileFuzzer(),
   skills: skillsFuzzer(),
   experience: Fuzz.undefined(),
@@ -32,16 +32,6 @@ var styleFuzzerSchema: FuzzerSchema<Resume['style']> = {
 var styleFuzzer = Fuzz.Fuzzer(styleFuzzerSchema);
 
 /**
- * ResumeLayout schema
- */
-var layoutFuzzerSchema: FuzzerSchema<Resume['layout']> = {
-  type: Fuzz.layoutType(),
-  sections: Fuzz.array(ResumeSection.values),
-};
-
-var layoutFuzzer = Fuzz.Fuzzer(layoutFuzzerSchema);
-
-/**
  * Resume schema
  */
 var resumeFuzzerSchema: FuzzerSchema<Resume> = {
@@ -49,7 +39,8 @@ var resumeFuzzerSchema: FuzzerSchema<Resume> = {
   userId: Fuzz.string(),
   content: contentFuzzer(),
   style: styleFuzzer(),
-  layout: layoutFuzzer(),
+  layout: Fuzz.layout(),
+  sections: Fuzz.sections(),
 };
 
 var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);

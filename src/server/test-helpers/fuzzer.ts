@@ -1,8 +1,9 @@
 import JestFuzz from 'jest-fuzz';
 import { Alignment, Size } from '@/shared/types/units';
 import { Color } from '@/shared/types/color';
-import { ResumeLayoutType } from '@/shared/types';
+import { ResumeLayout } from '@/shared/types';
 import { ResumeTheme } from '@/themes';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const Fuzz = {
   ...JestFuzz,
@@ -21,8 +22,11 @@ export const Fuzz = {
   theme() {
     return oneOf(ResumeTheme.values);;
   },
-  layoutType() {
-    return oneOf(ResumeLayoutType.values);
+  layout() {
+    return () => ResumeLayout.DEFAULT_LAYOUT;
+  },
+  sections() {
+    return () => ResumeSections.DEFAULT_LIST;
   }
 };
 
@@ -38,7 +42,8 @@ export type Fuzzer =
   | ReturnType<typeof Fuzz.alignment>
   | ReturnType<typeof Fuzz.color>
   | ReturnType<typeof Fuzz.theme>
-  | ReturnType<typeof Fuzz.layoutType>;
+  | ReturnType<typeof Fuzz.layout>
+  | ReturnType<typeof Fuzz.sections>;
 
 export type FuzzerSchema<T> = Record<keyof T, Fuzzer>;
 
