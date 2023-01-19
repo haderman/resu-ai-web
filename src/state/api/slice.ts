@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
-import { createSelector } from '@reduxjs/toolkit';
+import { createAction, createSelector } from '@reduxjs/toolkit';
 import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const apiSlice = createApi({
@@ -39,6 +39,7 @@ export const apiSlice = createApi({
           })
         );
         try {
+          dispatch(resumeUpdated(resume));
           await queryFulfilled;
         } catch (err) {
           patchResult.undo();
@@ -47,6 +48,8 @@ export const apiSlice = createApi({
     }),
   }),
 });
+
+export const resumeUpdated = createAction<Resume>('resume-updated');
 
 export const { useGetResumeQuery } = apiSlice;
 

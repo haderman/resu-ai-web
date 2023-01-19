@@ -3,9 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 import { Block, BlockId, BlockTemplate } from '@/shared/types/block';
-import type { ResumeLayout, ResumeLayoutItem, ResumeSections } from '@/shared/types/resume';
+import type { Resume, ResumeLayout, ResumeLayoutItem, ResumeSections } from '@/shared/types/resume';
 
 import { AppState } from './store';
+import apiSlice, { resumeUpdated } from './api/slice';
 
 export type BlocksState = {
   idToDataMap: {
@@ -27,23 +28,18 @@ export const blocksSlice = createSlice({
       const { id, height } = action.payload;
       state.idToDataMap[id].height = height;
     },
-    composeBlocks(state, action: PayloadAction<{ layout: ResumeLayout, sections: ResumeSections }>) {
-      // create a BlockMap from action.payload.sections and action.payload.template
-      if (!action.payload) return;
-
-      const { blockIds, idToDataMap } = composeBlocks_(action.payload.layout, action.payload.sections);
-      state.blockIds = blockIds;
-      state.idToDataMap = idToDataMap;
-    },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.blocks,
-      };
-    },
-  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(resumeUpdated, (state, action) => {
+        const { layout, sections } = action.payload;
+        return composeBlocks_(layout, sections);
+      })
+      .addMatcher(apiSlice.endpoints.getResume.matchFulfilled, (state, action) => {
+        const { layout, sections } = action.payload;
+        return composeBlocks_(layout, sections);
+      });
+  }
 });
 
 export function selectBlocks(state: AppState): Block[] {

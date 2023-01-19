@@ -26,14 +26,6 @@ export const pageSlice = createSlice({
       state.dimensions = action.payload;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.page,
-      };
-    },
-  },
 });
 
 export function selectPageState(state: AppState): PageState {

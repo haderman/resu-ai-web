@@ -4,7 +4,6 @@ import useResizeObserver from 'use-resize-observer';
 
 import { pageSlice, selectPageHeight } from '@/state/page';
 import { blocksSlice, selectBlocks } from '@/state/blocks';
-import { apiState } from '@/state/api';
 import { PageDimensions } from '@/shared/types/page';
 import { Block, BlockTemplate } from '@/shared/types';
 
@@ -21,7 +20,6 @@ import styles from './resume.module.scss';
 type Page = Block[];
 
 export function PagesManager() {
-  useBlockLayoutSync();
   const pages = usePages();
 
   return (
@@ -146,21 +144,6 @@ function getDimensions($element: HTMLElement): PageDimensions {
     paddingBottom: Math.ceil(parseFloat(paddingBottom)),
     marginBottom: Math.ceil(parseFloat(marginBottom)),
   };
-}
-
-function useBlockLayoutSync() {
-  const dispatch = useDispatch();
-  const layout = useSelector(apiState.layout.selectors.selectLayout);
-  const sections = useSelector(apiState.sections.selectors.selectSections);
-  React.useEffect(
-    function dispatchComposeBlocks() {
-      if (layout === undefined || sections === undefined) {
-        return;
-      }
-
-      dispatch(blocksSlice.actions.composeBlocks({ layout, sections }));
-    }, [layout, sections, dispatch]
-  );
 }
 
 function usePages(): Page[] {
