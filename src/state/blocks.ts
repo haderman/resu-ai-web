@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import { Block, BlockId } from '@/shared/types/block';
-import type { Resume, ResumeLayout } from '@/shared/types/resume';
+import { Block, BlockId, BlockTemplate } from '@/shared/types/block';
+import type { ResumeLayout, ResumeLayoutItem, ResumeSections } from '@/shared/types/resume';
 
 import { AppState } from './store';
 
@@ -27,12 +27,11 @@ export const blocksSlice = createSlice({
       const { id, height } = action.payload;
       state.idToDataMap[id].height = height;
     },
-    composeBlocks(state, action: PayloadAction<Resume>) {
+    composeBlocks(state, action: PayloadAction<{ layout: ResumeLayout, sections: ResumeSections }>) {
       // create a BlockMap from action.payload.sections and action.payload.template
-      const resume = action.payload;
-      if (!resume) return;
+      if (!action.payload) return;
 
-      const { blockIds, idToDataMap } = fromResumeToBlockState(resume);
+      const { blockIds, idToDataMap } = composeBlocks_(action.payload.layout, action.payload.sections);
       state.blockIds = blockIds;
       state.idToDataMap = idToDataMap;
     },
@@ -52,55 +51,32 @@ export function selectBlocks(state: AppState): Block[] {
   return blockIds.map((id) => idToDataMap[id]);
 }
 
-function getMockIdToDataMap(): BlocksState['idToDataMap'] {
-  return {
-    '1': {
-      id: '1',
+function composeBlocks_(layout: ResumeLayout, sections: ResumeSections): BlocksState {
+  return layout
+    .map(createBlock(sections))
+    .reduce(toBlockState, { idToDataMap: {}, blockIds: [] });
+}
+
+function createBlock(sections: ResumeSections) {
+  return (layoutItem: ResumeLayoutItem, idx: number): Block => {
+
+    const block: Block = {
+      id: String(idx),
       template: {
-        sections: ['photo', 'profile'],
-        slots: 'child1,child2,child2',
+        sections: Array
+          .from(new Set(layoutItem))
+          .map((idx) => sections[idx] ?? 'empty'),
+        slots: Block.toSlots(layoutItem),
       },
       height: 1,
-    },
-    '2': {
-      id: '2',
-      template: {
-        sections: ['contact', 'skills'],
-        slots: 'child1,child2,child2',
-      },
-      height: 1,
-    },
-    '3': {
-      id: '3',
-      template: {
-        sections: ['experience'],
-        slots: 'child1',
-      },
-      height: 1,
-    },
-    '4': {
-      id: '4',
-      template: {
-        sections: ['projects'],
-        slots: 'child1',
-      },
-      height: 1,
-    },
+    };
+
+    return block;
   };
 }
 
-function getMockBlockIds(): BlockId[] {
-  return ['1', '2', '3', '4'];
-}
-
-function fromResumeToBlockState(resume: Resume): BlocksState {
-  const { content, layout } = resume;
-
-  let idToDataMap: BlocksState['idToDataMap'] = {};
-
-
-  return {
-    idToDataMap: getMockIdToDataMap(),
-    blockIds: getMockBlockIds(),
-  };
+function toBlockState(state: BlocksState, block: Block): BlocksState {
+  state.idToDataMap[block.id] = block;
+  state.blockIds.push(block.id);
+  return state;
 }

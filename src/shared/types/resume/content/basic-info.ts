@@ -3,6 +3,11 @@ export type BasicInfo = {
   jobTitle: string
 };
 
+// interface BasicInfo {
+//   fullName: string;
+//   jobTitle: string;
+// }
+
 export const BasicInfo = {
   decode(data: unknown): BasicInfo {
     if (typeof data !== 'object' || data === null) {

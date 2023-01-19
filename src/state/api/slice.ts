@@ -34,6 +34,8 @@ export const apiSlice = createApi({
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
             updateDraftContent(draft, resume.content);
             updateDraftStyle(draft, resume.style);
+            updateDraftLayout(draft, resume.layout);
+            updateDraftSections(draft, resume.sections);
           })
         );
         try {
@@ -142,6 +144,14 @@ function updateDraftStyle(draft: Resume, style: ResumeStyle): void {
     // @ts-ignore
     draft.style[outerKey] = style[outerKey as keyof ResumeStyle];
   }
+}
+
+function updateDraftLayout(draft: Resume, layout: ResumeLayout): void {
+  draft.layout = layout;
+}
+
+function updateDraftSections(draft: Resume, sections: ResumeSections): void {
+  draft.sections = sections;
 }
 
 export default apiSlice;

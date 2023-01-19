@@ -18,6 +18,8 @@ import {
 } from './content';
 import styles from './resume.module.scss';
 
+type Page = Block[];
+
 export function PagesManager() {
   useBlockLayoutSync();
   const pages = usePages();
@@ -49,6 +51,7 @@ export function PagesManager() {
                       case 'projects': return <ProjectsContainer />;
                       case 'skills': return <SkillsContainer />;
                       case 'profile': return <ProfileContainer />;
+                      case 'empty': return <div>return</div>;
                       default: return null;
                     }
                   })}
@@ -147,20 +150,20 @@ function getDimensions($element: HTMLElement): PageDimensions {
 
 function useBlockLayoutSync() {
   const dispatch = useDispatch();
-  const resume = useSelector(apiState.resume.selectors.selectResume);
-
+  const layout = useSelector(apiState.layout.selectors.selectLayout);
+  const sections = useSelector(apiState.sections.selectors.selectSections);
   React.useEffect(
     function dispatchComposeBlocks() {
-      if (resume?.layout === undefined) {
+      if (layout === undefined || sections === undefined) {
         return;
       }
 
-      dispatch(blocksSlice.actions.composeBlocks(resume));
-    }, [resume?.layout, dispatch]
+      dispatch(blocksSlice.actions.composeBlocks({ layout, sections }));
+    }, [layout, sections, dispatch]
   );
 }
 
-function usePages(): Block[][] {
+function usePages(): Page[] {
   const pageHeight = useSelector(selectPageHeight);
   const blocks = useSelector(selectBlocks);
 
@@ -172,8 +175,8 @@ function usePages(): Block[][] {
   return pages;
 }
 
-function composePages(pageHeight: number, blocks: Block[]) {
-  let pages: Array<Block[]> = [[]];
+function composePages(pageHeight: number, blocks: Page) {
+  let pages: Page[] = [[]];
   let total = 0;
   let currentPageNum = 0;
 
