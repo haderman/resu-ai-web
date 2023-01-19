@@ -29,8 +29,10 @@ let resumeMock: Resume = {
   id: '_set_by_beforeAll_',
   userId: '_set_by_beforeAll_',
   content: {
-    fullName: 'John Doe',
-    jobTitle: 'Software Engineer',
+    basicInfo: {
+      fullName: 'John Doe',
+      jobTitle: 'Software Engineer',
+    },
     profile: {
       title: {
         text: 'Profile',
@@ -71,19 +73,33 @@ let resumeMock: Resume = {
   },
   style: {
     theme: 'dark-space',
-    layout: 'layout-a',
-  }
+  },
+  layout: [
+    [1],
+    [2],
+    [3],
+    [4],
+    [5],
+    [6],
+  ],
+  sections: [
+    'photo',
+    'profile',
+    'contact',
+    'skills',
+    'experience',
+    'projects',
+  ],
 };
 
 let resumeMockUpdated: Resume = {
   ...resumeMock,
   content: {
     ...resumeMock.content,
-    fullName: 'Software Engineer (edited)',
-    jobTitle: 'Software Engineer (edited)',
-  },
-  style: {
-    ...resumeMock.style,
+    basicInfo: {
+      fullName: 'John Doe Updated',
+      jobTitle: 'Software Engineer Updated',
+    },
   },
 };
 

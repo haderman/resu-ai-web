@@ -2,19 +2,20 @@ import { generateId } from '@/shared/helpers';
 import { ResumeTheme } from '@/themes';
 
 import {
+  BasicInfo,
   Contact,
   Experience,
   Profile,
   Skills,
 } from './content';
-import { ResumeLayout } from './style';
+import { ResumeLayout } from './layout';
+import { ResumeSections } from './sections';
 
 export type Resume = {
   id: string
   userId: string
   content: {
-    fullName: string
-    jobTitle: string
+    basicInfo: BasicInfo
     profile: Profile
     skills: Skills
     experience?: Experience
@@ -22,14 +23,66 @@ export type Resume = {
   },
   style: {
     theme: ResumeTheme
-    layout: ResumeLayout
-  }
+  },
+  layout: ResumeLayout
+  sections: ResumeSections
 }
 
 export type ResumeContent = Resume['content'];
+
 export type ResumeStyle = Resume['style'];
 
 export const Resume = {
+  decode(data: unknown): Resume {
+    if (typeof data !== 'object' || data === null) {
+      throw new Error('Invalid resume data');
+    }
+
+    const { id, userId, content, style, sections, layout } = data as Resume;
+
+    if (typeof id !== 'string') {
+      throw new Error('Invalid resume id');
+    }
+
+    if (typeof userId !== 'string') {
+      throw new Error('Invalid resume user id');
+    }
+
+    if (typeof content !== 'object' || content === null) {
+      throw new Error('Invalid resume content');
+    }
+
+    if (typeof style !== 'object' || style === null) {
+      throw new Error('Invalid resume style');
+    }
+
+    return {
+      id,
+      userId,
+      content: {
+        basicInfo: BasicInfo.decode(content?.basicInfo),
+        profile: Profile.decode(content?.profile),
+        skills: Skills.decode(content?.skills),
+      },
+      style: {
+        theme: ResumeTheme.decode(style?.theme),
+      },
+      layout: ResumeLayout.decode(layout),
+      sections: ResumeSections.decode(sections),
+    };
+  },
+  encode(resume: Resume): Record<string, unknown> {
+    return {
+      id: resume.id,
+      userId: resume.userId,
+      content: resume.content,
+      style: {
+        theme: ResumeTheme.encode(resume.style.theme),
+      },
+      layout: ResumeLayout.encode(resume.layout),
+      sections: ResumeSections.encode(resume.sections),
+    };
+  },
   create(userId: string, content: ResumeContent): Resume {
     return {
       id: generateId(),
@@ -37,8 +90,9 @@ export const Resume = {
       content,
       style: {
         theme: 'default',
-        layout: 'layout-a',
       },
+      layout: ResumeLayout.DEFAULT_LAYOUT,
+      sections: ResumeSections.DEFAULT_LIST,
     };
   },
   update(resume: Resume, values: Pick<Resume, 'content' | 'style'> ): Resume {
@@ -51,61 +105,6 @@ export const Resume = {
       style: {
         ...resume.style,
         ...values.style,
-      },
-    };
-  },
-  decode(data: unknown): Resume {
-    if (typeof data !== 'object' || data === null) {
-      throw new Error('Invalid resume data');
-    }
-
-    const { id, userId, content, style } = data as Resume;
-
-    if (typeof id !== 'string') {
-      throw new Error('Invalid resume id');
-    }
-
-    if (typeof userId !== 'string') {
-      throw new Error('Invalid resume userId');
-    }
-
-    if (typeof content !== 'object' || content === null) {
-      throw new Error('Invalid resume content');
-    }
-
-    const { fullName, jobTitle } = content;
-
-    if (typeof fullName !== 'string') {
-      throw new Error('Invalid resume fullName');
-    }
-
-    if (typeof jobTitle !== 'string') {
-      throw new Error('Invalid resume jobTitle');
-    }
-
-    return {
-      id,
-      userId,
-      content: {
-        fullName,
-        jobTitle,
-        profile: Profile.decode(content.profile),
-        skills: Skills.decode(content.skills),
-      },
-      style: {
-        theme: ResumeTheme.decode(style.theme),
-        layout: ResumeLayout.decode(style.layout),
-      },
-    };
-  },
-  encode(resume: Resume): Record<string, unknown> {
-    return {
-      id: resume.id,
-      userId: resume.userId,
-      content: resume.content,
-      style: {
-        theme: ResumeTheme.encode(resume.style.theme),
-        layout: ResumeLayout.encode(resume.style.layout),
       },
     };
   },

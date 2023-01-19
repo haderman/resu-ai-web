@@ -3,16 +3,11 @@ import { useSelector } from 'react-redux';
 
 import { Profile } from '@/shared/types';
 
-import { selectResumeResult, useResumeUpdaters } from '../slice';
-
-const selectResumeStatus = createSelector(
-  selectResumeResult,
-  (result) => result.status,
-);
+import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
 const selectProfile = createSelector(
-  selectResumeResult,
-  (result) => result.data?.content.profile ?? Profile.create(),
+  selectResume,
+  (resume) => resume?.content.profile ?? Profile.create(),
 );
 
 const selectProfileTitle = createSelector(

@@ -1,28 +1,27 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ResumeStyle } from '@/shared/types';
-
 import { selectResume, useResumeUpdaters } from '../slice';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
-const selectTheme = createSelector(
+const selectSections = createSelector(
   selectResume,
-  (resume) => resume?.style.theme,
+  (resume) => resume?.sections,
 );
 
 export function useUpdaters() {
   const [resumeUpdater] = useResumeUpdaters();
 
-  function updateTheme(theme: ResumeStyle['theme']) {
-    resumeUpdater.updateStyle({ theme });
+  function updateSections(sections: ResumeSections) {
+    resumeUpdater.updateSections(sections);
   }
 
   const updaters = {
-    updateTheme,
+    updateSections,
   };
 
   return [updaters] as const;
 }
 
 export const selectors = {
-  selectTheme,
+  selectSections,
 };

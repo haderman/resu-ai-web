@@ -1,9 +1,11 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Resume, ResumeContent, ResumeStyle } from '@/shared/types';
+import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
+import { createAction, createSelector } from '@reduxjs/toolkit';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const apiSlice = createApi({
   // The cache reducer expects to be added at `state.api` (already default - this is optional)
@@ -32,9 +34,12 @@ export const apiSlice = createApi({
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
             updateDraftContent(draft, resume.content);
             updateDraftStyle(draft, resume.style);
+            updateDraftLayout(draft, resume.layout);
+            updateDraftSections(draft, resume.sections);
           })
         );
         try {
+          dispatch(resumeUpdated(resume));
           await queryFulfilled;
         } catch (err) {
           patchResult.undo();
@@ -44,9 +49,22 @@ export const apiSlice = createApi({
   }),
 });
 
+export const resumeUpdated = createAction<Resume>('resume-updated');
+
 export const { useGetResumeQuery } = apiSlice;
 
-export const selectResumeResult = apiSlice.endpoints.getResume.select();
+const selectResumeResult = apiSlice.endpoints.getResume.select();
+
+export const selectResumeStatus = createSelector(
+  selectResumeResult,
+  (result) => result.status,
+);
+
+
+export const selectResume = createSelector(
+  selectResumeResult,
+  (result) => result.data
+);
 
 export function useResumeUpdaters() {
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
@@ -76,9 +94,23 @@ export function useResumeUpdaters() {
     }
   }
 
+  function updateLayout(layout: ResumeLayout) {
+    if (data) {
+      updateResume_({ ...data, layout });
+    }
+  }
+
+  function updateSections(sections: ResumeSections) {
+    if (data) {
+      updateResume_({ ...data, sections });
+    }
+  }
+
   const updaters = {
     updateContent,
     updateStyle,
+    updateLayout,
+    updateSections,
   };
 
   return [updaters, meta] as const;
@@ -115,6 +147,14 @@ function updateDraftStyle(draft: Resume, style: ResumeStyle): void {
     // @ts-ignore
     draft.style[outerKey] = style[outerKey as keyof ResumeStyle];
   }
+}
+
+function updateDraftLayout(draft: Resume, layout: ResumeLayout): void {
+  draft.layout = layout;
+}
+
+function updateDraftSections(draft: Resume, sections: ResumeSections): void {
+  draft.sections = sections;
 }
 
 export default apiSlice;

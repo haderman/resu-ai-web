@@ -47,8 +47,7 @@ function prepareData(req: NextApiRequest, session: Session): Promise<Resume> {
       const decodedData = Resume.decode({
         id: req.body.id ?? generateId(),
         userId:  session.user.id,
-        content: req.body.content,
-        style: req.body.style,
+        ...req.body,
       });
       resolve(decodedData);
     } catch (error) {

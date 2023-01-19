@@ -10,6 +10,8 @@ import { projectsSlice } from './projects';
 import { sessionSlice } from './session';
 import { authProvidersSlice } from './auth-providers';
 import apiSlice from './api';
+import { blocksSlice } from './blocks';
+import { pageSlice } from './page';
 
 function makeStore() {
   const store = configureStore({
@@ -22,6 +24,8 @@ function makeStore() {
       [sessionSlice.name]: sessionSlice.reducer,
       [authProvidersSlice.name]: authProvidersSlice.reducer,
       [apiSlice.reducerPath]: apiSlice.reducer,
+      [blocksSlice.name]: blocksSlice.reducer,
+      [pageSlice.name]: pageSlice.reducer,
     },
     devTools: true,
     middleware(getDefaultMiddleware) {

@@ -6,14 +6,14 @@ import {
   Fuzz,
   profileFuzzer,
   skillsFuzzer,
+  basicInfoFuzzer,
 } from '@/server/test-helpers';
 
 /**
  * ResumeContent schema
  */
 var contentFuzzerSchema: FuzzerSchema<ResumeContent> = {
-  fullName: Fuzz.string(),
-  jobTitle: Fuzz.string(),
+  basicInfo: basicInfoFuzzer(),
   profile: profileFuzzer(),
   skills: skillsFuzzer(),
   experience: Fuzz.undefined(),
@@ -27,7 +27,6 @@ var contentFuzzer = Fuzz.Fuzzer(contentFuzzerSchema);
  */
 var styleFuzzerSchema: FuzzerSchema<Resume['style']> = {
   theme: Fuzz.theme(),
-  layout: Fuzz.layout(),
 };
 
 var styleFuzzer = Fuzz.Fuzzer(styleFuzzerSchema);
@@ -40,6 +39,8 @@ var resumeFuzzerSchema: FuzzerSchema<Resume> = {
   userId: Fuzz.string(),
   content: contentFuzzer(),
   style: styleFuzzer(),
+  layout: Fuzz.layout(),
+  sections: Fuzz.sections(),
 };
 
 var resumeFuzzer = Fuzz.Fuzzer(resumeFuzzerSchema);

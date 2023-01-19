@@ -1,10 +1,18 @@
 import * as React from 'react';
+import dynamic from 'next/dynamic';
 import useResizeObserver from 'use-resize-observer';
 
-import { Resume } from './page';
 import { Toolbar } from './toolbar';
 
 import styles from './resume.module.scss';
+
+const PagesManager = dynamic(
+  () => import('./pages-manager').then(mod => mod.PagesManager),
+  {
+    ssr: false,
+  }
+);
+const MemoizedPagesManager = React.memo(PagesManager);
 
 export type ResumeContainerProps = React.DataHTMLAttributes<{}>;
 
@@ -16,7 +24,9 @@ export function ResumeContainer(props: ResumeContainerProps) {
   return (
     <div className={styles.container} ref={innerLayoutRef} {...props}>
       <Toolbar />
-      <Resume ref={resumeRef} />
+      <div ref={resumeRef} style={{ marginTop: 80 }}>
+        <MemoizedPagesManager />
+      </div>
     </div>
   );
 }

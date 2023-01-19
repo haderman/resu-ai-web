@@ -3,16 +3,11 @@ import { useSelector } from 'react-redux';
 
 import { Skills } from '@/shared/types';
 
-import { selectResumeResult, useResumeUpdaters } from '../slice';
-
-const selectResumeStatus = createSelector(
-  selectResumeResult,
-  (result) => result.status,
-);
+import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
 const selectSkills = createSelector(
-  selectResumeResult,
-  (result) => result.data?.content.skills ?? Skills.create(),
+  selectResume,
+  (resume) => resume?.content.skills ?? Skills.create(),
 );
 
 const selectTitle = createSelector(

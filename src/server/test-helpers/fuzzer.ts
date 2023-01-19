@@ -3,6 +3,7 @@ import { Alignment, Size } from '@/shared/types/units';
 import { Color } from '@/shared/types/color';
 import { ResumeLayout } from '@/shared/types';
 import { ResumeTheme } from '@/themes';
+import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const Fuzz = {
   ...JestFuzz,
@@ -22,7 +23,10 @@ export const Fuzz = {
     return oneOf(ResumeTheme.values);;
   },
   layout() {
-    return oneOf(ResumeLayout.values);
+    return () => ResumeLayout.DEFAULT_LAYOUT;
+  },
+  sections() {
+    return () => ResumeSections.DEFAULT_LIST;
   }
 };
 
@@ -38,7 +42,8 @@ export type Fuzzer =
   | ReturnType<typeof Fuzz.alignment>
   | ReturnType<typeof Fuzz.color>
   | ReturnType<typeof Fuzz.theme>
-  | ReturnType<typeof Fuzz.layout>;
+  | ReturnType<typeof Fuzz.layout>
+  | ReturnType<typeof Fuzz.sections>;
 
 export type FuzzerSchema<T> = Record<keyof T, Fuzzer>;
 
