@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { Profile } from '@/shared/types';
+import { Profile, ResumeContent } from '@/shared/types';
 
 import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
@@ -33,7 +33,7 @@ export function useProfileUpdater() {
     updateResume({
       content: {
         profile: Profile.update(profile, newProfile),
-      },
+      } as ResumeContent,
     });
   }
 

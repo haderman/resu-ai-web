@@ -84,7 +84,7 @@ export function useResumeUpdaters() {
   const resumeId = useSelector(selectResumeId);
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
-  function updateResume(resume: any) {
+  function updateResume(resume: Partial<Resume>) {
     updateResume_({
       ...resume,
       id: resumeId,

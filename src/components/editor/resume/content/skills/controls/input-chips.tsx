@@ -9,7 +9,6 @@ const { selectors, useUpdater } = apiState.skills;
 export function InputChipsContainer() {
   const items = useSelector(selectors.selectItems);
   const [updater] = useUpdater();
-
   const rawItems = React.useMemo(
     () => items.map(item => item.title).join(', '),
     [items]

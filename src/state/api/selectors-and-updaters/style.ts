@@ -10,10 +10,14 @@ const selectTheme = createSelector(
 );
 
 export function useUpdaters() {
-  const [resumeUpdater] = useResumeUpdaters();
+  const [updateResume] = useResumeUpdaters();
 
   function updateTheme(theme: ResumeStyle['theme']) {
-    resumeUpdater.updateStyle({ theme });
+    updateResume({
+      style: {
+        theme,
+      },
+    });
   }
 
   const updaters = {
