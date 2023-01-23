@@ -27,11 +27,13 @@ const selectProfileCardBackground = createSelector(
 
 export function useProfileUpdater() {
   const profile = useSelector(selectProfile);
-  const [resumeUpdaters] = useResumeUpdaters();
+  const [updateResume] = useResumeUpdaters();
 
   function updateProfile(newProfile: Partial<Profile>) {
-    resumeUpdaters.updateContent({
-      profile: Profile.update(profile, newProfile),
+    updateResume({
+      content: {
+        profile: Profile.update(profile, newProfile),
+      },
     });
   }
 

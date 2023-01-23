@@ -39,21 +39,9 @@ export function PagesManager() {
                 <BlockComponent
                   id={block.id}
                   key={block.id}
+                  template={block.template}
                   slots={block.template.slots}
-                >
-                  {block.template.sections.map((section) => {
-                    switch (section) {
-                      case 'contact': return <ContactContainer />;
-                      case 'experience': return <ExperienceContainer />;
-                      case 'photo': return <PhotoContainer />;
-                      case 'projects': return <ProjectsContainer />;
-                      case 'skills': return <SkillsContainer />;
-                      case 'profile': return <ProfileContainer />;
-                      case 'empty': return <div>return</div>;
-                      default: return null;
-                    }
-                  })}
-                </BlockComponent>
+                />
               )}
             </Page>
           );
@@ -107,8 +95,9 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
 
 type BlockComponentProps = React.PropsWithChildren<{
   id: string
+  template: BlockTemplate
   slots: BlockTemplate['slots']
-  children: React.ReactNode
+  // children: React.ReactNode
 }>;
 
 function BlockComponent(props: BlockComponentProps) {
@@ -131,7 +120,18 @@ function BlockComponent(props: BlockComponentProps) {
       className={styles.block}
       data-block-layout={props.slots}
     >
-      {props.children}
+      {props.template.sections.map((section, idx) => {
+        switch (section) {
+          case 'contact': return <ContactContainer key='contact' />;
+          case 'experience': return <ExperienceContainer key='experience' />;
+          case 'photo': return <PhotoContainer key='photo' />;
+          case 'projects': return <ProjectsContainer key='projects' />;
+          case 'skills': return <SkillsContainer key='skills' />;
+          case 'profile': return <ProfileContainer key='profile' />;
+          case 'empty': return <div key='empty'>return</div>;
+          default: return null;
+        }
+      })}
     </div>
   );
 }
@@ -151,7 +151,10 @@ function usePages(): Page[] {
   const blocks = useSelector(selectBlocks);
 
   const pages = React.useMemo(
-    () => composePages(pageHeight, blocks),
+    () => {
+      console.log('react memos pages');
+      return composePages(pageHeight, blocks);
+    },
     [pageHeight, blocks]
   );
 

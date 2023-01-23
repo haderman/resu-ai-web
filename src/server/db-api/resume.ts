@@ -52,3 +52,21 @@ export function deleteResume(resumeId: string): Promise<Response> {
     )
   );
 }
+
+export function patchResume(resumeId: string, resume: Partial<Resume>): Promise<Resume | undefined> {
+  console.log('-------- res ----------');
+  console.log('resumeId: ', resumeId);
+  console.log('resume content: ', resume);
+
+  return client.query<Response<Resume>>(
+    q.Update(
+      q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_id'), resumeId))),
+      { data: resume }
+    )
+  )
+    .then((res) => {
+      console.log(res.data.content.profile.title.text);
+      return res.data;
+    })
+    .catch((err) => { throw err; });
+}

@@ -10,6 +10,8 @@ const { selectors } = apiState.skills;
 export function SkillsContainer() {
   const skills = useSelector(selectors.selectSkills);
 
+  console.log('skilss: ', skills);
+
   return (
     <SelectableCard item="skills">
       <Skills

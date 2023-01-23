@@ -13,7 +13,7 @@ export function useUpdaters() {
   const [resumeUpdater] = useResumeUpdaters();
 
   function updateLayout(layout: ResumeLayout) {
-    resumeUpdater.updateLayout(layout);
+    // resumeUpdater.updateLayout(layout);
   }
 
   const updaters = {

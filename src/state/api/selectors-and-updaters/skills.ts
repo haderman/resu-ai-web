@@ -35,9 +35,9 @@ export function useUpdater() {
   const [resumeUpdater] = useResumeUpdaters();
 
   function updateSkills(newSkills: Partial<Skills>) {
-    resumeUpdater.updateContent({
-      skills: Skills.update(skills, newSkills),
-    });
+    // resumeUpdater.updateContent({
+    //   skills: Skills.update(skills, newSkills),
+    // });
   }
 
   function updateTitle(title: Partial<Skills['title']>) {

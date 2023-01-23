@@ -5,6 +5,8 @@ import { apiState } from '@/state/api';
 import { Input } from '@/components/editor/form';
 import { Profile } from '@/shared/types';
 
+const { useResumeUpdaters } = apiState.resume;
+
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputTitleContainer() {
@@ -52,6 +54,22 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
 }
 
 function useUpdateTitle() {
+  const [update] = useResumeUpdaters();
+
+  function updateTitle(title: Partial<Profile['title']>) {
+    update({
+      content: {
+        profile: {
+          title: { text: title.text }
+        }
+      }
+    });
+  }
+
+  return [updateTitle];
+}
+
+function useUpdateTitle_old() {
   const [updater] = useProfileUpdater();
 
   function updateTitle(title: Partial<Profile['title']>) {

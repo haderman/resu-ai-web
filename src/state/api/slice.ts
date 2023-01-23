@@ -21,25 +21,38 @@ export const apiSlice = createApi({
       query: () => 'resume',
       transformResponse: Resume.decode,
     }),
-    updateResume: builder.mutation<void, Resume>({
+    updateResume: builder.mutation<void, Partial<Resume>>({
       query: (resume) => {
         return {
-          url: 'resume',
-          method: 'PUT',
+          url: `resume/${resume.id}`,
+          method: 'PATCH',
           body: resume,
         };
       },
       onQueryStarted: async (resume, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
-            updateDraftContent(draft, resume.content);
-            updateDraftStyle(draft, resume.style);
-            updateDraftLayout(draft, resume.layout);
-            updateDraftSections(draft, resume.sections);
+            draft.content.profile.title.text = resume.content?.profile.title.text ?? '';
+
+            // if (resume.content) {
+            //   updateDraftContent(draft, resume.content);
+            // }
+
+            // if (resume.layout) {
+            //   updateDraftLayout(draft, resume.layout);
+            // }
+
+            // if (resume.style) {
+            //   updateDraftStyle(draft, resume.style);
+            // }
+
+            // if (resume.sections) {
+            //   updateDraftSections(draft, resume.sections);
+            // }
           })
         );
         try {
-          dispatch(resumeUpdated(resume));
+          // dispatch(resumeUpdated(resume));
           await queryFulfilled;
         } catch (err) {
           patchResult.undo();
@@ -49,7 +62,7 @@ export const apiSlice = createApi({
   }),
 });
 
-export const resumeUpdated = createAction<Resume>('resume-updated');
+export const resumeUpdated = createAction<Partial<Resume>>('resume-updated');
 
 export const { useGetResumeQuery } = apiSlice;
 
@@ -60,60 +73,28 @@ export const selectResumeStatus = createSelector(
   (result) => result.status,
 );
 
-
 export const selectResume = createSelector(
   selectResumeResult,
   (result) => result.data
 );
 
+export const selectResumeId = createSelector(
+  selectResume,
+  (resume) => resume?.id
+);
+
 export function useResumeUpdaters() {
-  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
-  const { data } = useSelector(selectResumeResult);
+  // const resumeId = useSelector(selectResumeId);
+  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
-  function updateContent(content: Partial<ResumeContent>) {
-    if (data) {
-      updateResume_({
-        ...data,
-        content: {
-          ...data.content,
-          ...content,
-        },
-      });
-    }
+  function updateResume(resume: any) {
+    updateResume_({
+      ...resume,
+      id: 'U4nuLYEAP2sItr5uk9sp-', // resumeId,
+    });
   }
 
-  function updateStyle(style: Partial<ResumeStyle>) {
-    if (data) {
-      updateResume_({
-        ...data,
-        style: {
-          ...data.style,
-          ...style,
-        },
-      });
-    }
-  }
-
-  function updateLayout(layout: ResumeLayout) {
-    if (data) {
-      updateResume_({ ...data, layout });
-    }
-  }
-
-  function updateSections(sections: ResumeSections) {
-    if (data) {
-      updateResume_({ ...data, sections });
-    }
-  }
-
-  const updaters = {
-    updateContent,
-    updateStyle,
-    updateLayout,
-    updateSections,
-  };
-
-  return [updaters, meta] as const;
+  return [updateResume, meta] as const;
 }
 
 /**

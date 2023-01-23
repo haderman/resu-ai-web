@@ -12,7 +12,7 @@ export function useUpdaters() {
   const [resumeUpdater] = useResumeUpdaters();
 
   function updateSections(sections: ResumeSections) {
-    resumeUpdater.updateSections(sections);
+    // resumeUpdater.updateSections(sections);
   }
 
   const updaters = {

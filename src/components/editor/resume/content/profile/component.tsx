@@ -4,7 +4,6 @@ import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
 import { Stack, Text } from '@/components/editor/common';
 
-
 const selectors = apiState.profile.selectors;
 
 export type ProfileProps = {
