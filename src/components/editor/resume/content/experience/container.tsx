@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectColor, selectBackground } from '@/state/experience';
@@ -15,7 +16,9 @@ export function ExperienceContainer() {
 
   return (
     <SelectableCard item="experience">
-      <Experience color={color} background={background} />
+      <MemoizedExperience color={color} background={background} />
     </SelectableCard>
   );
 }
+
+const MemoizedExperience = React.memo(Experience);

@@ -32,10 +32,12 @@ export const blocksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(resumeUpdated, (state, action) => {
-        const { layout, sections } = action.payload;
-        if (layout && sections) {
-          return composeBlocks_(layout, sections);
-        }
+
+        // const { layout, sections } = action.payload;
+
+        // if (layout && sections) {
+        //   return composeBlocks_(layout, sections);
+        // }
       })
       .addMatcher(apiSlice.endpoints.getResume.matchFulfilled, (state, action) => {
         const { layout, sections } = action.payload;

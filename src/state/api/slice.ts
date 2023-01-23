@@ -8,7 +8,6 @@ import { createAction, createSelector } from '@reduxjs/toolkit';
 import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const apiSlice = createApi({
-  // The cache reducer expects to be added at `state.api` (already default - this is optional)
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/` }),
   extractRehydrationInfo(action, { reducerPath }) {
@@ -32,27 +31,25 @@ export const apiSlice = createApi({
       onQueryStarted: async (resume, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
-            draft.content.profile.title.text = resume.content?.profile.title.text ?? '';
+            if (resume.content) {
+              updateDraftContent(draft, resume.content);
+            }
 
-            // if (resume.content) {
-            //   updateDraftContent(draft, resume.content);
-            // }
+            if (resume.layout) {
+              updateDraftLayout(draft, resume.layout);
+            }
 
-            // if (resume.layout) {
-            //   updateDraftLayout(draft, resume.layout);
-            // }
+            if (resume.style) {
+              updateDraftStyle(draft, resume.style);
+            }
 
-            // if (resume.style) {
-            //   updateDraftStyle(draft, resume.style);
-            // }
-
-            // if (resume.sections) {
-            //   updateDraftSections(draft, resume.sections);
-            // }
+            if (resume.sections) {
+              updateDraftSections(draft, resume.sections);
+            }
           })
         );
         try {
-          // dispatch(resumeUpdated(resume));
+          dispatch(resumeUpdated(resume));
           await queryFulfilled;
         } catch (err) {
           patchResult.undo();
@@ -84,13 +81,13 @@ export const selectResumeId = createSelector(
 );
 
 export function useResumeUpdaters() {
-  // const resumeId = useSelector(selectResumeId);
+  const resumeId = useSelector(selectResumeId);
   const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
   function updateResume(resume: any) {
     updateResume_({
       ...resume,
-      id: 'U4nuLYEAP2sItr5uk9sp-', // resumeId,
+      id: resumeId,
     });
   }
 

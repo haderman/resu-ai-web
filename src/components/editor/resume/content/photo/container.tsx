@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectColor } from '@/state/photo';
@@ -18,3 +19,5 @@ export function PhotoContainer() {
     </SelectableCard>
   );
 }
+
+const MemoizedPhoto = React.memo(Photo);

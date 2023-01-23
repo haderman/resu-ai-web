@@ -40,7 +40,6 @@ export function PagesManager() {
                   id={block.id}
                   key={block.id}
                   template={block.template}
-                  slots={block.template.slots}
                 />
               )}
             </Page>
@@ -96,11 +95,37 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
 type BlockComponentProps = React.PropsWithChildren<{
   id: string
   template: BlockTemplate
-  slots: BlockTemplate['slots']
-  // children: React.ReactNode
 }>;
 
 function BlockComponent(props: BlockComponentProps) {
+  const Sections = React.useMemo(
+    () => {
+      return props.template.sections.map((section, idx) => {
+        switch (section) {
+          case 'contact': return <ContactContainer key='contact' />;
+          case 'experience': return <ExperienceContainer key='experience' />;
+          case 'photo': return <PhotoContainer key='photo' />;
+          case 'projects': return <ProjectsContainer key='projects' />;
+          case 'skills': return <SkillsContainer key='skills' />;
+          case 'profile': return <ProfileContainer key='profile' />;
+          case 'empty': return <div key='empty'>return</div>;
+          default: return null;
+        }
+      });
+    },
+    [props.template.sections],
+  );
+
+  return (
+    <ResizableBlock id={props.id} data-block-layout={props.template.slots}>
+      {Sections}
+    </ResizableBlock>
+  );
+}
+
+type ResizableBlockProps = React.PropsWithChildren<{ id: string }>
+
+function ResizableBlock(props: ResizableBlockProps) {
   const dispatch = useDispatch();
   const { ref } = useResizeObserver<HTMLDivElement>({
     onResize(size) {
@@ -115,23 +140,11 @@ function BlockComponent(props: BlockComponentProps) {
 
   return (
     <div
-      id={props.id}
       ref={ref}
       className={styles.block}
-      data-block-layout={props.slots}
+      {...props}
     >
-      {props.template.sections.map((section, idx) => {
-        switch (section) {
-          case 'contact': return <ContactContainer key='contact' />;
-          case 'experience': return <ExperienceContainer key='experience' />;
-          case 'photo': return <PhotoContainer key='photo' />;
-          case 'projects': return <ProjectsContainer key='projects' />;
-          case 'skills': return <SkillsContainer key='skills' />;
-          case 'profile': return <ProfileContainer key='profile' />;
-          case 'empty': return <div key='empty'>return</div>;
-          default: return null;
-        }
-      })}
+      {props.children}
     </div>
   );
 }
@@ -152,7 +165,6 @@ function usePages(): Page[] {
 
   const pages = React.useMemo(
     () => {
-      console.log('react memos pages');
       return composePages(pageHeight, blocks);
     },
     [pageHeight, blocks]

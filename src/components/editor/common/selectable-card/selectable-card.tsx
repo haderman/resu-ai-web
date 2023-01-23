@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
 import { selectSelectedItem, editorSlice } from '@/state';
 
@@ -14,12 +14,12 @@ export type SelectableCardProps = React.PropsWithChildren<{
 
 
 export function SelectableCard(props: SelectableCardProps) {
-  const store = useStore();
+  const dispatch = useDispatch();
   const selectedItem = useSelector(selectSelectedItem);
 
   function handleFocus(evt: React.FocusEvent<HTMLDivElement>) {
     evt.stopPropagation();
-    store.dispatch(actions.setSelectedItem(props.item));
+    dispatch(actions.setSelectedItem(props.item));
   }
 
   return (
