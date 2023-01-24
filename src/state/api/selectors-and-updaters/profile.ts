@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
@@ -26,37 +27,20 @@ const selectProfileCardBackground = createSelector(
 );
 
 export function useProfileUpdater() {
-  const profile = useSelector(selectProfile);
-  const [updateResume] = useResumeUpdaters();
+  const updateResume = useResumeUpdaters();
 
-  function updateProfile(newProfile: Partial<Profile>) {
-    updateResume({
-      content: {
-        profile: Profile.update(profile, newProfile),
-      } as ResumeContent,
-    });
-  }
+  const updateProfile = React.useCallback(
+    (newProfile: Partial<Profile>) => {
+      updateResume({
+        content: {
+          profile: newProfile,
+        } as ResumeContent,
+      });
+    },
+    [updateResume]
+  );
 
-  function updateProfleTitle(title: Partial<Profile['title']>) {
-    updateProfile(Profile.updateTitle(profile, title));
-  }
-
-  function updateProfleDescription(description: Partial<Profile['description']>) {
-    updateProfile(Profile.updateDescription(profile, description));
-  }
-
-  function updateCardStyle(style: Partial<Profile['cardStyle']>) {
-    updateProfile(Profile.updateCardStyle(profile, style));
-  }
-
-  const updater = {
-    updateProfile,
-    updateProfleTitle,
-    updateProfleDescription,
-    updateCardStyle,
-  };
-
-  return [updater] as const;
+  return updateProfile;
 }
 
 export const selectors = {

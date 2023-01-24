@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
@@ -82,16 +83,25 @@ export const selectResumeId = createSelector(
 
 export function useResumeUpdaters() {
   const resumeId = useSelector(selectResumeId);
-  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+  const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
-  function updateResume(resume: Partial<Resume>) {
-    updateResume_({
-      ...resume,
-      id: resumeId,
-    });
-  }
+  const updateResume = React.useCallback(
+    (resume: Partial<Resume>) => {
+      updateResume_({
+        ...resume,
+        id: resumeId,
+      });
+    },
+    [resumeId, updateResume_]
+  );
 
-  return [updateResume, meta] as const;
+  return updateResume;
+}
+
+export function useResumeUpdateStatus() {
+  const [_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+
+  return [meta] as const;
 }
 
 /**

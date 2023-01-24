@@ -10,7 +10,7 @@ const selectLayout = createSelector(
 );
 
 export function useUpdaters() {
-  const [updateResume] = useResumeUpdaters();
+  const updateResume = useResumeUpdaters();
 
   function updateLayout(layout: ResumeLayout) {
     updateResume({ layout });

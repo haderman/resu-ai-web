@@ -32,7 +32,7 @@ const selectItemStyle = createSelector(
 
 export function useUpdater() {
   const skills = useSelector(selectSkills);
-  const [updateResume] = useResumeUpdaters();
+  const updateResume = useResumeUpdaters();
 
   function updateSkills(newSkills: Partial<Skills>) {
     updateResume({
