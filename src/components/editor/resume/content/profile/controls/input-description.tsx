@@ -17,7 +17,7 @@ export function InputDescriptionContainer() {
         description: {
           text: value
         },
-      } as Partial<Profile>);
+      });
     },
     [update]
   );

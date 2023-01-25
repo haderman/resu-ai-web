@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { Profile, ResumeContent } from '@/shared/types';
+import { DeepPartial, Profile, ResumeContent } from '@/shared/types';
 
 import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
@@ -30,7 +30,7 @@ export function useProfileUpdater() {
   const updateResume = useResumeUpdaters();
 
   const updateProfile = React.useCallback(
-    (newProfile: Partial<Profile>) => {
+    (newProfile: DeepPartial<Profile>) => {
       updateResume({
         content: {
           profile: newProfile,

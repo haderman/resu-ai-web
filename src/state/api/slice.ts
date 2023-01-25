@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
+import { Resume, ResumeContent, ResumeStyle, ResumeLayout, DeepPartial } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
 import { createAction, createSelector } from '@reduxjs/toolkit';
@@ -21,7 +21,7 @@ export const apiSlice = createApi({
       query: () => 'resume',
       transformResponse: Resume.decode,
     }),
-    updateResume: builder.mutation<void, Partial<Resume>>({
+    updateResume: builder.mutation<void, DeepPartial<Resume>>({
       query: (resume) => {
         return {
           url: `resume/${resume.id}`,
@@ -60,7 +60,7 @@ export const apiSlice = createApi({
   }),
 });
 
-export const resumeUpdated = createAction<Partial<Resume>>('resume-updated');
+export const resumeUpdated = createAction<DeepPartial<Resume>>('resume-updated');
 
 export const { useGetResumeQuery } = apiSlice;
 
@@ -86,7 +86,7 @@ export function useResumeUpdaters() {
   const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
   const updateResume = React.useCallback(
-    (resume: Partial<Resume>) => {
+    (resume: DeepPartial<Resume>) => {
       updateResume_({
         ...resume,
         id: resumeId,
@@ -118,7 +118,7 @@ export function useResumeUpdateStatus() {
  * then Immer is going to update only the title property of the profile in the state
  * saving some re-rendering
  */
-function updateDraftContent(draft: Resume, content: ResumeContent): void {
+function updateDraftContent(draft: Resume, content: DeepPartial<ResumeContent>): void {
   for (const outerKey in content) {
     const contentValue: any = content[outerKey as keyof ResumeContent];
     for (const innerKey in contentValue) {
@@ -129,7 +129,7 @@ function updateDraftContent(draft: Resume, content: ResumeContent): void {
   }
 }
 
-function updateDraftStyle(draft: Resume, style: ResumeStyle): void {
+function updateDraftStyle(draft: Resume, style: DeepPartial<ResumeStyle>): void {
   for (const outerKey in style) {
     // TODO: I don't know how to type this properly
     // @ts-ignore

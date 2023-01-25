@@ -17,7 +17,7 @@ export function InputCardBackgroundContainer() {
         cardStyle: {
           background: value,
         }
-      } as Partial<Profile>);
+      });
     },
     [update]
   );

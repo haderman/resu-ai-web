@@ -19,7 +19,7 @@ export function InputTitleContainer() {
         title: {
           text: value
         },
-      } as Partial<Profile>);
+      });
     },
     [update]
   );
@@ -60,20 +60,4 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
       </div>
     </fieldset>
   );
-}
-
-function useUpdateTitle() {
-  const update = useResumeUpdaters();
-
-  function updateTitle(title: Partial<Profile['title']>) {
-    update({
-      content: {
-        profile: {
-          title: { text: title.text }
-        }
-      } as ResumeContent
-    });
-  }
-
-  return [updateTitle];
 }
