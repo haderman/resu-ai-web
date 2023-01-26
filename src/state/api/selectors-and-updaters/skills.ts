@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { ResumeContent, Skills } from '@/shared/types';
+import { DeepPartial, ResumeContent, Skills } from '@/shared/types';
 
 import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
@@ -30,42 +30,18 @@ const selectItemStyle = createSelector(
   (skills) => skills.itemStyle,
 );
 
-export function useUpdater() {
-  const skills = useSelector(selectSkills);
+export function useUpdateSkills() {
   const updateResume = useResumeUpdaters();
 
-  function updateSkills(newSkills: Partial<Skills>) {
+  function updateSkills(newSkills: DeepPartial<Skills>) {
     updateResume({
       content: {
-        skills: Skills.update(skills, newSkills),
+        skills: newSkills,
       } as ResumeContent
     });
   }
 
-  function updateTitle(title: Partial<Skills['title']>) {
-    updateSkills(Skills.updateTitle(skills, title));
-  }
-
-  function updateCardStyle(style: Partial<Skills['cardStyle']>) {
-    updateSkills(Skills.updateCardStyle(skills, style));
-  }
-
-  function updateItemStyle(style: Partial<Skills['itemStyle']>) {
-    updateSkills(Skills.updateItemStyle(skills, style));
-  }
-
-  function updateItems(items: Skills['items']) {
-    updateSkills(Skills.updateItems(skills, items));
-  }
-
-  const updater = {
-    updateTitle,
-    updateItems,
-    updateCardStyle,
-    updateItemStyle,
-  };
-
-  return [updater] as const;
+  return updateSkills;
 }
 
 export const selectors = {

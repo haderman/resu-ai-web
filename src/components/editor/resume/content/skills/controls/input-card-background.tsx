@@ -5,14 +5,18 @@ import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
 import { ColorSelector } from '@/components/editor/form';
 
-const { selectors, useUpdater } = apiState.skills;
+const { selectors, useUpdateSkills } = apiState.skills;
 
 export function InputCardBackgroundContainer() {
   const color = useSelector(selectors.selectCardBackground);
-  const [updater] = useUpdater();
+  const updateSkills = useUpdateSkills();
 
   function handleChange(value: Color) {
-    updater.updateCardStyle({ background: value });
+    updateSkills({
+      cardStyle: {
+        background: value
+      },
+    });
   }
 
   return <InputCardBackgroundComponent value={color} onChange={handleChange} />;

@@ -5,14 +5,18 @@ import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
 import { ColorSelector } from '@/components/editor/form';
 
-const { selectors, useUpdater } = apiState.skills;
+const { selectors, useUpdateSkills } = apiState.skills;
 
 export function InputItemColorContainer() {
   const { background } = useSelector(selectors.selectItemStyle);
-  const [updater] = useUpdater();
+  const updateSkills = useUpdateSkills();
 
   function handleChange(value: Color) {
-    updater.updateItemStyle({ background: value });
+    updateSkills({
+      itemStyle: {
+        background: value
+      },
+    });
   }
 
   return <InputItemColorComponent value={background} onChange={handleChange} />;

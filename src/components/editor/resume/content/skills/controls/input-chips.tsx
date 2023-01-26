@@ -4,22 +4,22 @@ import { useSelector } from 'react-redux';
 import { apiState } from '@/state/api';
 import { Input } from '@/components/editor/form';
 
-const { selectors, useUpdater } = apiState.skills;
+const { selectors, useUpdateSkills } = apiState.skills;
 
 export function InputChipsContainer() {
   const items = useSelector(selectors.selectItems);
-  const [updater] = useUpdater();
+  const updateSkills = useUpdateSkills();
   const rawItems = React.useMemo(
     () => items.map(item => item.title).join(', '),
     [items]
   );
 
   function handleChange(value: string) {
-    updater.updateItems(
-      value
+    updateSkills({
+      items: value
         .split(',')
         .map(title => ({ title: title.trim(), yearsOfExperience: 1 }))
-    );
+    });
   }
 
   return <InputTitleComponent value={rawItems} onChange={handleChange} />;
