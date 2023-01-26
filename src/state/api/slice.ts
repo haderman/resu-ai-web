@@ -1,14 +1,14 @@
+import * as React from 'react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Resume, ResumeContent, ResumeStyle, ResumeLayout } from '@/shared/types';
+import { Resume, ResumeContent, ResumeStyle, ResumeLayout, DeepPartial } from '@/shared/types';
 import { getHost } from '@/shared/helpers/get-host';
 import { useSelector } from 'react-redux';
 import { createAction, createSelector } from '@reduxjs/toolkit';
 import { ResumeSections } from '@/shared/types/resume/sections';
 
 export const apiSlice = createApi({
-  // The cache reducer expects to be added at `state.api` (already default - this is optional)
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/` }),
   extractRehydrationInfo(action, { reducerPath }) {
@@ -21,21 +21,32 @@ export const apiSlice = createApi({
       query: () => 'resume',
       transformResponse: Resume.decode,
     }),
-    updateResume: builder.mutation<void, Resume>({
+    updateResume: builder.mutation<void, DeepPartial<Resume>>({
       query: (resume) => {
         return {
-          url: 'resume',
-          method: 'PUT',
+          url: `resume/${resume.id}`,
+          method: 'PATCH',
           body: resume,
         };
       },
       onQueryStarted: async (resume, { dispatch, queryFulfilled }) => {
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getResume', undefined, (draft) => {
-            updateDraftContent(draft, resume.content);
-            updateDraftStyle(draft, resume.style);
-            updateDraftLayout(draft, resume.layout);
-            updateDraftSections(draft, resume.sections);
+            if (resume.content) {
+              updateDraftContent(draft, resume.content);
+            }
+
+            if (resume.layout) {
+              updateDraftLayout(draft, resume.layout);
+            }
+
+            if (resume.style) {
+              updateDraftStyle(draft, resume.style);
+            }
+
+            if (resume.sections) {
+              updateDraftSections(draft, resume.sections);
+            }
           })
         );
         try {
@@ -49,7 +60,7 @@ export const apiSlice = createApi({
   }),
 });
 
-export const resumeUpdated = createAction<Resume>('resume-updated');
+export const resumeUpdated = createAction<DeepPartial<Resume>>('resume-updated');
 
 export const { useGetResumeQuery } = apiSlice;
 
@@ -60,60 +71,37 @@ export const selectResumeStatus = createSelector(
   (result) => result.status,
 );
 
-
 export const selectResume = createSelector(
   selectResumeResult,
   (result) => result.data
 );
 
+export const selectResumeId = createSelector(
+  selectResume,
+  (resume) => resume?.id
+);
+
 export function useResumeUpdaters() {
-  const [updateResume_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume' });
-  const { data } = useSelector(selectResumeResult);
+  const resumeId = useSelector(selectResumeId);
+  const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
-  function updateContent(content: Partial<ResumeContent>) {
-    if (data) {
+  const updateResume = React.useCallback(
+    (resume: DeepPartial<Resume>) => {
       updateResume_({
-        ...data,
-        content: {
-          ...data.content,
-          ...content,
-        },
+        ...resume,
+        id: resumeId,
       });
-    }
-  }
+    },
+    [resumeId, updateResume_]
+  );
 
-  function updateStyle(style: Partial<ResumeStyle>) {
-    if (data) {
-      updateResume_({
-        ...data,
-        style: {
-          ...data.style,
-          ...style,
-        },
-      });
-    }
-  }
+  return updateResume;
+}
 
-  function updateLayout(layout: ResumeLayout) {
-    if (data) {
-      updateResume_({ ...data, layout });
-    }
-  }
+export function useResumeUpdateStatus() {
+  const [_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
-  function updateSections(sections: ResumeSections) {
-    if (data) {
-      updateResume_({ ...data, sections });
-    }
-  }
-
-  const updaters = {
-    updateContent,
-    updateStyle,
-    updateLayout,
-    updateSections,
-  };
-
-  return [updaters, meta] as const;
+  return [meta] as const;
 }
 
 /**
@@ -130,7 +118,7 @@ export function useResumeUpdaters() {
  * then Immer is going to update only the title property of the profile in the state
  * saving some re-rendering
  */
-function updateDraftContent(draft: Resume, content: ResumeContent): void {
+function updateDraftContent(draft: Resume, content: DeepPartial<ResumeContent>): void {
   for (const outerKey in content) {
     const contentValue: any = content[outerKey as keyof ResumeContent];
     for (const innerKey in contentValue) {
@@ -141,7 +129,7 @@ function updateDraftContent(draft: Resume, content: ResumeContent): void {
   }
 }
 
-function updateDraftStyle(draft: Resume, style: ResumeStyle): void {
+function updateDraftStyle(draft: Resume, style: DeepPartial<ResumeStyle>): void {
   for (const outerKey in style) {
     // TODO: I don't know how to type this properly
     // @ts-ignore

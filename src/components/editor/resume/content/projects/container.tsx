@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import {
@@ -16,7 +17,7 @@ export function ProjectsContainer() {
 
   return (
     <SelectableCard item="projects">
-      <Projects
+      <MemoizedProjects
         color={color}
         background={background}
         skillsColor={skillsColor}
@@ -24,3 +25,5 @@ export function ProjectsContainer() {
     </SelectableCard>
   );
 }
+
+const MemoizedProjects = React.memo(Projects);

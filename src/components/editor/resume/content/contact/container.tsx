@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectColor } from '@/state/contact';
@@ -14,7 +15,9 @@ export function ContactContainer() {
 
   return (
     <SelectableCard item="contact">
-      <Contact color={color} />
+      <MemoizedContact color={color} />
     </SelectableCard>
   );
 }
+
+const MemoizedContact = React.memo(Contact);

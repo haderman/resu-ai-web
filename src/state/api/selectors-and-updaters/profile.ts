@@ -1,7 +1,8 @@
+import * as React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { Profile } from '@/shared/types';
+import { DeepPartial, Profile, ResumeContent } from '@/shared/types';
 
 import { selectResumeStatus, selectResume, useResumeUpdaters } from '../slice';
 
@@ -26,35 +27,20 @@ const selectProfileCardBackground = createSelector(
 );
 
 export function useProfileUpdater() {
-  const profile = useSelector(selectProfile);
-  const [resumeUpdaters] = useResumeUpdaters();
+  const updateResume = useResumeUpdaters();
 
-  function updateProfile(newProfile: Partial<Profile>) {
-    resumeUpdaters.updateContent({
-      profile: Profile.update(profile, newProfile),
-    });
-  }
+  const updateProfile = React.useCallback(
+    (newProfile: DeepPartial<Profile>) => {
+      updateResume({
+        content: {
+          profile: newProfile,
+        } as ResumeContent,
+      });
+    },
+    [updateResume]
+  );
 
-  function updateProfleTitle(title: Partial<Profile['title']>) {
-    updateProfile(Profile.updateTitle(profile, title));
-  }
-
-  function updateProfleDescription(description: Partial<Profile['description']>) {
-    updateProfile(Profile.updateDescription(profile, description));
-  }
-
-  function updateCardStyle(style: Partial<Profile['cardStyle']>) {
-    updateProfile(Profile.updateCardStyle(profile, style));
-  }
-
-  const updater = {
-    updateProfile,
-    updateProfleTitle,
-    updateProfleDescription,
-    updateCardStyle,
-  };
-
-  return [updater] as const;
+  return updateProfile;
 }
 
 export const selectors = {

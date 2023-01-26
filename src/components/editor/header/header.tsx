@@ -19,7 +19,7 @@ export function Header(props: HeaderProps) {
 }
 
 function ResumeSavingIndicator() {
-  const [_, { isLoading }] = apiState.resume.useResumeUpdaters();
+  const [{ isLoading }] = apiState.resume.useResumeUpdateStatus();
 
   return (
     <span>

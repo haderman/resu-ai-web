@@ -9,10 +9,10 @@ const selectSections = createSelector(
 );
 
 export function useUpdaters() {
-  const [resumeUpdater] = useResumeUpdaters();
+  const updateResume = useResumeUpdaters();
 
   function updateSections(sections: ResumeSections) {
-    resumeUpdater.updateSections(sections);
+    updateResume({ sections });
   }
 
   const updaters = {

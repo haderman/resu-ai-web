@@ -18,6 +18,12 @@ export function getAllResumesByUserID(userId: string): Promise<Resume[]> {
   ).then((res) => res.data);
 }
 
+export function getResume(resumeId: string): Promise<Resume> {
+  return client.query<Response<Resume>>(
+    q.Get(q.Match(q.Index('resume_by_id'), resumeId))
+  ).then((res) => res.data);
+}
+
 export function getResumeOrCreateIfNotExists(userId: string): Promise<Resume> {
   return getAllResumesByUserID(userId)
     .then((data) => {
@@ -51,4 +57,15 @@ export function deleteResume(resumeId: string): Promise<Response> {
       q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_id'), resumeId)))
     )
   );
+}
+
+export function patchResume(resumeId: string, resume: Partial<Resume>): Promise<Resume | undefined> {
+  return client.query<Response<Resume>>(
+    q.Update(
+      q.Select(['ref'], q.Get(q.Match(q.Index('resume_by_id'), resumeId))),
+      { data: resume }
+    )
+  )
+    .then((res) => { return res.data; })
+    .catch((err) => { throw err; });
 }

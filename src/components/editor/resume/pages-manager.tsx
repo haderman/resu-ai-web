@@ -39,21 +39,8 @@ export function PagesManager() {
                 <BlockComponent
                   id={block.id}
                   key={block.id}
-                  slots={block.template.slots}
-                >
-                  {block.template.sections.map((section) => {
-                    switch (section) {
-                      case 'contact': return <ContactContainer />;
-                      case 'experience': return <ExperienceContainer />;
-                      case 'photo': return <PhotoContainer />;
-                      case 'projects': return <ProjectsContainer />;
-                      case 'skills': return <SkillsContainer />;
-                      case 'profile': return <ProfileContainer />;
-                      case 'empty': return <div>return</div>;
-                      default: return null;
-                    }
-                  })}
-                </BlockComponent>
+                  template={block.template}
+                />
               )}
             </Page>
           );
@@ -107,11 +94,38 @@ const Page = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{}>>(
 
 type BlockComponentProps = React.PropsWithChildren<{
   id: string
-  slots: BlockTemplate['slots']
-  children: React.ReactNode
+  template: BlockTemplate
 }>;
 
 function BlockComponent(props: BlockComponentProps) {
+  const Sections = React.useMemo(
+    () => {
+      return props.template.sections.map((section, idx) => {
+        switch (section) {
+          case 'contact': return <ContactContainer key='contact' />;
+          case 'experience': return <ExperienceContainer key='experience' />;
+          case 'photo': return <PhotoContainer key='photo' />;
+          case 'projects': return <ProjectsContainer key='projects' />;
+          case 'skills': return <SkillsContainer key='skills' />;
+          case 'profile': return <ProfileContainer key='profile' />;
+          case 'empty': return <div key='empty'>return</div>;
+          default: return null;
+        }
+      });
+    },
+    [props.template.sections],
+  );
+
+  return (
+    <ResizableBlock id={props.id} data-block-layout={props.template.slots}>
+      {Sections}
+    </ResizableBlock>
+  );
+}
+
+type ResizableBlockProps = React.PropsWithChildren<{ id: string }>
+
+function ResizableBlock(props: ResizableBlockProps) {
   const dispatch = useDispatch();
   const { ref } = useResizeObserver<HTMLDivElement>({
     onResize(size) {
@@ -126,10 +140,9 @@ function BlockComponent(props: BlockComponentProps) {
 
   return (
     <div
-      id={props.id}
       ref={ref}
       className={styles.block}
-      data-block-layout={props.slots}
+      {...props}
     >
       {props.children}
     </div>
@@ -151,7 +164,9 @@ function usePages(): Page[] {
   const blocks = useSelector(selectBlocks);
 
   const pages = React.useMemo(
-    () => composePages(pageHeight, blocks),
+    () => {
+      return composePages(pageHeight, blocks);
+    },
     [pageHeight, blocks]
   );
 

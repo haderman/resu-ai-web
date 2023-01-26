@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
@@ -12,7 +13,7 @@ export function SkillsContainer() {
 
   return (
     <SelectableCard item="skills">
-      <Skills
+      <MemoizedSkills
         data={skills.items}
         color={skills.itemStyle.background}
         background={skills.cardStyle.background}
@@ -20,3 +21,5 @@ export function SkillsContainer() {
     </SelectableCard>
   );
 }
+
+const MemoizedSkills = React.memo(Skills);

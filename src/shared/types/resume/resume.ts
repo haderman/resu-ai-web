@@ -89,7 +89,7 @@ export const Resume = {
       userId,
       content,
       style: {
-        theme: 'default',
+        theme: 'dark-space',
       },
       layout: ResumeLayout.DEFAULT_LAYOUT,
       sections: ResumeSections.DEFAULT_LIST,

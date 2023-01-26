@@ -1,4 +1,4 @@
-import apiSlice, { useResumeUpdaters, selectResume, useGetResumeQuery } from './slice';
+import apiSlice, { useResumeUpdaters, selectResume, useGetResumeQuery, useResumeUpdateStatus } from './slice';
 import { selectors as profileSelectors, useProfileUpdater } from './selectors-and-updaters/profile';
 import * as skillsApi from './selectors-and-updaters/skills';
 import * as StyleApi from './selectors-and-updaters/style';
@@ -12,6 +12,7 @@ export const apiState = {
     },
     useResumeUpdaters,
     useGetResumeQuery,
+    useResumeUpdateStatus,
   },
   profile: { selectors: profileSelectors, useProfileUpdater },
   skills: skillsApi,

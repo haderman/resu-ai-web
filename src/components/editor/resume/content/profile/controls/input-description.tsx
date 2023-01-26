@@ -9,14 +9,23 @@ const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputDescriptionContainer() {
   const description = useSelector(selectors.selectProfileDescription);
-  const [update] = useUpdateDescription();
+  const update = useProfileUpdater();
 
-  function handleChange(value: string) {
-    update({ text: value });
-  }
+  const handleChange = React.useCallback(
+    (value: string) => {
+      update({
+        description: {
+          text: value
+        },
+      });
+    },
+    [update]
+  );
 
-  return <InputDescriptionComponent value={description.text} onChange={handleChange} />;
+  return <MemoizedInputDescriptionComponent value={description.text} onChange={handleChange} />;
 }
+
+const MemoizedInputDescriptionComponent = React.memo(InputDescriptionComponent);
 
 type InputDescriptionComponentProps = {
   value: string
@@ -50,14 +59,4 @@ export function InputDescriptionComponent(props: InputDescriptionComponentProps)
       </div>
     </fieldset>
   );
-}
-
-function useUpdateDescription() {
-  const [updater] = useProfileUpdater();
-
-  function updateDescription(description: Partial<Profile['description']>) {
-    updater.updateProfleDescription(description);
-  }
-
-  return [updateDescription] as const;
 }

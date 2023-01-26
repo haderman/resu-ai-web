@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
@@ -16,8 +17,10 @@ export function ProfileContainer() {
 
   return (
     <SelectableCard item="profile">
-      <Profile color={color} />
+      <MemoizedProfile color={color} />
     </SelectableCard>
   );
 }
+
+const MemoizedProfile = React.memo(Profile);
 

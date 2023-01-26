@@ -3,20 +3,31 @@ import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { Input } from '@/components/editor/form';
-import { Profile } from '@/shared/types';
+import { Profile, ResumeContent } from '@/shared/types';
+
+const { useResumeUpdaters } = apiState.resume;
 
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputTitleContainer() {
   const title = useSelector(selectors.selectProfileTitle);
-  const [update] = useUpdateTitle();
+  const update = useProfileUpdater();
 
-  function handleChange(value: string) {
-    update({ text: value });
-  }
+  const handleChange = React.useCallback(
+    (value: string) => {
+      update({
+        title: {
+          text: value
+        },
+      });
+    },
+    [update]
+  );
 
-  return <InputTitleComponent value={title.text} onChange={handleChange} />;
+  return <MemoizedInputTitleComponent value={title.text} onChange={handleChange} />;
 }
+
+const MemoizedInputTitleComponent = React.memo(InputTitleComponent);
 
 type InputTitleComponentProps = {
   value: string
@@ -49,14 +60,4 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
       </div>
     </fieldset>
   );
-}
-
-function useUpdateTitle() {
-  const [updater] = useProfileUpdater();
-
-  function updateTitle(title: Partial<Profile['title']>) {
-    updater.updateProfleTitle(title);
-  }
-
-  return [updateTitle];
 }
