@@ -7,15 +7,24 @@ import { Resume, ErrorResponse, OkResponse } from '@/shared/types';
 
 export default protectedHandler(handler);
 
-export async function handler(req: NextApiRequest, res: NextApiResponse<Resume | ErrorResponse | OkResponse>, session: Session) {
+export async function handler(req: NextApiRequest, res: NextApiResponse<Resume | ErrorResponse | OkResponse>, s: Session) {
   const { id: resumeId } = req.query;
   if (typeof resumeId !== 'string' || resumeId === undefined) {
     res.status(400).json({ msg: `resumeId should be sent as string but it got: ${resumeId}` });
     return;
   }
 
+  if (req.method === 'GET') {
+    return dbApi.getResume(resumeId)
+      .then((resume) => res.status(200).json(resume))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ msg: `error getting resume ${resumeId}. Error details: ${err}` });
+      });
+  }
+
   if (req.method === 'DELETE') {
-    return dbApi.deleteResume(req.body.resumeId)
+    return dbApi.deleteResume(resumeId)
       .then(() => res.status(200).json({ msg: 'Ok' }))
       .catch(err => {
         console.error(err);
@@ -24,7 +33,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Resume |
   }
 
   if (req.method === 'PATCH') {
-    console.log('-> req.body.data -> ', req.body);
     return dbApi.patchResume(resumeId, req.body)
       .then(() => res.status(200).json({ msg: 'Ok' }))
       .catch((err) => {

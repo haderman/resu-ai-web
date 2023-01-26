@@ -8,7 +8,8 @@ import * as nextAuth from 'next-auth';
 import { nanoid } from 'nanoid';
 
 import handler from '@/pages/api/resume';
-import { Resume } from '@/shared/types';
+import handlerResume from '@/pages/api/resume/[id]';
+import { DeepPartial, Resume } from '@/shared/types';
 
 jest.mock('next-auth');
 
@@ -103,6 +104,15 @@ let resumeMockUpdated: Resume = {
   },
 };
 
+let resumeValuesToUpdate: DeepPartial<Resume> = {
+  content: {
+    basicInfo: {
+      fullName: 'John Doe Updated',
+      jobTitle: 'Software Engineer Updated',
+    },
+  },
+};
+
 // @ts-ignore
 nextAuth.unstable_getServerSession.mockResolvedValue(sessionMock);
 
@@ -140,22 +150,30 @@ describe('/api/resume', () => {
 
   test('update resume', async () => {
     const { req, res } = createMocks({
-      method: 'PUT',
-      body: resumeMockUpdated,
+      method: 'PATCH',
+      body: resumeValuesToUpdate,
+      query: {
+        id: resumeMock.id,
+      },
     });
 
-    await handler(req, res);
+    await handlerResume(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(
-      expect.objectContaining(resumeMockUpdated),
+      expect.objectContaining({ msg: 'Ok' }),
     );
   });
 
   test('return resume updated', async () => {
-    const { req, res } = createMocks({ method: 'GET' });
+    const { req, res } = createMocks({
+      method: 'GET',
+      query: {
+        id: resumeMock.id,
+      },
+    });
 
-    await handler(req, res);
+    await handlerResume(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(resumeMockUpdated);
@@ -164,12 +182,12 @@ describe('/api/resume', () => {
   test('delete resume', async () => {
     const { req, res } = createMocks({
       method: 'DELETE',
-      body: {
-        resumeId: resumeMockUpdated.id,
+      query: {
+        id: resumeMockUpdated.id,
       },
     });
 
-    await handler(req, res);
+    await handlerResume(req, res);
 
     expect(res._getStatusCode()).toBe(200);
   });

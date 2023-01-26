@@ -25,15 +25,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Resume |
       });
   }
 
-  if (req.method === 'DELETE') {
-    return dbApi.deleteResume(req.body.resumeId)
-      .then(() => res.status(200).json({ msg: 'Ok' }))
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({ msg: 'error deleting resume'});
-      });
-  }
-
   res.status(404).json({ msg: 'not found'});
 }
 
