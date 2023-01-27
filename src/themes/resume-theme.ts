@@ -30,22 +30,22 @@ export const ResumeTheme = {
    * I don't want to expose the object structure because I might change it
    * lager so I think this way avoid to refactor a lot
    */
-  getGap(variant: GapVariant = 'default'): CssVar {
+  getGap(variant: GapVariant = 'medium'): CssVar {
     return toCssVar(resumeThemeValues.gap[variant]);
   },
-  getGapClassName(variant: GapVariant = 'default'): ClassName {
+  getGapClassName(variant: GapVariant = 'medium'): ClassName {
     return toClassName(resumeThemeValues.gap[variant]);
   },
   getPadding(variant: PaddingVariant): CssVar {
     return toCssVar(resumeThemeValues.padding[variant]);
   },
-  getPaddingClassName(variant: PaddingVariant = 'default'): ClassName {
+  getPaddingClassName(variant: PaddingVariant = 'medium'): ClassName {
     return toClassName(resumeThemeValues.padding[variant]);
   },
   getFontSize(variant: FontSizeVariant = 'medium'): CssVar {
     return toCssVar(resumeThemeValues.fontSize[variant]);
   },
-  getFontSizeClassName(variant: FontSizeVariant = 'default'): ClassName {
+  getFontSizeClassName(variant: FontSizeVariant = 'medium'): ClassName {
     return toClassName(resumeThemeValues.fontSize[variant]);
   },
   getFontWeight(variant: FontWeightVariant = 'regular'): CssVar {
@@ -54,10 +54,10 @@ export const ResumeTheme = {
   getFontWeightClassName(variant: FontWeightVariant = 'regular'): ClassName {
     return toClassName(resumeThemeValues.fontWeight[variant]);
   },
-  getBorderRadius(variant: BorderRadiusVariant = 'default'): CssVar {
+  getBorderRadius(variant: BorderRadiusVariant = 'medium'): CssVar {
     return toCssVar(resumeThemeValues.borderRadius[variant]);
   },
-  getBorderRadiusClassName(variant: BorderRadiusVariant = 'default'): ClassName {
+  getBorderRadiusClassName(variant: BorderRadiusVariant = 'medium'): ClassName {
     return toClassName(resumeThemeValues.borderRadius[variant]);
   },
   getColor(color: Color, variant: keyof ColorVariant): CssVar {
@@ -106,25 +106,21 @@ type ClassName = `resume-${string}`;
 
 const resumeThemeValues: ResumeThemeValues = {
   gap: {
-    default: '--resume-gap-default',
     small: '--resume-gap-small',
     medium: '--resume-gap-medium',
     large: '--resume-gap-large',
   },
   padding: {
-    default: '--resume-padding-default',
     small: '--resume-padding-small',
     medium: '--resume-padding-medium',
     large: '--resume-padding-large',
   },
   fontSize: {
-    default: '--resume-font-size-default',
     small: '--resume-font-size-small',
     medium: '--resume-font-size-medium',
     large: '--resume-font-size-large',
   },
   fontWeight: {
-    default: '--resume-font-weight-default',
     light: '--resume-font-weight-light',
     regular: '--resume-font-weight-regular',
     bold: '--resume-font-weight-bold',
@@ -133,7 +129,6 @@ const resumeThemeValues: ResumeThemeValues = {
     normal: '--resume-line-height-normal',
   },
   borderRadius: {
-    default: '--resume-border-radius-default',
     small: '--resume-border-radius-small',
     medium: '--resume-border-radius-medium',
     large: '--resume-border-radius-large',
