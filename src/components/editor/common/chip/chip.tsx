@@ -36,7 +36,7 @@ export function Chip(props: ChipProps) {
     'inline',
     ResumeTheme.getFontSizeClassName(size),
     ResumeTheme.getBorderRadiusClassName('medium'),
-    ResumeTheme.getPaddingClassName('small'),
+    ResumeTheme.getPaddingClassName(size),
   );
 
   const style = variant === 'filled' ? {
