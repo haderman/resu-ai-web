@@ -29,12 +29,12 @@ export const Profile = {
         text: title,
         align: 'center',
         color: 'primary',
-        size: 'default',
+        size: 'medium',
       },
       description: {
         text: description,
         color: 'primary',
-        size: 'default',
+        size: 'medium',
       },
       cardStyle: {
         background: 'secondary',

@@ -27,7 +27,7 @@ export const Fuzz = {
   },
   sections() {
     return () => ResumeSections.DEFAULT_LIST;
-  }
+  },
 };
 
 export type Fuzzer =

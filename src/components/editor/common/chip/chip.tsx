@@ -28,7 +28,7 @@ export function Chip(props: ChipProps) {
   const {
     children,
     color = 'gray',
-    size = 'medium',
+    size = 'small',
     variant = 'filled',
   } = props;
 

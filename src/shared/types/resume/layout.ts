@@ -1,16 +1,16 @@
-const DEFAULT_LAYOUT: ResumeLayout = [
-  [0, 1, 1],
-  [2, 3, 3],
-  [4],
-  [5],
-];
-
 export type ResumeLayout = ResumeLayoutItem[];
 
 export type ResumeLayoutItem =
   | [number]
   | [number, number]
   | [number, number, number];
+
+const DEFAULT_LAYOUT: ResumeLayout = [
+  [0, 1, 1],
+  [2, 3, 3],
+  [4],
+  [5],
+];
 
 export const ResumeLayout = {
   DEFAULT_LAYOUT,

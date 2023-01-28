@@ -1,4 +1,8 @@
-const alignments = ['left', 'center', 'right'] as const;
+const alignments = [
+  'left',
+  'center',
+  'right',
+] as const;
 
 export type Alignment = typeof alignments[number];
 

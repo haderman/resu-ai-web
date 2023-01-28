@@ -30,22 +30,22 @@ export const ResumeTheme = {
    * I don't want to expose the object structure because I might change it
    * lager so I think this way avoid to refactor a lot
    */
-  getGap(variant: GapVariant = 'default'): CssVar {
+  getGap(variant: GapVariant = 'none'): CssVar {
     return toCssVar(resumeThemeValues.gap[variant]);
   },
-  getGapClassName(variant: GapVariant = 'default'): ClassName {
+  getGapClassName(variant: GapVariant = 'none'): ClassName {
     return toClassName(resumeThemeValues.gap[variant]);
   },
   getPadding(variant: PaddingVariant): CssVar {
     return toCssVar(resumeThemeValues.padding[variant]);
   },
-  getPaddingClassName(variant: PaddingVariant = 'default'): ClassName {
+  getPaddingClassName(variant: PaddingVariant = 'none'): ClassName {
     return toClassName(resumeThemeValues.padding[variant]);
   },
-  getFontSize(variant: FontSizeVariant = 'medium'): CssVar {
+  getFontSize(variant: FontSizeVariant = 'none'): CssVar {
     return toCssVar(resumeThemeValues.fontSize[variant]);
   },
-  getFontSizeClassName(variant: FontSizeVariant = 'default'): ClassName {
+  getFontSizeClassName(variant: FontSizeVariant = 'none'): ClassName {
     return toClassName(resumeThemeValues.fontSize[variant]);
   },
   getFontWeight(variant: FontWeightVariant = 'regular'): CssVar {
@@ -54,10 +54,10 @@ export const ResumeTheme = {
   getFontWeightClassName(variant: FontWeightVariant = 'regular'): ClassName {
     return toClassName(resumeThemeValues.fontWeight[variant]);
   },
-  getBorderRadius(variant: BorderRadiusVariant = 'default'): CssVar {
+  getBorderRadius(variant: BorderRadiusVariant = 'none'): CssVar {
     return toCssVar(resumeThemeValues.borderRadius[variant]);
   },
-  getBorderRadiusClassName(variant: BorderRadiusVariant = 'default'): ClassName {
+  getBorderRadiusClassName(variant: BorderRadiusVariant = 'none'): ClassName {
     return toClassName(resumeThemeValues.borderRadius[variant]);
   },
   getColor(color: Color, variant: keyof ColorVariant): CssVar {
@@ -88,9 +88,9 @@ type ColorVariant = {
 
 type ResumeThemeValues = {
   gap: Record<Size, CssVarDeclaration>
-  padding: Record<Size, CssVarDeclaration>;
+  padding: Record<Size | 'none', CssVarDeclaration>;
   borderRadius: Record<Size, CssVarDeclaration>
-  fontSize: Record<Size, CssVarDeclaration>
+  fontSize: Record<Size | 'none', CssVarDeclaration>
   fontWeight: Record<Weight, CssVarDeclaration>
   lineHeight: {
     normal: CssVarDeclaration
@@ -106,25 +106,24 @@ type ClassName = `resume-${string}`;
 
 const resumeThemeValues: ResumeThemeValues = {
   gap: {
-    default: '--resume-gap-default',
+    none: '--resume-gap-none',
     small: '--resume-gap-small',
     medium: '--resume-gap-medium',
     large: '--resume-gap-large',
   },
   padding: {
-    default: '--resume-padding-default',
+    none: '--resume-padding-none',
     small: '--resume-padding-small',
     medium: '--resume-padding-medium',
     large: '--resume-padding-large',
   },
   fontSize: {
-    default: '--resume-font-size-default',
+    none: '--resume-font-size-none',
     small: '--resume-font-size-small',
     medium: '--resume-font-size-medium',
     large: '--resume-font-size-large',
   },
   fontWeight: {
-    default: '--resume-font-weight-default',
     light: '--resume-font-weight-light',
     regular: '--resume-font-weight-regular',
     bold: '--resume-font-weight-bold',
@@ -133,7 +132,7 @@ const resumeThemeValues: ResumeThemeValues = {
     normal: '--resume-line-height-normal',
   },
   borderRadius: {
-    default: '--resume-border-radius-default',
+    none: '--resume-border-radius-none',
     small: '--resume-border-radius-small',
     medium: '--resume-border-radius-medium',
     large: '--resume-border-radius-large',
