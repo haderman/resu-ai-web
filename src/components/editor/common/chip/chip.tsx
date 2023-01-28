@@ -28,7 +28,7 @@ export function Chip(props: ChipProps) {
   const {
     children,
     color = 'gray',
-    size = 'medium',
+    size = 'small',
     variant = 'filled',
   } = props;
 
@@ -36,7 +36,7 @@ export function Chip(props: ChipProps) {
     'inline',
     ResumeTheme.getFontSizeClassName(size),
     ResumeTheme.getBorderRadiusClassName('medium'),
-    ResumeTheme.getPaddingClassName(size),
+    ResumeTheme.getPaddingClassName('small'),
   );
 
   const style = variant === 'filled' ? {

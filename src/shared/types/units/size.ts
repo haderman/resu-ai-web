@@ -1,8 +1,13 @@
-const sizes = ['small', 'medium', 'large'] as const;
+const sizes = [
+  'none',
+  'small',
+  'medium',
+  'large',
+] as const;
 
 export type Size = typeof sizes[number];
 
-const DEFAULT: Size = 'medium';
+const DEFAULT: Size = 'none';
 
 export const Size = {
   DEFAULT,

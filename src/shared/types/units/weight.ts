@@ -1,4 +1,8 @@
-const weights = ['light', 'regular', 'bold'] as const;
+const weights = [
+  'light',
+  'regular',
+  'bold',
+] as const;
 
 export type Weight = typeof weights[number];
 
