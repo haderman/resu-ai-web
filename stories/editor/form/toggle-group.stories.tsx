@@ -1,0 +1,74 @@
+import * as React from 'react';
+import { IconAlignCenter, IconAlignLeft, IconAlignRight } from '@tabler/icons';
+import { useAddonState } from '@storybook/client-api';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { ToggleGroup } from '@/components/editor/form';
+import { Container, ResizableBox } from '../../helpers';
+
+export default {
+  title: 'editor/form/toggle-group',
+  component: ToggleGroup,
+  argTypes: {},
+} as ComponentMeta<typeof ToggleGroup>;
+
+export const Basic: ComponentStory<typeof ToggleGroup> = (args) => {
+  const [selected, setSelected] = useAddonState<string | null>('editor/form/toggle-group', null);
+
+  return (
+    <Container>
+      <ResizableBox>
+        <ToggleGroup
+          legend="Text Align"
+          name="text-align-option-group"
+          selected={selected}
+          onChange={setSelected}
+        >
+          <ToggleGroup.Item label="Left" value="left">
+            <IconAlignLeft />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item label="Center" value="center">
+            <IconAlignCenter />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item label="Right" value="right">
+            <IconAlignRight />
+          </ToggleGroup.Item>
+        </ToggleGroup>
+      </ResizableBox>
+    </Container>
+  );
+};
+
+export const Large: ComponentStory<typeof ToggleGroup> = (args) => {
+  const [selected, setSelected] = useAddonState<string | null>('editor/form/toggle-group', null);
+
+  return (
+    <Container>
+      <ResizableBox>
+
+        <ToggleGroup
+          legend="Size"
+          name="size-option-group"
+          selected={selected}
+          onChange={setSelected}
+        >
+          <ToggleGroup.Item id="test-1" label="x-small" value="xs">
+            XS
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-2" label="small" value="sm">
+            SM
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="medium" value="m">
+            M
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="large" value="l">
+            L
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="x-large" value="xl">
+            XL
+          </ToggleGroup.Item>
+        </ToggleGroup>
+      </ResizableBox>
+    </Container>
+  );
+};
