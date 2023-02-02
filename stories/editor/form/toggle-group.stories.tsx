@@ -5,7 +5,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { ToggleGroup } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';
-import { Size } from '@/shared/types';
 
 export default {
   title: 'editor/form/toggle-group',
@@ -25,13 +24,13 @@ export const Basic: ComponentStory<typeof ToggleGroup> = (args) => {
           selected={selected}
           onChange={setSelected}
         >
-          <ToggleGroup.Item id="test-1" label="Left" value="left">
+          <ToggleGroup.Item label="Left" value="left">
             <IconAlignLeft />
           </ToggleGroup.Item>
-          <ToggleGroup.Item id="test-2" label="Center" value="center">
+          <ToggleGroup.Item label="Center" value="center">
             <IconAlignCenter />
           </ToggleGroup.Item>
-          <ToggleGroup.Item id="test-3" label="Right" value="right">
+          <ToggleGroup.Item label="Right" value="right">
             <IconAlignRight />
           </ToggleGroup.Item>
         </ToggleGroup>
@@ -46,6 +45,7 @@ export const Large: ComponentStory<typeof ToggleGroup> = (args) => {
   return (
     <Container>
       <ResizableBox>
+
         <ToggleGroup
           legend="Size"
           name="size-option-group"

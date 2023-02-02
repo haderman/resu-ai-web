@@ -54,17 +54,19 @@ export function ToggleGroup(props: ToggleGroupProps) {
       <p id="group-options">
         {props.legend}:
       </p>
-      {React.Children.map(props.children, (child, idx) => {
-        return React.cloneElement(child, {
-          id: idx,
-          ref: addNodeToRefButtons,
-          onClick: handleClick(child.props.value),
-          onKeyDown: handleKeyDown(idx),
-          name: props.name,
-          isSelected: child.props.value === props.selected,
-          tabIndex: props.selected === null && idx === 0 ? 0 : -1,
-        });
-      })}
+      <div>
+        {React.Children.map(props.children, (child, idx) => {
+          return React.cloneElement(child, {
+            ref: addNodeToRefButtons,
+            onClick: handleClick(child.props.value),
+            onKeyDown: handleKeyDown(idx),
+            id: child.props?.idx ?? `toggle-group-item-${idx}`,
+            name: child.props?.name ?? props.name,
+            isSelected: child.props.value === props.selected,
+            tabIndex: props.selected === null && idx === 0 ? 0 : -1,
+          });
+        })}
+      </div>
     </div>
   );
 }
@@ -74,11 +76,11 @@ export type ToggleGroup = typeof ToggleGroup & {
 };
 
 export type ToggleGroupItemProps = React.PropsWithChildren<{
-  id: string
+  label: string
   value: string
+  id?: string
   isSelected?: boolean
   tabIndex?: number
-  label?: string
   name?: string
 }>;
 
