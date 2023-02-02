@@ -55,17 +55,3 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-/*
- * I borrowed this from https://www.sarasoueidan.com/blog/accessible-icon-buttons/
- * The idea is to hide the text, but still have it available for screen readers.
- */
-.visually-hidden:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
-  clip-path: inset(100%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
