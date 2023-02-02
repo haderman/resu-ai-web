@@ -20,19 +20,52 @@ export const Basic: ComponentStory<typeof ToggleGroup> = (args) => {
     <Container>
       <ResizableBox>
         <ToggleGroup
+          legend="Text Align"
+          name="text-align-option-group"
+          selected={selected}
+          onChange={setSelected}
+        >
+          <ToggleGroup.Item id="test-1" label="Left" value="left">
+            <IconAlignLeft />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-2" label="Center" value="center">
+            <IconAlignCenter />
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="Right" value="right">
+            <IconAlignRight />
+          </ToggleGroup.Item>
+        </ToggleGroup>
+      </ResizableBox>
+    </Container>
+  );
+};
+
+export const Large: ComponentStory<typeof ToggleGroup> = (args) => {
+  const [selected, setSelected] = useAddonState<string | null>('editor/form/toggle-group', null);
+
+  return (
+    <Container>
+      <ResizableBox>
+        <ToggleGroup
           legend="Size"
           name="size-option-group"
           selected={selected}
           onChange={setSelected}
         >
-          <ToggleGroup.Item id="test-1" label="Left" value="small">
-            <IconAlignLeft />
+          <ToggleGroup.Item id="test-1" label="x-small" value="xs">
+            XS
           </ToggleGroup.Item>
-          <ToggleGroup.Item id="test-2" label="Center" value="medium">
-            <IconAlignCenter />
+          <ToggleGroup.Item id="test-2" label="small" value="sm">
+            SM
           </ToggleGroup.Item>
-          <ToggleGroup.Item id="test-3" label="Right" value="large">
-            <IconAlignRight />
+          <ToggleGroup.Item id="test-3" label="medium" value="m">
+            M
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="large" value="l">
+            L
+          </ToggleGroup.Item>
+          <ToggleGroup.Item id="test-3" label="x-large" value="xl">
+            XL
           </ToggleGroup.Item>
         </ToggleGroup>
       </ResizableBox>

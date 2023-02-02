@@ -9,7 +9,18 @@ export type ToggleGroupProps = {
   children: JSX.Element | JSX.Element[]
 };
 
-export function ToggleGroup<T>(props: ToggleGroupProps) {
+export function ToggleGroup(props: ToggleGroupProps) {
+  const refButtons = React.useRef<HTMLButtonElement[]>([]);
+
+  const addNodeToRefButtons = React.useCallback(
+    (node: HTMLButtonElement) => {
+      if (node !== null) {
+        refButtons.current.push(node);
+      }
+    },
+    []
+  );
+
   if (!checkIfChildrenAreToggleGroupItems(props.children)) {
     throw new Error('ToggleGroup children must be of type ToggleGroup.Item');
   }
@@ -20,16 +31,37 @@ export function ToggleGroup<T>(props: ToggleGroupProps) {
     };
   }
 
+  function handleKeyDown(idx: number) {
+    return (event: React.KeyboardEvent) => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        const nextNode = refButtons.current[idx === 0 ? refButtons.current.length - 1 : idx - 1];
+        nextNode.focus();
+      }
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        const nextNode = refButtons.current[(idx + 1) % refButtons.current.length];
+        nextNode.focus();
+      }
+    };
+  }
+
   return (
-    <div className={styles.root} role="group" aria-labelledby="group-options">
+    <div
+      className={styles.root}
+      role="group"
+      aria-labelledby="group-options"
+    >
       <p id="group-options">
         {props.legend}:
       </p>
-      {React.Children.map(props.children, (child) => {
+      {React.Children.map(props.children, (child, idx) => {
         return React.cloneElement(child, {
+          id: idx,
+          ref: addNodeToRefButtons,
           onClick: handleClick(child.props.value),
+          onKeyDown: handleKeyDown(idx),
           name: props.name,
-          'aria-pressed': child.props.value === props.selected,
+          isSelected: child.props.value === props.selected,
          });
       })}
     </div>
@@ -40,28 +72,40 @@ export type ToggleGroup = typeof ToggleGroup & {
   Item: typeof ToggleGroupItem
 };
 
-ToggleGroup.Item = ToggleGroupItem;
-
-export type ToggleGroupItemProps = {
+export type ToggleGroupItemProps = React.PropsWithChildren<{
   id: string
-  label?: string
   value: string
+  isSelected?: boolean
+  label?: string
   name?: string
-  children?: JSX.Element
-};
+}>;
 
-function ToggleGroupItem(props: ToggleGroupItemProps) {
-  return (
-    <button
-      type="button"
-      aria-label={props.label}
-      className={styles.btn}
-      {...props}
-    >
-      {props.children}
-    </button>
-  );
-}
+const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps>(
+  function ToggleGroupItem(props, ref) {
+    const {
+      isSelected,
+      label,
+      children,
+      ...restProps
+    } = props;
+
+    return (
+      <button
+        type="button"
+        role="radio"
+        aria-checked={isSelected}
+        aria-label={label}
+        className={styles.btn}
+        {...restProps}
+        ref={ref}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+ToggleGroup.Item = ToggleGroupItem;
 
 // HELPERS
 function checkIfChildrenAreToggleGroupItems(children: JSX.Element | JSX.Element[]) {

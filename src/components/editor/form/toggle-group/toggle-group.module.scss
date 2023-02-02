@@ -13,14 +13,21 @@
   transition: background-color 0.2s ease-in-out;
   color: white;
   border: 0;
+  position: relative;
 
-  &[aria-pressed="true"] {
+  &[aria-checked="true"] {
     background-color: hsl(210deg 30% 30%);
     color: white;
   }
 
-  &[aria-pressed="false"] {
-    background-color: hsl(210deg 30% 50%);
+  &[aria-checked="false"] {
+    background-color: hsl(210deg 30% 10%);
     color: white;
+  }
+
+  &:focus {
+    position: relative;
+    outline: 2px solid hsl(210deg 50% 80%);
+    z-index: 1;
   }
 }
