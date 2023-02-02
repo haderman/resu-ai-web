@@ -62,7 +62,8 @@ export function ToggleGroup(props: ToggleGroupProps) {
           onKeyDown: handleKeyDown(idx),
           name: props.name,
           isSelected: child.props.value === props.selected,
-         });
+          tabIndex: props.selected === null && idx === 0 ? 0 : -1,
+        });
       })}
     </div>
   );
@@ -76,6 +77,7 @@ export type ToggleGroupItemProps = React.PropsWithChildren<{
   id: string
   value: string
   isSelected?: boolean
+  tabIndex?: number
   label?: string
   name?: string
 }>;
@@ -86,6 +88,7 @@ const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps
       isSelected,
       label,
       children,
+      tabIndex,
       ...restProps
     } = props;
 
@@ -96,6 +99,7 @@ const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps
         aria-checked={isSelected}
         aria-label={label}
         className={styles.btn}
+        tabIndex={isSelected ? 1 : tabIndex}
         {...restProps}
         ref={ref}
       >
