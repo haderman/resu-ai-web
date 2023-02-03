@@ -101,7 +101,7 @@ const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps
         aria-checked={isSelected}
         aria-label={label}
         className={styles.btn}
-        tabIndex={isSelected ? 1 : tabIndex}
+        tabIndex={isSelected ? 0 : tabIndex}
         {...restProps}
         ref={ref}
       >
