@@ -34,11 +34,13 @@ export function ToggleGroup(props: ToggleGroupProps) {
   function handleKeyDown(idx: number) {
     return (event: React.KeyboardEvent) => {
       if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
         const nextNode = refButtons.current[idx === 0 ? refButtons.current.length - 1 : idx - 1];
         nextNode.focus();
       }
 
       if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
         const nextNode = refButtons.current[(idx + 1) % refButtons.current.length];
         nextNode.focus();
       }
