@@ -2,6 +2,8 @@ import {
   InputTitleContainer,
   InputDescriptionContainer,
   InputCardBackgroundContainer,
+  InputSizeContainer,
+  InputAlignmentContainer,
 } from './controls';
 
 export function ProfileOptions() {
@@ -10,6 +12,8 @@ export function ProfileOptions() {
       <InputTitleContainer />
       <InputDescriptionContainer />
       <InputCardBackgroundContainer />
+      <InputSizeContainer />
+      <InputAlignmentContainer />
     </>
   );
 };
