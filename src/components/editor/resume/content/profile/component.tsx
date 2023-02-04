@@ -25,8 +25,9 @@ function TitleContainer() {
   return (
     <Text
       as="h2"
-      size="large"
+      size={title.size}
       weight="bold"
+      align={title.align}
     >
       {title.text}
     </Text>
