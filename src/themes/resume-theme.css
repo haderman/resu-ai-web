@@ -211,4 +211,8 @@
 .resume-border-radius-medium { border-radius: var(--resume-border-radius-medium); }
 .resume-border-radius-large { border-radius: var(--resume-border-radius-large); }
 
+.resume-align-left { text-align: left; }
+.resume-align-center { text-align: center; }
+.resume-align-right { text-align: right; }
+
 .resume-line-height-normal { line-height: var(--resume-line-height-normal); }

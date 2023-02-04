@@ -68,7 +68,13 @@ export const ResumeTheme = {
   },
   getLineHeightClassName(variant: LineHeightVariant = 'normal'): ClassName {
     return toClassName(resumeThemeValues.lineHeight[variant]);
-  }
+  },
+  getAlignment(variant: Alignment = 'left'): CssVar {
+    return toCssVar(resumeThemeValues.alignment[variant]);
+  },
+  getAlignmentClassName(variant: Alignment = 'left'): ClassName {
+    return toClassName(resumeThemeValues.alignment[variant]);
+  },
 };
 
 type GapVariant = keyof ResumeThemeValues['gap'];
@@ -88,10 +94,11 @@ type ColorVariant = {
 
 type ResumeThemeValues = {
   gap: Record<Size, CssVarDeclaration>
-  padding: Record<Size | 'none', CssVarDeclaration>;
+  padding: Record<Size | 'none', CssVarDeclaration>
   borderRadius: Record<Size, CssVarDeclaration>
   fontSize: Record<Size | 'none', CssVarDeclaration>
   fontWeight: Record<Weight, CssVarDeclaration>
+  alignment: Record<Alignment, CssVarDeclaration>
   lineHeight: {
     normal: CssVarDeclaration
   }
@@ -127,6 +134,11 @@ const resumeThemeValues: ResumeThemeValues = {
     light: '--resume-font-weight-light',
     regular: '--resume-font-weight-regular',
     bold: '--resume-font-weight-bold',
+  },
+  alignment: {
+    left: '--resume-align-left',
+    center: '--resume-align-center',
+    right: '--resume-align-right',
   },
   lineHeight: {
     normal: '--resume-line-height-normal',
