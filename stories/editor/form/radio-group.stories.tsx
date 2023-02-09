@@ -1,51 +1,29 @@
 import { useAddonState } from '@storybook/client-api';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { RadioGroup } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';
+import { Color } from '@/shared/types';
 
 export default {
-  title: 'editor/form/radio-group',
-  component: RadioGroup,
+  title: 'editor/form/radio-color-group',
+  component: RadioColorGroup,
   argTypes: {},
-} as ComponentMeta<typeof RadioGroup>;
+} as ComponentMeta<typeof RadioColorGroup>;
 
-export const Basic: ComponentStory<typeof RadioGroup> = (args) => {
-  const [selected, setSelected] = useAddonState<string | null>('editor/form/toggle-group', null);
+export const Basic: ComponentStory<typeof RadioColorGroup> = (args) => {
+  const [selected, setSelected] = useAddonState<Color>('editor/form/radio-color-group', 'red');
 
   return (
     <Container>
       <ResizableBox>
-        <RadioGroup
+        <RadioColorGroup
           legend="Text Align"
           name="text-align-option-group"
           selected={selected}
           onChange={setSelected}
-        >
-          <RadioGroup.Item label="Left" value="left">
-            <Circle color="red" />
-          </RadioGroup.Item>
-          <RadioGroup.Item label="Center" value="center">
-            <Circle color="green" />
-          </RadioGroup.Item>
-          <RadioGroup.Item label="Right" value="right">
-            <Circle color="blue" />
-          </RadioGroup.Item>
-        </RadioGroup>
+        />
       </ResizableBox>
     </Container>
   );
 };
-
-function Circle({ color }: { color: string }) {
-  return (
-    <div
-      style={{
-        width: 20,
-        height: 20,
-        borderRadius: '50%',
-        backgroundColor: color,
-      }}
-    />
-  );
-}
