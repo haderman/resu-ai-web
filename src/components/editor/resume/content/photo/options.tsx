@@ -2,7 +2,7 @@ import { useSelector, useStore } from 'react-redux';
 
 import { selectColor, photoSlice } from '@/state/photo';
 import { Color } from '@/shared/types';
-import { ColorSelector } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 
 const { actions } = photoSlice;
 
@@ -21,9 +21,10 @@ function ColorSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Background color"
-      value={color}
+    <RadioColorGroup
+      name="background-2"
+      legend="Background color"
+      selected={color}
       onChange={handleColorChange}
     />
   );

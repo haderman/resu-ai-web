@@ -7,7 +7,7 @@ import {
   selectSkillsColor,
 } from '@/state/projects';
 import { Color } from '@/shared/types';
-import { ColorSelector } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 
 const { actions } = projectsSlice;
 
@@ -30,9 +30,10 @@ function ColorSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Chip color"
-      value={color}
+    <RadioColorGroup
+      name="chip-color"
+      legend="Chip color"
+      selected={color}
       onChange={handleColorChange}
     />
   );
@@ -47,9 +48,10 @@ function BackgroundSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Background"
-      value={background}
+    <RadioColorGroup
+      name="background-5"
+      legend="Background"
+      selected={background}
       onChange={handleBackgroundChange}
     />
   );
@@ -64,9 +66,10 @@ function SkillsColorSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Skills color"
-      value={color}
+    <RadioColorGroup
+      name="skills-color"
+      legend="Skills color"
+      selected={color}
       onChange={handleColorChange}
     />
   );

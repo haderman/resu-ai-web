@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { Color } from '@/shared/types';
-import { ColorSelector } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 
 const { selectors, useUpdateSkills } = apiState.skills;
 
@@ -29,9 +29,10 @@ type InputCardBackgroundComponentProps = {
 
 export function InputCardBackgroundComponent(props: InputCardBackgroundComponentProps) {
   return (
-    <ColorSelector
-      label="Background"
-      value={props.value}
+    <RadioColorGroup
+      name="background-6"
+      legend="Background"
+      selected={props.value}
       onChange={props.onChange}
     />
   );
