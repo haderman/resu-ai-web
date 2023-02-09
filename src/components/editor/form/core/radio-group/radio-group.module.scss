@@ -1,0 +1,137 @@
+.root {
+  color: white;
+
+  & > p {
+    margin-bottom: 10px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.label {
+  position: relative;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+  }
+
+  input:focus + svg {
+    outline: 3px solid #E55360;
+    outline-offset: 2px;
+  }
+
+  input:focus:not(:focus-visible) + svg {
+    outline: none;
+  }
+
+  input:not(:checked) + svg svg {
+    display: none;
+  }
+
+  input:checked + svg svg {
+    // outline: 2px solid gold;
+    // outline-offset: 4px;
+    display: inline;
+  }
+
+  & > svg {
+    circle {
+      stroke: none;
+      stroke-width: 2px;
+    }
+
+    * {
+      transition: all 0.1s linear;
+    }
+
+    &[data-color="blue"] circle {
+      fill: var(--resume-blue-background-color);
+    }
+
+    &[data-color="pink"] circle {
+      fill: var(--resume-pink-background-color);
+    }
+
+    &[data-color="purple"] circle {
+      fill: var(--resume-purple-background-color);
+    }
+
+    &[data-color="green"] circle {
+      fill: var(--resume-green-background-color);
+    }
+
+    &[data-color="orange"] circle {
+      fill: var(--resume-orange-background-color);
+    }
+
+    &[data-color="yellow"] circle {
+      fill: var(--resume-yellow-background-color);
+    }
+
+    &[data-color="red"] circle {
+      fill: var(--resume-red-background-color);
+    }
+
+    &[data-color="gray"] circle {
+      fill: var(--resume-gray-background-color);
+    }
+
+    &[data-color="black"] circle {
+      fill: var(--resume-black-background-color);
+    }
+
+    &[data-color="white"] circle {
+      fill: var(--resume-white-background-color);
+    }
+
+    &[data-color="transparent"] circle {
+      fill: var(--resume-transparent-background-color);
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+  color: white;
+  border: 0;
+  position: relative;
+
+  &[aria-checked="true"] {
+    background-color: hsl(210deg 30% 30%);
+    color: white;
+  }
+
+  &[aria-checked="false"] {
+    background-color: hsl(210deg 30% 10%);
+    color: white;
+  }
+
+  &:focus {
+    position: relative;
+    outline: 2px solid hsl(210deg 50% 80%);
+    z-index: 1;
+  }
+
+  &:hover {
+    background-color: hsl(210deg 30% 20%);
+  }
+
+  &:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}
