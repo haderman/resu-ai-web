@@ -7,6 +7,7 @@ import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
 import './style.css';
 import '../src/themes/resume-theme.css';
 import '../src/styles/utility.css';
+import "../src/styles/globals.css";
 
 import { ResumeTheme } from '../src/themes';
 
