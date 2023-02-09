@@ -30,7 +30,7 @@ type InputCardBackgroundComponentProps = {
 export function InputCardBackgroundComponent(props: InputCardBackgroundComponentProps) {
   return (
     <RadioColorGroup
-      name="background-6"
+      name="background-7"
       legend="Background"
       selected={props.value}
       onChange={props.onChange}

@@ -1,6 +1,7 @@
 import { Color } from '@/shared/types';
 import * as React from 'react';
 import { IconCheck } from '@tabler/icons';
+import { nanoid } from 'nanoid';
 
 import styles from './radio-color-group.module.scss';
 
@@ -13,6 +14,7 @@ export type RadioColorGroupProps = {
 
 export function RadioColorGroup(props: RadioColorGroupProps) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.stopPropagation();
     props.onChange(event.target.value as Color);
   }
 
@@ -55,11 +57,15 @@ type ItemProps = {
 const MemoizedItem = React.memo(Item);
 
 function Item(props: ItemProps) {
+  const id = React.useMemo(() => {
+    return composeId();
+  }, []);
+
   return (
-    <label htmlFor={props.color} className={styles.label}>
+    <label htmlFor={id} className={styles.label}>
       <input
         type="radio"
-        id={props.color}
+        id={id}
         name={props.name}
         value={props.color}
         defaultChecked={props.checked}
@@ -89,4 +95,8 @@ function Circle(props: CircleProps) {
       <IconCheck x="10%" y="15%" size={72} strokeWidth={2} className={styles.check} />
     </svg>
   );
+}
+
+function composeId(): string {
+  return nanoid();
 }
