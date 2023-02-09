@@ -57,6 +57,13 @@ type ItemProps = {
 const MemoizedItem = React.memo(Item);
 
 function Item(props: ItemProps) {
+  /**
+   * Generate a unique ID for each radio button. Otherwise, if there is more than one
+   * radio button group on the page and they have the same ID, they will be linked and
+   * create a conflict when selecting one radio button.
+   *
+   * I wrapped it in a useMemo because I want to generate the ID only once.
+   */
   const id = React.useMemo(() => {
     return composeId();
   }, []);
