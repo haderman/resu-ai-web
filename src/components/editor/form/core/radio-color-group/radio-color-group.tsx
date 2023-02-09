@@ -23,15 +23,16 @@ export function RadioColorGroup(props: RadioColorGroupProps) {
       className={styles.root}
       onChange={handleChange}
     >
-      <p id="group-options">Example:</p>
+      <p id="group-options">{props.legend}</p>
       <div className={styles.wrapper}>
         {Color.values.map((color) => {
           return (
-            <Item
+            <MemoizedItem
               key={color}
               color={color}
               label={Color.toLabel(color)}
               name={props.name}
+              checked={color === props.selected}
             />
           );
         })}
@@ -48,12 +49,21 @@ type ItemProps = {
   color: Color
   label: string
   name: string
+  checked: boolean
 }
+
+const MemoizedItem = React.memo(Item);
 
 function Item(props: ItemProps) {
   return (
     <label htmlFor={props.color} className={styles.label}>
-      <input type="radio" id={props.color} name={props.name} value={props.color} />
+      <input
+        type="radio"
+        id={props.color}
+        name={props.name}
+        value={props.color}
+        defaultChecked={props.checked}
+      />
       <Circle color={props.color} />
       <HiddenSpan>{props.color}</HiddenSpan>
     </label>
