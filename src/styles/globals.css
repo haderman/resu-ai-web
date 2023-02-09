@@ -61,7 +61,7 @@ a {
  * source:
  * https://www.sarasoueidan.com/blog/inclusively-hiding-and-styling-checkboxes-and-radio-buttons/#site-header
  */
-.visuality-hidden {
+.visually-hidden {
   clip: rect(0 0 0 0);
   clip-path: inset(100%);
   height: 1px;
