@@ -1,0 +1,196 @@
+.root {
+  color: white;
+
+  & > p {
+    margin-bottom: 10px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.label {
+  position: relative;
+  cursor: pointer;
+
+  :hover {
+    filter: brightness(1.2);
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+
+    &:focus + .colored {
+      outline: 2px solid hsl(210deg 50% 80%);
+      outline-offset: 2px;
+    }
+
+    &:focus:not(:focus-visible) + .colored {
+      outline: none;
+    }
+
+    &:not(:checked) + .colored svg {
+      display: none;
+    }
+
+    &:checked + .colored svg {
+      display: inline;
+    }
+  }
+}
+
+.colored {
+  circle {
+    stroke: none;
+    stroke-width: 2px;
+  }
+
+  * {
+    transition: all 0.1s linear;
+  }
+
+  &[data-color="primary"] {
+    circle {
+      fill: var(--resume-primary-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-primary-text-color);
+    }
+  }
+
+  &[data-color="secondary"] {
+    circle {
+      fill: var(--resume-secondary-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-secondary-text-color);
+    }
+  }
+
+  &[data-color="black"] {
+    circle {
+      fill: var(--resume-black-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-black-text-color);
+    }
+  }
+
+  &[data-color="almost-black"] {
+    circle {
+      fill: var(--resume-almost-black-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-almost-black-text-color);
+    }
+  }
+
+  &[data-color="white"] {
+    circle {
+      fill: var(--resume-white-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-white-text-color);
+    }
+  }
+
+  &[data-color="almost-white"] {
+    circle {
+      fill: var(--resume-almost-white-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-almost-white-text-color);
+    }
+  }
+
+  &[data-color="gray"] {
+    circle {
+      fill: var(--resume-gray-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-gray-text-color);
+    }
+  }
+
+  &[data-color="gray-light"] {
+    circle {
+      fill: var(--resume-gray-light-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-gray-light-text-color);
+    }
+  }
+
+  &[data-color="blue"] {
+    circle {
+      fill: var(--resume-blue-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-blue-text-color);
+    }
+  }
+
+  &[data-color="red"] {
+    circle {
+      fill: var(--resume-red-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-red-text-color);
+    }
+  }
+
+  &[data-color="green"] {
+    circle {
+      fill: var(--resume-green-background-color);
+    }
+    .check > path:last-child {
+      stroke: var(--resume-green-text-color);
+    }
+  }
+
+  &[data-color="yellow"] {
+    circle {
+      fill: var(--resume-yellow-background-color);
+    }
+
+    .check > path:last-child {
+      stroke: var(--resume-yellow-text-color);
+    }
+  }
+
+  &[data-color="orange"] {
+    circle {
+      fill: var(--resume-orange-background-color);
+    }
+
+    .check > path:last-child {
+      stroke: var(--resume-orange-text-color);
+    }
+  }
+
+  &[data-color="purple"] {
+    circle {
+      fill: var(--resume-purple-background-color);
+    }
+
+    .check > path:last-child {
+      stroke: var(--resume-purple-text-color);
+    }
+  }
+
+  &[data-color="pink"] {
+    circle {
+      fill: var(--resume-pink-background-color);
+    }
+
+    .check > path:last-child {
+      stroke: var(--resume-pink-text-color);
+    }
+  }
+}

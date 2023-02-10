@@ -48,5 +48,11 @@ export const Color = {
   },
   getDefault(): Color {
     return colors[0];
-  }
+  },
+  toLabel(color: Color): string {
+    return color
+      .split('')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  },
 };

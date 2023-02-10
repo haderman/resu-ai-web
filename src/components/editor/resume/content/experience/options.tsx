@@ -6,7 +6,7 @@ import {
   experienceSlice,
 } from '@/state/experience';
 import { Color } from '@/shared/types';
-import { ColorSelector } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 
 const { actions } = experienceSlice;
 
@@ -28,9 +28,10 @@ function ColorSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Color"
-      value={color}
+    <RadioColorGroup
+      name="color-2"
+      legend="Color"
+      selected={color}
       onChange={handleColorChange}
     />
   );
@@ -45,9 +46,10 @@ function BackgroundSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Background"
-      value={background}
+    <RadioColorGroup
+      name="background-1"
+      legend="Background"
+      selected={background}
       onChange={handleBackgroundChange}
     />
   );

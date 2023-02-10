@@ -2,7 +2,7 @@ import { useSelector, useStore } from 'react-redux';
 
 import { selectColor, contactSlice } from '@/state/contact';
 import { Color } from '@/shared/types';
-import { ColorSelector } from '@/components/editor/form';
+import { RadioColorGroup } from '@/components/editor/form';
 
 const { actions } = contactSlice;
 
@@ -21,9 +21,10 @@ function ColorSelectorContainer() {
   }
 
   return (
-    <ColorSelector
-      label="Color"
-      value={color}
+    <RadioColorGroup
+      name="color-1"
+      legend="Color"
+      selected={color}
       onChange={handleColorChange}
     />
   );
