@@ -7,7 +7,7 @@ export function ResizableBox(props: ResizableBoxProps) {
   const style = {
     display: 'flex',
     padding: '10px',
-    border: '1px dashed #ccc',
+    border: '1px dashed hsl(210deg 0% 42%)',
   };
 
   return (

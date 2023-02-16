@@ -1,0 +1,95 @@
+.container {
+  --pad: 8px;
+  --bg: hsl(210deg 30% 10%);
+  --placeholder-color: hsl(210deg 10% 35%);
+  --radius: 6px;
+  --min-height: calc(1rem * 4);
+  --max-height: clamp(800px, 100%, );
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.input {
+  padding: var(--pad);
+  background: var(--bg);
+  border-radius: var(--radius);
+  overflow: auto;
+  min-height: calc(1rem * 8);
+  height: 100%;
+  max-height: calc(1rem * 22);
+  caret-color: hsl(172, 91%, 50%);
+
+  &:focus {
+    outline: 2px solid hsl(210deg 50% 90%);
+  }
+}
+
+.placeholder {
+  top: var(--pad);
+  left: var(--pad);
+  color: var(--placeholder-color);
+  position: relative;
+  left: 2px;
+  width: 100%;
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  color: transparent;
+
+  &::before {
+    content: 'Click to focus the editor...';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 1ch;
+    width: calc(100% - 2ch);
+    height: 100%;
+    background-color: var(--bg);
+    color: var(--placeholder-color);
+    z-index: 0;
+    animation: taadaa 2s infinite;
+  }
+
+  &::after {
+    content: 'Enter some rich text...';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 1ch;
+    width: calc(100% - 2ch);
+    height: 100%;
+    background-color: var(--bg);
+    color: var(--placeholder-color);
+    z-index: 0;
+  }
+}
+
+:has(.input:focus) .placeholder {
+  &::after {
+    opacity: 1;
+    position: absolute;
+    z-index: 1;
+    animation: show 200ms;
+  }
+}
+
+:has(.input:hover) .placeholder {
+  &::before {
+    opacity: 1;
+    position: absolute;
+    z-index: 1;
+    animation: show 200ms;
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
