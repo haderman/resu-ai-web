@@ -15,11 +15,25 @@ import {
 import styles from './text-editor.module.scss';
 
 export type TextEditorProps = {
+  label: string;
   markdown: string;
   onChange: (markdown: string) => void;
 };
 
 export function TextEditor(props: TextEditorProps) {
+  return (
+    <div aria-label={props.label}>
+      <Input markdown={props.markdown} onChange={props.onChange} />
+    </div>
+  );
+}
+
+type InputProps = {
+  markdown: string;
+  onChange: (markdown: string) => void;
+};
+
+function Input(props: InputProps) {
   const editorConfig: InitialConfigType = React.useMemo(() => {
     return {
       namespace: 'ResuEditor',
