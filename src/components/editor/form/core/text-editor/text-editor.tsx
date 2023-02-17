@@ -2,7 +2,7 @@ import * as React from 'react';
 import { EditorState, LexicalEditor } from 'lexical';
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable, Props } from '@lexical/react/LexicalContentEditable';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
@@ -22,16 +22,25 @@ export type TextEditorProps = {
 
 export function TextEditor(props: TextEditorProps) {
   const labelId = React.useMemo(() => `label-${Math.random()}`, []);
+  const descriptionId = React.useMemo(() => `description-${Math.random()}`, []);
+
   return (
     <div className={styles.label}>
       <span aria-label={props.label} id={labelId}>{props.label}:</span>
-      <Input markdown={props.markdown} onChange={props.onChange} labelId={labelId} />
+      <Input
+        markdown={props.markdown}
+        onChange={props.onChange}
+        labelId={labelId}
+        descriptionId={descriptionId}
+      />
+      <Hint id={descriptionId} />
     </div>
   );
 }
 
 type InputProps = {
   labelId: string
+  descriptionId: string
   markdown: string
   onChange: (markdown: string) => void
 };
@@ -67,7 +76,11 @@ function Input(props: InputProps) {
       <div className={styles.container}>
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className={styles.input} ariaLabelledBy={props.labelId} />
+            <ContentEditable
+              className={styles.input}
+              ariaLabelledBy={props.labelId}
+              ariaDescribedBy={props.descriptionId}
+            />
           }
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}
@@ -83,6 +96,18 @@ function Placeholder() {
   return (
     <div className={styles.placeholder} aria-hidden="true">
       Placeholder text
+    </div>
+  );
+}
+
+type HintProps = {
+  id: string
+};
+
+function Hint(props: HintProps) {
+  return (
+    <div id={props.id} className={styles.hint}>
+      Hint text <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to add a new line
     </div>
   );
 }

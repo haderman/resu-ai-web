@@ -41,6 +41,24 @@
   }
 }
 
+.hint {
+  opacity: 0;
+  animation: fade-out 300ms;
+
+  kbd {
+    background-color: hsl(190deg 20% 15%);
+    color: hsl(210deg 10% 70%);
+    padding: 0.1rem .12rem;
+    border-radius: 0.1rem;
+    outline: 1px solid hsl(190deg 30% 30%);
+  }
+}
+
+:has(.input:focus) .hint {
+  animation: fade-in 300ms forwards;
+  animation-delay: 400ms;
+}
+
 .placeholder {
   top: var(--pad);
   left: var(--pad);
@@ -99,12 +117,22 @@
   }
 }
 
-@keyframes show {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
