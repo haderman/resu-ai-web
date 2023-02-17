@@ -107,7 +107,8 @@ type HintProps = {
 function Hint(props: HintProps) {
   return (
     <div id={props.id} className={styles.hint}>
-      Hint text <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to add a new line
+      <span>Use <kbd>Cmd</kbd> + <kbd>b</kbd> to <strong>bold</strong>
+      and use <kbd>Cmd</kbd> + <kbd>i</kbd> to <i>italic</i></span>
     </div>
   );
 }
