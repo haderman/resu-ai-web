@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { Textarea } from '@/components/editor/form';
-import { Profile } from '@/shared/types';
+import { TextEditor } from '@/components/editor/form';
 
 const { selectors, useProfileUpdater } = apiState.profile;
 
@@ -30,33 +29,40 @@ const MemoizedInputDescriptionComponent = React.memo(InputDescriptionComponent);
 type InputDescriptionComponentProps = {
   value: string
   onChange: (value: string) => void
-}
+};
 
 export function InputDescriptionComponent(props: InputDescriptionComponentProps) {
   const [value, setValue] = React.useState(() => props.value);
+  const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
 
   function handleChange(newValue: string) {
     setValue(newValue);
-  }
-
-  function handleClick() {
-    props.onChange(value);
+    debouncedOnChange(newValue);
   }
 
   return (
-    <fieldset>
-      <legend>Description</legend>
-      <div>
-        <Textarea
-          label="Title"
-          value={value}
-          onChange={handleChange}
-          placeholder="Enter your awesome profile here!"
-        />
-        <button onClick={handleClick}>
-          Save
-        </button>
-      </div>
-    </fieldset>
+    <TextEditor label="Title" markdown={value} onChange={handleChange} />
+  );
+}
+
+/**
+ * function created with chatGTP
+ */
+function useDebouncedFunction<T extends any[]>(
+  func: (...args: T) => void,
+  delay: number
+): (...args: T) => void {
+  const timerIdRef = React.useRef<NodeJS.Timeout>();
+
+  return React.useCallback(
+    (...args: T) => {
+      if (timerIdRef.current) {
+        clearTimeout(timerIdRef.current);
+      }
+      timerIdRef.current = setTimeout(() => {
+        func(...args);
+      }, delay);
+    },
+    [func, delay, timerIdRef]
   );
 }
