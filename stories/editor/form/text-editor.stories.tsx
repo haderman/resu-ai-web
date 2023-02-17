@@ -18,7 +18,7 @@ export const Basic: ComponentStory<typeof TextEditor> = (args) => {
   return (
     <Container>
       <ResizableBox>
-        <TextEditor markdown={value} onChange={setValue} />
+        <TextEditor label="Example" markdown={value} onChange={setValue} />
       </ResizableBox>
     </Container>
   );
