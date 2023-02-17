@@ -27,8 +27,8 @@ export function InputDescriptionContainer() {
 const MemoizedInputDescriptionComponent = React.memo(InputDescriptionComponent);
 
 type InputDescriptionComponentProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value: string
+  onChange: (value: string) => void
 };
 
 export function InputDescriptionComponent(props: InputDescriptionComponentProps) {
