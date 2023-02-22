@@ -25,7 +25,7 @@ export function RadioColorGroup(props: RadioColorGroupProps) {
       className={styles.root}
       onChange={handleChange}
     >
-      <p id="group-options">{props.legend}</p>
+      <p id="group-options">{props.legend}:</p>
       <div className={styles.wrapper}>
         {Color.values.map((color) => {
           return (
