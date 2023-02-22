@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { Input } from '@/components/editor/form';
+import { InputText } from '@/components/editor/form';
 
 const { selectors, useUpdateSkills } = apiState.skills;
 
@@ -32,28 +32,40 @@ type InputTitleComponentProps = {
 
 export function InputTitleComponent(props: InputTitleComponentProps) {
   const [value, setValue] = React.useState(() => props.value);
+  const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
 
   function handleChange(newValue: string) {
     setValue(newValue);
-  }
-
-  function handleClick() {
-    props.onChange(value);
+    debouncedOnChange(newValue);
   }
 
   return (
-    <fieldset>
-      <legend>Skills</legend>
-      <div>
-        <Input
-          label="Title"
-          value={value}
-          onChange={handleChange}
-        />
-        <button onClick={handleClick}>
-          Save
-        </button>
-      </div>
-    </fieldset>
+    <InputText
+      label="Title"
+      value={value}
+      onChange={handleChange}
+    />
+  );
+}
+
+/**
+ * function created with chatGTP
+ */
+function useDebouncedFunction<T extends any[]>(
+  func: (...args: T) => void,
+  delay: number
+): (...args: T) => void {
+  const timerIdRef = React.useRef<NodeJS.Timeout>();
+
+  return React.useCallback(
+    (...args: T) => {
+      if (timerIdRef.current) {
+        clearTimeout(timerIdRef.current);
+      }
+      timerIdRef.current = setTimeout(() => {
+        func(...args);
+      }, delay);
+    },
+    [func, delay, timerIdRef]
   );
 }
