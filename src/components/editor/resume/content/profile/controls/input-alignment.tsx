@@ -8,7 +8,7 @@ import { AlignButtonGroup } from '@/components/editor/form';
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputAlignmentContainer() {
-  const title = useSelector(selectors.selectProfileTitle);
+  const align = useSelector(selectors.selectTitleAlign);
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -25,6 +25,8 @@ export function InputAlignmentContainer() {
   );
 
   return (
-    <AlignButtonGroup value={title.align} onChange={handleChange} />
+    <MemoizedAlignButtonGroup value={align} onChange={handleChange} />
   );
 }
+
+const MemoizedAlignButtonGroup = React.memo(AlignButtonGroup);

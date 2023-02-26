@@ -7,7 +7,7 @@ import { TextEditor } from '@/components/editor/form';
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputDescriptionContainer() {
-  const description = useSelector(selectors.selectProfileDescription);
+  const description = useSelector(selectors.selectDescriptionText);
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -21,7 +21,7 @@ export function InputDescriptionContainer() {
     [update]
   );
 
-  return <MemoizedInputDescriptionComponent value={description.text} onChange={handleChange} />;
+  return <MemoizedInputDescriptionComponent value={description} onChange={handleChange} />;
 }
 
 const MemoizedInputDescriptionComponent = React.memo(InputDescriptionComponent);

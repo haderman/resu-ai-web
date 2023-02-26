@@ -7,7 +7,7 @@ import { InputText } from '@/components/editor/form';
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputTitleContainer() {
-  const title = useSelector(selectors.selectProfileTitle);
+  const title = useSelector(selectors.selectTitleText);
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -21,7 +21,7 @@ export function InputTitleContainer() {
     [update]
   );
 
-  return <MemoizedInputTitleComponent value={title.text} onChange={handleChange} />;
+  return <MemoizedInputTitleComponent value={title} onChange={handleChange} />;
 }
 
 const MemoizedInputTitleComponent = React.memo(InputTitleComponent);

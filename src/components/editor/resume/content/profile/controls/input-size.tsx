@@ -8,7 +8,7 @@ import { SizeButtonGroup } from '@/components/editor/form';
 const { selectors, useProfileUpdater } = apiState.profile;
 
 export function InputSizeContainer() {
-  const title = useSelector(selectors.selectProfileTitle);
+  const size = useSelector(selectors.selectTitleSize);
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -23,6 +23,6 @@ export function InputSizeContainer() {
   );
 
   return (
-    <SizeButtonGroup value={title.size} onChange={handleChange} />
+    <SizeButtonGroup value={size} onChange={handleChange} />
   );
 }
