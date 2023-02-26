@@ -37,7 +37,7 @@ export function InputTitleComponent(props: InputTitleComponentProps) {
 
   function handleChange(newValue: string) {
     setValue(newValue);
-    debouncedOnChange(value);
+    debouncedOnChange(newValue);
   }
 
   return (
