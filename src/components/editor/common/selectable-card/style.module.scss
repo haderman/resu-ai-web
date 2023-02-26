@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
 
-  &[data-is-slected='true'] {
+  &[data-is-selected='true'] {
     outline: 2px solid hsl(210 60% 60%);
     transform: scale(1);
     z-index: 1;

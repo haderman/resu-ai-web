@@ -12,24 +12,44 @@ export type SelectableCardProps = React.PropsWithChildren<{
   item: CvItem
 }>
 
-
 export function SelectableCard(props: SelectableCardProps) {
   const dispatch = useDispatch();
   const selectedItem = useSelector(selectSelectedItem);
 
-  function handleFocus(evt: React.FocusEvent<HTMLDivElement>) {
-    evt.stopPropagation();
-    dispatch(actions.setSelectedItem(props.item));
-  }
+  const handleFocus = React.useCallback(
+    (evt: React.FocusEvent<HTMLDivElement>) => {
+      evt.stopPropagation();
+      dispatch(actions.setSelectedItem(props.item));
+    }, [dispatch, props.item]
+  );
 
   return (
-    <div
-      tabIndex={0}
+    <MemoizedSelectableCardComponent
+      isSelected={selectedItem === props.item}
       onFocus={handleFocus}
-      data-is-slected={selectedItem === props.item}
-      className={styles.selectable}
     >
       {props.children}
-    </div>
+    </MemoizedSelectableCardComponent>
   );
 }
+
+type SelectableCardComponentProps = React.PropsWithChildren<{
+  isSelected: boolean
+  onFocus: (evt: React.FocusEvent<HTMLDivElement>) => void
+}>
+
+const MemoizedSelectableCardComponent = React.memo(
+  function SelectableCardComponent(props: SelectableCardComponentProps) {
+    console.log('re rendered');
+    return (
+      <div
+        tabIndex={0}
+        onFocus={props.onFocus}
+        data-is-selected={props.isSelected}
+        className={styles.selectable}
+      >
+        {props.children}
+      </div>
+    );
+  }
+);
