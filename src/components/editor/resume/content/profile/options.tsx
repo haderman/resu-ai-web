@@ -9,9 +9,15 @@ import {
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { apiState } from '@/state/api';
-import { InputText } from '@/components/editor/form';
+import {
+  InputText,
+  AlignButtonGroup,
+  RadioColorGroup,
+  SizeButtonGroup,
+  TextEditor,
+} from '@/components/editor/form';
 
-import { Field, SectionSchemaMap, ResumeFieldPath, ResumeContent, Resume } from '@/shared/types';
+import { Field, SectionSchemaMap, ResumeFieldPath, ResumeContent, Resume, Alignment, Color, Size } from '@/shared/types';
 
 const { selectors, useProfileUpdater } = apiState.profile;
 
@@ -23,15 +29,6 @@ export function ProfileOptions() {
       })}
     </>
   );
-  return (
-    <>
-      <InputTitleContainer />
-      <InputDescriptionContainer />
-      <InputCardBackgroundContainer />
-      <InputSizeContainer />
-      <InputAlignmentContainer />
-    </>
-  );
 };
 
 type AdapterProps = {
@@ -41,6 +38,22 @@ type AdapterProps = {
 function Adapter(props: AdapterProps) {
   if (props.field.type === 'text') {
     return <InputTextAdapter path={props.field.path} />;
+  }
+
+  if (props.field.type === 'align') {
+    return <InputAlignAdapter path={props.field.path} />;
+  }
+
+  if (props.field.type === 'color') {
+    return <InputColorAdapter path={props.field.path} />;
+  }
+
+  if (props.field.type === 'size') {
+    return <InputSizeAdapter path={props.field.path} />;
+  }
+
+  if (props.field.type === 'rich-text') {
+    return <InputTextEditorAdapter path={props.field.path} />;
   }
 
   return (
@@ -58,16 +71,9 @@ function InputTextAdapter(props: InputTextAdapterProps) {
 
   const handleChange = React.useCallback(
     (value: string) => {
-      const obj = createObjectFromPath(props.path, value);
-      console.log('obj', obj);
-      update(obj);
-      // update({
-      //   title: {
-      //     text: value
-      //   },
-      // });
+      update(createObjectFromPath(props.path, value));
     },
-    [update]
+    [update, props.path]
   );
 
   return (
@@ -79,11 +85,102 @@ function InputTextAdapter(props: InputTextAdapterProps) {
   );
 }
 
-// function useSelectorFactory(path: `${infer Key}.${infer Rest}`) {
-//   const [section, key] = path.split('.');
-//   const selector = useSelector();
-//   return selector;
-// }
+type InputAlignAdapterProps = {
+  path: Field['path']
+}
+
+function InputAlignAdapter(props: InputAlignAdapterProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const update = useProfileUpdater();
+
+  const handleChange = React.useCallback(
+    (value: Alignment | null) => {
+      if (value === null) return;
+
+      update(createObjectFromPath(props.path, value));
+    },
+    [update, props.path]
+  );
+
+  return (
+    <AlignButtonGroup
+      value={value as unknown as Alignment}
+      onChange={handleChange}
+    />
+  );
+}
+
+type InputColorAdapterProps = {
+  path: Field['path']
+}
+
+function InputColorAdapter(props: InputColorAdapterProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const update = useProfileUpdater();
+
+  const handleChange = React.useCallback(
+    (value: Color) => {
+      update(createObjectFromPath(props.path, value));
+    },
+    [update, props.path]
+  );
+
+  return (
+    <RadioColorGroup
+      legend='Color'
+      name='color'
+      selected={value as unknown as Color}
+      onChange={handleChange}
+    />
+  );
+}
+
+type InputSizeAdapterProps = {
+  path: Field['path']
+}
+
+function InputSizeAdapter(props: InputSizeAdapterProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const update = useProfileUpdater();
+
+  const handleChange = React.useCallback(
+    (value: Size | null) => {
+      update(createObjectFromPath(props.path, value));
+    },
+    [update, props.path]
+  );
+
+  return (
+    <SizeButtonGroup
+      value={value as unknown as Size}
+      onChange={handleChange}
+    />
+  );
+}
+
+type InputTextEditorAdapterProps = {
+  path: Field['path']
+}
+
+function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const update = useProfileUpdater();
+
+  const handleChange = React.useCallback(
+    (value: string) => {
+      update(createObjectFromPath(props.path, value));
+    },
+    [update, props.path]
+  );
+
+  return (
+    <TextEditor
+      label="Description"
+      markdown={value as unknown as string}
+      onChange={handleChange}
+    />
+  );
+}
 
 const sectionSchemaMap: SectionSchemaMap = {
   cover: {
@@ -96,16 +193,23 @@ const sectionSchemaMap: SectionSchemaMap = {
       {
         path: 'profile.title.text',
         type: 'text',
-      }, {
+      },
+      {
         path: 'profile.description.text',
         type: 'rich-text',
-      }, {
+      },
+      {
         path: 'profile.title.align',
         type: 'align',
-      }, {
-        path: 'profile.title.color',
+      },
+      {
+        path: 'profile.cardStyle.background',
         type: 'color',
-      }
+      },
+      {
+        path: 'profile.title.size',
+        type: 'size',
+      },
     ],
   },
   contact: {
@@ -144,6 +248,7 @@ const sectionSchemaMap: SectionSchemaMap = {
   },
 };
 
+// created with chatGPT
 function createObjectFromPath<T>(path: string, value: T): any {
   const keys = path.split('.');
   const result: any = {};

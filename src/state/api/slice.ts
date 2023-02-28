@@ -68,12 +68,6 @@ export function selectResumeProperty(path: ResumeFieldPath) {
     }
 
     return pick(resume.content, path as ResumePath);
-
-    // const [section, key, subkey] = path.split('.');
-    // if (section && key && subkey) {
-    //   return resume?.content[section as keyof ResumeContent][key][subkey];
-    // }
-    // return resume.content[section as keyof ResumeContent][key as keyof ResumeContent[]];
   });
 }
 
@@ -107,6 +101,7 @@ export function useResumeUpdateStatus() {
 
 export default apiSlice;
 
+// created with chatGPT
 type Path<T> = T extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T
     ? Rest extends Path<T[Key]>
@@ -117,6 +112,7 @@ type Path<T> = T extends `${infer Key}.${infer Rest}`
     ? T
     : never;
 
+// created with chatGPT
 function pick<T, K extends Path<keyof T>>(obj: T, path: K): K extends `${infer Key1}.${infer Key2}.${infer Key3}`
   ? Key1 extends keyof T
     ? Key2 extends keyof T[Key1]

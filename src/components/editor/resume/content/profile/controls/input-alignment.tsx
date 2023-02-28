@@ -16,8 +16,10 @@ export function InputAlignmentContainer() {
       if (value === null) return;
 
       update({
-        title: {
-          align: value,
+        profile: {
+          title: {
+            align: value,
+          },
         },
       });
     },
