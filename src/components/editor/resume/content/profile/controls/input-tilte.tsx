@@ -13,8 +13,10 @@ export function InputTitleContainer() {
   const handleChange = React.useCallback(
     (value: string) => {
       update({
-        title: {
-          text: value
+        profile: {
+          title: {
+            text: value
+          },
         },
       });
     },

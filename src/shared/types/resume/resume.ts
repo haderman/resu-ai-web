@@ -1,5 +1,7 @@
 import { generateId } from '@/shared/helpers';
 import { ResumeTheme } from '@/themes';
+import { Color } from '../color';
+import { Alignment, Size } from '../units';
 
 import {
   BasicInfo,
@@ -7,6 +9,9 @@ import {
   Experience,
   Profile,
   Skills,
+  BasicInfoFieldPath,
+  SkillsFieldPath,
+  ProfileFieldPath,
 } from './content';
 import { ResumeLayout } from './layout';
 import { ResumeSections } from './sections';
@@ -31,6 +36,11 @@ export type Resume = {
 export type ResumeContent = Resume['content'];
 
 export type ResumeStyle = Resume['style'];
+
+export type ResumeFieldPath =
+  | `basicInfo.${BasicInfoFieldPath}`
+  | `profile.${ProfileFieldPath}`
+  | `skills.${SkillsFieldPath}`;
 
 export const Resume = {
   decode(data: unknown): Resume {

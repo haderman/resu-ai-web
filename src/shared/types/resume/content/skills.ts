@@ -24,6 +24,12 @@ export type SkillItem = {
   yearsOfExperience: number
 };
 
+export type SkillsFieldPath =
+  | `items`
+  | `title.${keyof Skills['title']}`
+  | `itemStyle.${keyof Skills['itemStyle']}`
+  | `cardStyle.${keyof Skills['cardStyle']}`;
+
 type Title = Skills['title'];
 type ItemStyle = Skills['itemStyle'];
 type CardStyle = Skills['cardStyle'];

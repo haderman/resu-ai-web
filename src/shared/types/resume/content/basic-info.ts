@@ -3,10 +3,7 @@ export type BasicInfo = {
   jobTitle: string
 };
 
-// interface BasicInfo {
-//   fullName: string;
-//   jobTitle: string;
-// }
+export type BasicInfoFieldPath = 'fullName' | 'jobTitle';
 
 export const BasicInfo = {
   decode(data: unknown): BasicInfo {

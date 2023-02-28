@@ -64,12 +64,8 @@ export function useProfileUpdater() {
   const updateResume = useResumeUpdaters();
 
   const updateProfile = React.useCallback(
-    (newProfile: DeepPartial<Profile>) => {
-      updateResume({
-        content: {
-          profile: newProfile,
-        } as ResumeContent,
-      });
+    (newContent: DeepPartial<ResumeContent>) => {
+      updateResume({ content: newContent });
     },
     [updateResume]
   );

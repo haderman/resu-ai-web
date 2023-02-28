@@ -18,6 +18,10 @@ export type Profile = {
   },
 };
 
+export type ProfileFieldPath = {
+  [K in keyof Profile]: `${K}.${K extends keyof Profile ? keyof Profile[K] : never}`
+}[keyof Profile & string];
+
 type Title = Profile['title'];
 type Description = Profile['description'];
 type CardStyle = Profile['cardStyle'];
