@@ -1,5 +1,10 @@
+import { useSelector } from 'react-redux';
+
 import { Chip, Stack, Text } from '@/components/editor/common';
 import type { Color, SkillItem } from '@/shared/types';
+import { apiState } from '@/state/api';
+
+const selectors = apiState.skills.selectors;
 
 export type SkillsProps = {
   data: SkillItem[]
@@ -10,7 +15,7 @@ export type SkillsProps = {
 export function Skills(props: SkillsProps) {
   return (
     <Stack gap="large" padding="medium" color={props.background}>
-      <Text size="large" weight="bold" as="h2">Skills</Text>
+      <TitleContainer />
       <Chip.Container gap="medium">
         {props.data.map(({ title }) => {
           return (
@@ -21,5 +26,15 @@ export function Skills(props: SkillsProps) {
         })}
       </Chip.Container>
     </Stack>
+  );
+}
+
+export function TitleContainer() {
+  const title = useSelector(selectors.selectTitle);
+
+  return (
+    <Text size="large" weight="bold" as="h2">
+      {title.text}
+    </Text>
   );
 }
