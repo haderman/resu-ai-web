@@ -1,7 +1,5 @@
 import { generateId } from '@/shared/helpers';
 import { ResumeTheme } from '@/themes';
-import { Color } from '../color';
-import { Alignment, Size } from '../units';
 
 import {
   BasicInfo,

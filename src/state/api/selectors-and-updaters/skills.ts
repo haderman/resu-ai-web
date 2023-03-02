@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
@@ -42,6 +43,19 @@ export function useUpdateSkills() {
   }
 
   return updateSkills;
+}
+
+export function useSkillsUpdater() {
+  const updateResume = useResumeUpdaters();
+
+  const update = React.useCallback(
+    (newContent: DeepPartial<ResumeContent>) => {
+      updateResume({ content: newContent });
+    },
+    [updateResume]
+  );
+
+  return update;
 }
 
 export const selectors = {

@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createAction, createSelector, Selector } from '@reduxjs/toolkit';
 
-import { Resume, DeepPartial, ResumeFieldPath, ResumeContent } from '@/shared/types';
+import { Resume, DeepPartial, ResumeFieldPath } from '@/shared/types';
 import { getHost, mutateObjectProperties } from '@/shared/helpers';
-import { useSelector } from 'react-redux';
-import { createAction, createSelector } from '@reduxjs/toolkit';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -61,10 +61,10 @@ export const selectResume = createSelector(
   (result) => result.data
 );
 
-export function selectResumeProperty(path: ResumeFieldPath) {
+export function selectResumeProperty(path: ResumeFieldPath, defaultValue?: unknown) {
   return createSelector(selectResume, (resume) => {
     if (!resume) {
-      return undefined;
+      return defaultValue;
     }
 
     return pick(resume.content, path as ResumePath);

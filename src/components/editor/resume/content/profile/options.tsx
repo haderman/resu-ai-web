@@ -1,11 +1,3 @@
-import {
-  InputTitleContainer,
-  InputDescriptionContainer,
-  InputCardBackgroundContainer,
-  InputSizeContainer,
-  InputAlignmentContainer,
-} from './controls';
-
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { apiState } from '@/state/api';
@@ -17,9 +9,9 @@ import {
   TextEditor,
 } from '@/components/editor/form';
 
-import { Field, SectionSchemaMap, ResumeFieldPath, ResumeContent, Resume, Alignment, Color, Size } from '@/shared/types';
+import { Field, SectionSchemaMap, Alignment, Color, Size } from '@/shared/types';
 
-const { selectors, useProfileUpdater } = apiState.profile;
+const { useProfileUpdater } = apiState.profile;
 
 export function ProfileOptions() {
   return (
@@ -66,7 +58,7 @@ type InputTextAdapterProps = {
 }
 
 function InputTextAdapter(props: InputTextAdapterProps) {
-  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -76,10 +68,15 @@ function InputTextAdapter(props: InputTextAdapterProps) {
     [update, props.path]
   );
 
+  if (typeof value !== 'string') {
+    console.error('Invalid value type in InputTextAdapter');
+    return null;
+  }
+
   return (
     <InputText
       label="Title"
-      value={value as unknown as string}
+      value={value}
       onChange={handleChange}
     />
   );
@@ -90,7 +87,7 @@ type InputAlignAdapterProps = {
 }
 
 function InputAlignAdapter(props: InputAlignAdapterProps) {
-  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, 'center'));
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -102,9 +99,14 @@ function InputAlignAdapter(props: InputAlignAdapterProps) {
     [update, props.path]
   );
 
+  if (!Alignment.isAlignment(value)) {
+    console.error('Invalid value type in InputAlignAdapter');
+    return null;
+  }
+
   return (
     <AlignButtonGroup
-      value={value as unknown as Alignment}
+      value={value}
       onChange={handleChange}
     />
   );
@@ -115,7 +117,7 @@ type InputColorAdapterProps = {
 }
 
 function InputColorAdapter(props: InputColorAdapterProps) {
-  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, Color.getDefault()));
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -124,6 +126,11 @@ function InputColorAdapter(props: InputColorAdapterProps) {
     },
     [update, props.path]
   );
+
+  if (!Color.isColor(value)) {
+    console.error('Invalid value type in InputColorAdapter');
+    return null;
+  }
 
   return (
     <RadioColorGroup
@@ -140,7 +147,7 @@ type InputSizeAdapterProps = {
 }
 
 function InputSizeAdapter(props: InputSizeAdapterProps) {
-  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
   const update = useProfileUpdater();
 
   const handleChange = React.useCallback(
@@ -150,9 +157,14 @@ function InputSizeAdapter(props: InputSizeAdapterProps) {
     [update, props.path]
   );
 
+  if (!Size.isSize(value)) {
+    console.error('Invalid value type in InputSizeAdapter');
+    return null;
+  }
+
   return (
     <SizeButtonGroup
-      value={value as unknown as Size}
+      value={value}
       onChange={handleChange}
     />
   );
@@ -173,10 +185,15 @@ function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
     [update, props.path]
   );
 
+  if (typeof value !== 'string') {
+    console.error('Invalid value type in InputTextEditorAdapter');
+    return null;
+  }
+
   return (
     <TextEditor
       label="Description"
-      markdown={value as unknown as string}
+      markdown={value}
       onChange={handleChange}
     />
   );
