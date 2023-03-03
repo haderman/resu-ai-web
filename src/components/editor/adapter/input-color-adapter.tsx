@@ -1,0 +1,39 @@
+import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { apiState } from '@/state/api';
+import { RadioColorGroup } from '@/components/editor/form';
+
+import { Field, Color } from '@/shared/types';
+import { createObjectFromPath } from './helpers';
+
+const { useProfileUpdater } = apiState.profile;
+
+export type InputColorAdapterProps = {
+  path: Field['path']
+}
+
+export function InputColorAdapter(props: InputColorAdapterProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, Color.getDefault()));
+  const update = useProfileUpdater();
+
+  const handleChange = React.useCallback(
+    (value: Color) => {
+      update(createObjectFromPath(props.path, value));
+    },
+    [update, props.path]
+  );
+
+  if (!Color.isColor(value)) {
+    console.error('Invalid value type in InputColorAdapter');
+    return null;
+  }
+
+  return (
+    <RadioColorGroup
+      legend='Color'
+      name='color'
+      selected={value as unknown as Color}
+      onChange={handleChange}
+    />
+  );
+}
