@@ -28,6 +28,25 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
 }
 
 // created with chatGPT
+/**
+ * This is type create typed string paths for objects.
+ * The path is a string that represents the path to the property that you want to set.
+ *
+ * Example:
+ * ```js
+ * type Resume = {
+ *  contact: {
+ *   fullName: string;
+ * }
+ *
+ * // ✅
+ * const path: Path<Resume> = 'contact.fullName'
+ *
+ * // ❌ this will throw a compilation error
+ * const path: Path<Resume> = 'contact.fullName.age'
+ * ```
+ *
+ */
 export type Path<T> = T extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T
     ? Rest extends Path<T[Key]>
@@ -38,8 +57,21 @@ export type Path<T> = T extends `${infer Key}.${infer Rest}`
     ? T
     : never;
 
-
-// created with chatGPT
+/**
+ * This function is to create a partial object from a path and a value.
+ * The path is a string that represents the path to the property that you want to set.
+ *
+ * Example:
+ * ```js
+ * // this will return { contact: { fullName: 'John Doe' } }
+ * createObjectFromPath<Resume>('contact.fullName', 'John Doe')
+ * ```
+ *
+ * this is useful when you want to create a partial object from a path and a value
+ * and then use it to update the state of a component.
+ *
+ * PD: this function was created by chatGTP
+ */
 export function createObjectFromPath<T>(path: string, value: T): any {
   const keys = path.split('.');
   const result: any = {};
@@ -56,9 +88,46 @@ export function createObjectFromPath<T>(path: string, value: T): any {
   return result;
 }
 
-
-
-// created with chatGPT
+/**
+ * PD: this function was created by chatGTP
+ *
+ * This function is to pick a property from an object using a path.
+ * The path is a string that represents the path to the property that you want to pick.
+ * The path can be up to 3 levels deep.
+ * - If the path is longer than 3 levels, it will throw an error.
+ * - If the path is invalid, it will return undefined.
+ * - If the path is valid, it will return the value of the property.
+ *
+ * Example:
+ * ```js
+ * const obj = {
+ *   name: 'John Doe',
+ *   age: 30,
+ *   address: {
+ *    street: '123 Main St',
+ *    city: 'San Francisco',
+ *    state: 'CA',
+ *    zip: '94105',
+ *    coordinates: {
+ *      latitude: 37.7749,
+ *      longitude: -122.4194,
+ *    },
+ *  },
+ * };
+ *
+ * // this will return 'John Doe'
+ * pick(obj, 'name');
+ *
+ * // this will return 30
+ * pick(obj, 'age');
+ *
+ * // this will return '123 Main St'
+ * pick(obj, 'address.street');
+ *
+ * // this will return 37.7749
+ * pick(obj, 'address.coordinates.latitude');
+ * ```
+ */
 export function pick<T, K extends Path<keyof T>>(obj: T, path: K): K extends `${infer Key1}.${infer Key2}.${infer Key3}`
   ? Key1 extends keyof T
     ? Key2 extends keyof T[Key1]
@@ -89,4 +158,3 @@ export function pick<T, K extends Path<keyof T>>(obj: T, path: K): K extends `${
   }
   return result as any;
 }
-
