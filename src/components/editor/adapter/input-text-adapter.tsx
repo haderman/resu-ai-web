@@ -8,9 +8,7 @@ import { createObjectFromPath } from './helpers';
 
 const { useProfileUpdater } = apiState.profile;
 
-export type InputTextAdapterProps = {
-  path: Field['path']
-}
+export type InputTextAdapterProps = Exclude<Field, 'type'>;
 
 export function InputTextAdapter(props: InputTextAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
@@ -30,7 +28,8 @@ export function InputTextAdapter(props: InputTextAdapterProps) {
 
   return (
     <InputText
-      label="Title"
+      id={props.path}
+      label={props.label}
       value={value}
       onChange={handleChange}
     />

@@ -5,7 +5,7 @@ import { selectSelectedItem } from '@/state';
 import { SectionType } from '@/shared/types';
 
 import { sectionSchemaMap } from '../schema';
-import { Adapter } from '../common';
+import { Adapter } from '../adapter';
 import styles from './panel.module.scss';
 
 export type PanelProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'id'>;

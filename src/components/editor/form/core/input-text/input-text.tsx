@@ -3,6 +3,7 @@ import * as React from 'react';
 import styles from './input-text.module.scss';
 
 export type InputTextProps = InputBaseProps & {
+  id: string
   value: string
   label: string
   onChange: (value: string) => void
@@ -18,11 +19,13 @@ export function InputText(props: InputTextProps): JSX.Element {
 
   return (
     <div className={styles.wrapper}>
-      <label htmlFor="input-test">{props.label}:</label>
+      <label htmlFor={props.id}>
+        {props.label}:
+      </label>
       <input
         {...props}
-        id="input-test"
         type="text"
+        id={props.id}
         value={props.value}
         onChange={handleChange}
       />
