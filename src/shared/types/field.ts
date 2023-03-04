@@ -1,7 +1,9 @@
-import { ResumeFieldPath, ResumeContent } from './resume';
+import { ResumeFieldPath } from './resume';
 
 export type Field = {
   path: ResumeFieldPath
+  label: string
+  name: string
   type:
     | 'align'
     | 'text'
@@ -40,61 +42,3 @@ export type SectionSchemaMap = {
   [key in SectionType]: SectionSchema
 }
 
-export const sectionSchemaMap: SectionSchemaMap = {
-  cover: {
-    type: 'cover',
-    fields: [],
-  },
-  profile: {
-    type: 'profile',
-    fields: [
-      {
-        path: 'profile.title.text',
-        type: 'text',
-      }, {
-        path: 'profile.description.text',
-        type: 'rich-text',
-      }, {
-        path: 'profile.title.align',
-        type: 'align',
-      }, {
-        path: 'profile.title.color',
-        type: 'color',
-      }
-    ],
-  },
-  contact: {
-    type: 'contact',
-    fields: [],
-  },
-  photo: {
-    type: 'photo',
-    fields: [],
-  },
-  skills: {
-    type: 'skills',
-    fields: [
-      {
-        path: 'skills.title.text',
-        type: 'text',
-      }, {
-        path: 'skills.title.align',
-        type: 'align',
-      }, {
-        path: 'skills.title.color',
-        type: 'color',
-      }, {
-        path: 'skills.title.size',
-        type: 'size',
-      }
-    ],
-  },
-  experience: {
-    type: 'experience',
-    fields: [],
-  },
-  projects: {
-    type: 'projects',
-    fields: [],
-  },
-};
