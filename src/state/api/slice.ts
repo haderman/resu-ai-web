@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { createAction, createSelector, Selector } from '@reduxjs/toolkit';
+import { createAction, createSelector } from '@reduxjs/toolkit';
 
 import { Resume, DeepPartial, ResumeFieldPath } from '@/shared/types';
-import { getHost, mutateObjectProperties } from '@/shared/helpers';
+import { getHost, mutateObjectProperties, Path, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -100,48 +100,5 @@ export function useResumeUpdateStatus() {
 }
 
 export default apiSlice;
-
-// created with chatGPT
-type Path<T> = T extends `${infer Key}.${infer Rest}`
-  ? Key extends keyof T
-    ? Rest extends Path<T[Key]>
-      ? `${Key}.${Rest}`
-      : never
-    : never
-  : T extends keyof any
-    ? T
-    : never;
-
-// created with chatGPT
-function pick<T, K extends Path<keyof T>>(obj: T, path: K): K extends `${infer Key1}.${infer Key2}.${infer Key3}`
-  ? Key1 extends keyof T
-    ? Key2 extends keyof T[Key1]
-      ? Key3 extends keyof T[Key1][Key2]
-        ? T[Key1][Key2][Key3]
-        : never
-      : never
-    : never
-  : K extends `${infer Key1}.${infer Key2}`
-    ? Key1 extends keyof T
-      ? Key2 extends keyof T[Key1]
-        ? T[Key1][Key2]
-        : never
-      : never
-    : K extends keyof T
-      ? T[K]
-      : never {
-  const parts = (path as string).split('.') as Array<keyof T & string>; // type assertion to tell TypeScript that keys are strings
-  if (parts.length > 3) {
-    throw new Error('Path too deep');
-  }
-  let result = obj;
-  for (const part of parts) {
-    if (result == null) {
-      break;
-    }
-    result = result[part] as T;
-  }
-  return result as any;
-}
 
 type ResumePath = Path<Resume['content']>

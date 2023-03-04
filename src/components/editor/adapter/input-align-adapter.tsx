@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+
 import { apiState } from '@/state/api';
 import { AlignButtonGroup } from '@/components/editor/form';
-
 import { Field, Alignment } from '@/shared/types';
-
-import { createObjectFromPath } from './helpers';
+import { createObjectFromPath } from '@/shared/helpers';
 
 const { useProfileUpdater } = apiState.profile;
 

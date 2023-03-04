@@ -8,6 +8,6 @@ export const contactSectionSchemaMap: SectionSchemaMap['contact'] = {
       path: 'basicInfo.fullName',
       label: 'Full Name',
       name: 'full-name',
-    }
+    },
   ],
 };

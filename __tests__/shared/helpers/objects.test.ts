@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import { mutateObjectProperties } from '@/shared/helpers/mutate-object-properties';
+import { mutateObjectProperties } from '@/shared/helpers/objects';
 
 /**
  * These test cases were created by chatGTP

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+
 import { apiState } from '@/state/api';
 import { InputText } from '@/components/editor/form';
-
 import { Field } from '@/shared/types';
-import { createObjectFromPath } from './helpers';
+import { createObjectFromPath } from '@/shared/helpers';
 
 const { useProfileUpdater } = apiState.profile;
 

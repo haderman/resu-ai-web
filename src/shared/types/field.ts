@@ -12,15 +12,6 @@ export type Field = {
     | 'size'
 }
 
-type Section =
-  | { type: 'contact', fields: Field[] }
-  | { type: 'experience', fields: Field[] }
-  | { type: 'profile', fields: Field[] }
-  | { type: 'skills', fields: Field[] }
-  | { type: 'basic-info', fields: Field[] }
-  | { type: 'photo', fields: Field[] };
-
-
 const sectionTypeValues = [
   'cover',
   'profile',
