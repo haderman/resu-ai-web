@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux';
 import { IconBrandGithub, IconBrandTwitter, IconMail } from '@tabler/icons';
 
-import { Color } from '@/shared/types';
+import { Color, Field } from '@/shared/types';
 import { Stack, Inline, Text } from '@/components/editor/common';
+import { apiState } from '@/state/api';
 
 export type ContactProps = {
   color: Color
@@ -9,10 +11,8 @@ export type ContactProps = {
 
 export function Contact(props: ContactProps) {
   return (
-    <Stack gap="medium" padding="medium" color={props.color}>
-      <Text as="h2" size="large" weight="bold">
-        Hader Cardon Suarez
-      </Text>
+    <Card path="contact.cardStyle.background">
+      <FullName path="basicInfo.fullName" />
       <Inline gap="medium" alignItems="center">
         <IconBrandGithub stroke={1} size="1.5rem" />
         <Text weight="light">haderman</Text>
@@ -25,6 +25,44 @@ export function Contact(props: ContactProps) {
         <IconBrandTwitter stroke={1} size="1.5rem" />
         <Text weight="light">haderman7</Text>
       </Inline>
+    </Card>
+  );
+}
+
+type FullNameProps = {
+  path: Field['path'],
+}
+
+function FullName(props: FullNameProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
+
+  if (typeof value !== 'string') {
+    console.error('Invalid value type in FullName');
+    return null;
+  }
+
+  return (
+    <Text as="h2" size="large" weight="bold">
+      {value}
+    </Text>
+  );
+}
+
+type CardProps = React.PropsWithChildren<{
+  path: Field['path'],
+}>
+
+function Card(props: CardProps) {
+  const color = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
+
+  if (!Color.isColor(color)) {
+    console.error('Invalid value type in Card');
+    return null;
+  }
+
+  return (
+    <Stack gap="medium" padding="medium" color={color}>
+      {props.children}
     </Stack>
   );
 }

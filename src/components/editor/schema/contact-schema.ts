@@ -9,5 +9,11 @@ export const contactSectionSchemaMap: SectionSchemaMap['contact'] = {
       label: 'Full Name',
       name: 'full-name',
     },
+    {
+      type: 'color',
+      path: 'contact.cardStyle.background',
+      label: 'Background Color',
+      name: 'background-color',
+    }
   ],
 };

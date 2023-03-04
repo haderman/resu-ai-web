@@ -7,6 +7,7 @@ import {
   Experience,
   Profile,
   Skills,
+  ContactFieldPath,
   BasicInfoFieldPath,
   SkillsFieldPath,
   ProfileFieldPath,
@@ -38,7 +39,8 @@ export type ResumeStyle = Resume['style'];
 export type ResumeFieldPath =
   | `basicInfo.${BasicInfoFieldPath}`
   | `profile.${ProfileFieldPath}`
-  | `skills.${SkillsFieldPath}`;
+  | `skills.${SkillsFieldPath}`
+  | `contact.${ContactFieldPath}`;
 
 export const Resume = {
   decode(data: unknown): Resume {
@@ -71,6 +73,7 @@ export const Resume = {
         basicInfo: BasicInfo.decode(content?.basicInfo),
         profile: Profile.decode(content?.profile),
         skills: Skills.decode(content?.skills),
+        contact: Contact.decode(content?.contact),
       },
       style: {
         theme: ResumeTheme.decode(style?.theme),

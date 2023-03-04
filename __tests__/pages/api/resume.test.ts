@@ -34,6 +34,14 @@ let resumeMock: Resume = {
       fullName: 'John Doe',
       jobTitle: 'Software Engineer',
     },
+    contact: {
+      cardStyle: {
+        background: 'white',
+      },
+      data: {
+        email: 'test@example.com',
+      }
+    },
     profile: {
       title: {
         text: 'Profile',

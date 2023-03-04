@@ -18,6 +18,7 @@ export const Basic: ComponentStory<typeof InputText> = (args) => {
       <ResizableBox>
         <InputText
           autoFocus
+          id="example"
           label="Example"
           value={value}
           onChange={setValue}
@@ -35,6 +36,7 @@ export const WithPlaceholder: ComponentStory<typeof InputText> = (args) => {
       <ResizableBox>
         <InputText
           autoFocus
+          id="example"
           label="Example"
           value={value}
           onChange={setValue}
@@ -53,6 +55,7 @@ export const WithHint: ComponentStory<typeof InputText> = (args) => {
       <ResizableBox>
         <InputText
           autoFocus
+          id="example"
           label="Example"
           value={value}
           onChange={setValue}
