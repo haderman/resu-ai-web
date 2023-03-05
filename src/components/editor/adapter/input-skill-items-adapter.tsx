@@ -2,34 +2,34 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { SizeButtonGroup } from '@/components/editor/form';
-import { Field, Size } from '@/shared/types';
+import { InputText } from '@/components/editor/form';
+import { Field } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-export type InputSizeAdapterProps = {
-  path: Field['path']
-}
+export type InputSkillItemsAdapterProps = Exclude<Field, 'type'>;
 
-export function InputSizeAdapter(props: InputSizeAdapterProps) {
+export function InputSkillItemsAdapter(props: InputSkillItemsAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
   const update = useUpdater();
 
   const handleChange = React.useCallback(
-    (value: Size | null) => {
+    (value: string) => {
       update(createObjectFromPath(props.path, value));
     },
     [update, props.path]
   );
 
-  if (!Size.isSize(value)) {
-    console.error('Invalid value type in InputSizeAdapter');
+  if (typeof value !== 'string') {
+    console.error('Invalid value type in InputTextAdapter');
     return null;
   }
 
   return (
-    <SizeButtonGroup
+    <InputText
+      id={props.path}
+      label={props.label}
       value={value}
       onChange={handleChange}
     />

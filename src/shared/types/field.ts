@@ -10,6 +10,7 @@ export type Field = {
     | 'rich-text'
     | 'color'
     | 'size'
+    | 'skill-items'
 }
 
 const sectionTypeValues = [

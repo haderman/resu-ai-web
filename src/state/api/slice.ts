@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createAction, createSelector } from '@reduxjs/toolkit';
 
-import { Resume, DeepPartial, ResumeFieldPath } from '@/shared/types';
+import { Resume, DeepPartial, ResumeFieldPath, ResumeContent } from '@/shared/types';
 import { getHost, mutateObjectProperties, Path, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
@@ -76,14 +76,31 @@ export const selectResumeId = createSelector(
   (resume) => resume?.id
 );
 
-export function useResumeUpdaters() {
+export function useResumeContentUpdater() {
   const resumeId = useSelector(selectResumeId);
   const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
   const updateResume = React.useCallback(
-    (resume: DeepPartial<Resume>) => {
+    (newContent: DeepPartial<ResumeContent>) => {
       updateResume_({
-        ...resume,
+        content: newContent,
+        id: resumeId,
+      });
+    },
+    [resumeId, updateResume_]
+  );
+
+  return updateResume;
+}
+
+export function useResumeUpdater() {
+  const resumeId = useSelector(selectResumeId);
+  const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+
+  const updateResume = React.useCallback(
+    (newContent: DeepPartial<Resume>) => {
+      updateResume_({
+        ...newContent,
         id: resumeId,
       });
     },

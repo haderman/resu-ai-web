@@ -6,7 +6,7 @@ import { AlignButtonGroup } from '@/components/editor/form';
 import { Field, Alignment } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
-const { useProfileUpdater } = apiState.profile;
+const useUpdater = apiState.resume.useResumeContentUpdater;
 
 export type InputAlignAdapterProps = {
   path: Field['path']
@@ -14,7 +14,7 @@ export type InputAlignAdapterProps = {
 
 export function InputAlignAdapter(props: InputAlignAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, 'center'));
-  const update = useProfileUpdater();
+  const update = useUpdater();
 
   const handleChange = React.useCallback(
     (value: Alignment | null) => {

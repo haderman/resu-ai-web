@@ -6,7 +6,7 @@ import { TextEditor } from '@/components/editor/form';
 import { Field } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
-const { useProfileUpdater } = apiState.profile;
+const useUpdater = apiState.resume.useResumeContentUpdater;
 
 export type InputTextEditorAdapterProps = {
   path: Field['path']
@@ -14,7 +14,7 @@ export type InputTextEditorAdapterProps = {
 
 export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));
-  const update = useProfileUpdater();
+  const update = useUpdater();
 
   const handleChange = React.useCallback(
     (value: string) => {

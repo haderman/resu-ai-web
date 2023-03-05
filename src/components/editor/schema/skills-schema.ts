@@ -33,6 +33,12 @@ export const skillsSectionSchemaMap: SectionSchemaMap['skills'] = {
       label: 'Item Color',
       name: 'item-color',
     },
+    {
+      path: 'skills.items',
+      type: 'skill-items',
+      label: 'Items',
+      name: 'items',
+    }
   ],
 };
 

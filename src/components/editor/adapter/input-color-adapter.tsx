@@ -6,7 +6,7 @@ import { RadioColorGroup } from '@/components/editor/form';
 import { Field, Color } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
-const { useProfileUpdater } = apiState.profile;
+const useUpdater = apiState.resume.useResumeContentUpdater;
 
 export type InputColorAdapterProps = {
   path: Field['path']
@@ -14,7 +14,7 @@ export type InputColorAdapterProps = {
 
 export function InputColorAdapter(props: InputColorAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, Color.getDefault()));
-  const update = useProfileUpdater();
+  const update = useUpdater();
 
   const handleChange = React.useCallback(
     (value: Color) => {

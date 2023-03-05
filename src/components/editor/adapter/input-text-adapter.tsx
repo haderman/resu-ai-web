@@ -6,13 +6,13 @@ import { InputText } from '@/components/editor/form';
 import { Field } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
-const { useProfileUpdater } = apiState.profile;
+const useUpdater = apiState.resume.useResumeContentUpdater;
 
 export type InputTextAdapterProps = Exclude<Field, 'type'>;
 
 export function InputTextAdapter(props: InputTextAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
-  const update = useProfileUpdater();
+  const update = useUpdater();
 
   const handleChange = React.useCallback(
     (value: string) => {

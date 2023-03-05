@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectResume, useResumeUpdaters } from '../slice';
+import { selectResume, useResumeUpdater } from '../slice';
 import { ResumeSections } from '@/shared/types/resume/sections';
 
 const selectSections = createSelector(
@@ -9,7 +9,7 @@ const selectSections = createSelector(
 );
 
 export function useUpdaters() {
-  const updateResume = useResumeUpdaters();
+  const updateResume = useResumeUpdater();
 
   function updateSections(sections: ResumeSections) {
     updateResume({ sections });
