@@ -6,13 +6,15 @@ import { InputText, InputTextProps } from '@/components/editor/form';
 import { Field } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
-const useUpdater = apiState.resume.useResumeContentUpdater;
+const { useResumeContentUpdater, selectors } = apiState.resume;
 
 export type InputTextAdapterProps = Exclude<Field, 'type'>;
 
 export function InputTextAdapter(props: InputTextAdapterProps) {
-  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
-  const update = useUpdater();
+  const value = useSelector(selectors.selectResumeProperty(props.path, ''));
+  const update = useResumeContentUpdater();
+
+  console.log('value', value);
 
   const handleChange = React.useCallback(
     (value: string) => {
