@@ -21,11 +21,13 @@ export function ResumeContainer(props: ResumeContainerProps) {
   const innerLayoutRef = React.useRef<HTMLDivElement>(null);
   useSetScale(innerLayoutRef, resumeRef);
 
+  console.log('resume');
+
   return (
     <div className={styles.container} ref={innerLayoutRef} {...props}>
       <Toolbar />
       <div ref={resumeRef} style={{ marginTop: 80 }}>
-        <MemoizedPagesManager />
+        <PagesManager />
       </div>
     </div>
   );

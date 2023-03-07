@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createAction, createSelector } from '@reduxjs/toolkit';
 
-import { Resume, DeepPartial, ResumeFieldPath, ResumeContent } from '@/shared/types';
+import { Resume, DeepPartial, ResumeContentPath, ResumeContent } from '@/shared/types';
 import { getHost, mutateObjectProperties, Path, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
@@ -61,13 +61,14 @@ export const selectResume = createSelector(
   (result) => result.data
 );
 
-export function selectResumeProperty(path: ResumeFieldPath, defaultValue?: unknown) {
+export function selectResumeProperty<T>(path: ResumeContentPath, defaultValue?: T) {
   return createSelector(selectResume, (resume) => {
     if (!resume) {
       return defaultValue;
     }
 
-    return pick(resume.content, path as ResumePath);
+    // TODO: Wrap this in a assert
+    return pick(resume.content, path as any) as T;
   });
 }
 

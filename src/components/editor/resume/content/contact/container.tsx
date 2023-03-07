@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 
-import { selectColor } from '@/state/contact';
 import { SelectableCard } from '@/components/editor/common';
 
 import { Contact } from './component';
@@ -11,11 +9,9 @@ import { Contact } from './component';
  * @returns
  */
 export function ContactContainer() {
-  const color = useSelector(selectColor);
-
   return (
     <SelectableCard item="contact">
-      <MemoizedContact color={color} />
+      <MemoizedContact />
     </SelectableCard>
   );
 }

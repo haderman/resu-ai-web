@@ -1,4 +1,4 @@
-import { generateId } from '@/shared/helpers';
+import { generateId, Path } from '@/shared/helpers';
 import { ResumeTheme } from '@/themes';
 
 import {
@@ -7,10 +7,6 @@ import {
   Experience,
   Profile,
   Skills,
-  ContactFieldPath,
-  BasicInfoFieldPath,
-  SkillsFieldPath,
-  ProfileFieldPath,
 } from './content';
 import { ResumeLayout } from './layout';
 import { ResumeSections } from './sections';
@@ -22,8 +18,8 @@ export type Resume = {
     basicInfo: BasicInfo
     profile: Profile
     skills: Skills
-    experience?: Experience
-    contact?: Contact
+    // experience: Experience
+    contact: Contact
   },
   style: {
     theme: ResumeTheme
@@ -36,11 +32,7 @@ export type ResumeContent = Resume['content'];
 
 export type ResumeStyle = Resume['style'];
 
-export type ResumeFieldPath =
-  | `basicInfo.${BasicInfoFieldPath}`
-  | `profile.${ProfileFieldPath}`
-  | `skills.${SkillsFieldPath}`
-  | `contact.${ContactFieldPath}`;
+export type ResumeContentPath = Path<Resume['content']>;
 
 export const Resume = {
   decode(data: unknown): Resume {

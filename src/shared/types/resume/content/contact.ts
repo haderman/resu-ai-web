@@ -1,9 +1,5 @@
 import { Color } from '../../color';
 
-export type ContactFieldPath =
-  | `data.${keyof Contact['data']}`
-  | `cardStyle.${keyof Contact['cardStyle']}`;
-
 export type Contact = {
   cardStyle: {
     background: Color

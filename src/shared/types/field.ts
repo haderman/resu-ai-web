@@ -1,7 +1,7 @@
-import { ResumeFieldPath } from './resume';
+import { ResumeContentPath } from './resume';
 
 export type Field = {
-  path: ResumeFieldPath
+  path: ResumeContentPath
   label: string
   name: string
   type:

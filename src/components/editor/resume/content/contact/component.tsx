@@ -5,11 +5,7 @@ import { Color, Field } from '@/shared/types';
 import { Stack, Inline, Text } from '@/components/editor/common';
 import { apiState } from '@/state/api';
 
-export type ContactProps = {
-  color: Color
-}
-
-export function Contact(props: ContactProps) {
+export function Contact() {
   return (
     <Card path="contact.cardStyle.background">
       <FullName path="basicInfo.fullName" />

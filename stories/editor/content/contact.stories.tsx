@@ -15,6 +15,6 @@ export default {
 
 export const Basic: ComponentStory<typeof Contact> = (args) => (
   <Container>
-    <Contact {...args} />
+    <Contact />
   </Container>
 );

@@ -1,9 +1,9 @@
+import { Color } from "../../color";
+
 export type BasicInfo = {
   fullName: string
   jobTitle: string
 };
-
-export type BasicInfoFieldPath = 'fullName' | 'jobTitle';
 
 export const BasicInfo = {
   decode(data: unknown): BasicInfo {

@@ -7,6 +7,7 @@ import { Header } from './header';
 import styles from './editor.module.scss';
 
 export function Editor() {
+  console.log('editor');
   return (
     <div className={styles.layout}>
       <Header data-section="header" />

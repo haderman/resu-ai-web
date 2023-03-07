@@ -27,8 +27,9 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
   });
 }
 
-// created with chatGPT
 /**
+ * PD: created with chatGPT
+ *
  * This is type create typed string paths for objects.
  * The path is a string that represents the path to the property that you want to set.
  *
@@ -47,15 +48,13 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
  * ```
  *
  */
-export type Path<T> = T extends `${infer Key}.${infer Rest}`
-  ? Key extends keyof T
-    ? Rest extends Path<T[Key]>
-      ? `${Key}.${Rest}`
-      : never
-    : never
-  : T extends keyof any
-    ? T
-    : never;
+export type Path<T> = T extends object
+  ? {
+      [K in keyof T]: T[K] extends (infer U)[]
+        ? K & string
+        : K extends string ? `${K & string}${"" extends Path<T[K]> ? "" : "."}${Path<T[K]>}` : never
+    }[keyof T]
+  : "";
 
 /**
  * This function is to create a partial object from a path and a value.
