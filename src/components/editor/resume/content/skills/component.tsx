@@ -11,18 +11,23 @@ export function Skills() {
 
   console.log('data', data);
 
+  if (!Array.isArray(data)) {
+    console.error('Invalid value type in Skills');
+    return null;
+  }
+
   return (
     <Card path="skills.cardStyle.background">
       <TitleContainer />
-      {/* <Chip.Container gap="medium">
-        {props.data.map(({ title }) => {
+      <Chip.Container gap="medium">
+        {data.map(({ title }) => {
           return (
-            <Chip key={title} size="small" color={props.color}>
+            <Chip key={title} size="small" color="pink">
               {title}
             </Chip>
           );
         })}
-      </Chip.Container> */}
+      </Chip.Container>
     </Card>
   );
 }

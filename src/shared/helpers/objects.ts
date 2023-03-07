@@ -18,7 +18,7 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
 
   Object.entries(partialObj).forEach(([key, value]) => {
     if (value !== undefined) {
-      if (typeof value === 'object') {
+      if (typeof value === 'object' && Array.isArray(value) === false) {
         mutateObjectProperties(mutableObj[key as keyof T] as object, value, level + 1);
       } else {
         mutableObj[key as keyof T] = value;
