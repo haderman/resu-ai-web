@@ -3,10 +3,6 @@ import { Action } from 'redux';
 import { createWrapper } from 'next-redux-wrapper';
 
 import { editorSlice } from './editor';
-import { contactSlice } from './contact';
-import { experienceSlice } from './experience';
-import { photoSlice } from './photo';
-import { projectsSlice } from './projects';
 import { sessionSlice } from './session';
 import { authProvidersSlice } from './auth-providers';
 import apiSlice from './api';
@@ -17,10 +13,6 @@ function makeStore() {
   const store = configureStore({
     reducer: {
       [editorSlice.name]: editorSlice.reducer,
-      [contactSlice.name]: contactSlice.reducer,
-      [experienceSlice.name]: experienceSlice.reducer,
-      [photoSlice.name]: photoSlice.reducer,
-      [projectsSlice.name]: projectsSlice.reducer,
       [sessionSlice.name]: sessionSlice.reducer,
       [authProvidersSlice.name]: authProvidersSlice.reducer,
       [apiSlice.reducerPath]: apiSlice.reducer,

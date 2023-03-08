@@ -15,6 +15,6 @@ export default {
 
 export const Basic: ComponentStory<typeof Experience> = (args) => (
   <Container>
-    <Experience {...args} />
+    <Experience />
   </Container>
 );

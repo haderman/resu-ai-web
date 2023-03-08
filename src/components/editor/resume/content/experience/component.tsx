@@ -37,20 +37,15 @@ const experience = [
   }
 ];
 
-export type ExperienceProps = {
-  background: Color
-  color: Color
-}
-
-export function Experience(props: ExperienceProps) {
+export function Experience() {
   return (
-    <Stack padding="large" gap="medium" color={props.background}>
+    <Stack padding="large" gap="medium" color="primary">
       <Text as="h2" size="large" weight="bold">
         Experience
       </Text>
       <Stack gap="large">
         {experience.map((item, idx) =>
-          <Item key={idx} {...item}  color={props.color} />
+          <Item key={idx} {...item}  color="secondary" />
         )}
       </Stack>
     </Stack>

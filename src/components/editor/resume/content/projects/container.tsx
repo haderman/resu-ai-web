@@ -1,27 +1,13 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 
-import {
-  selectColor,
-  selectBackground,
-  selectSkillsColor,
-} from '@/state/projects';
 import { SelectableCard } from '@/components/editor/common';
 
 import { Projects } from './component';
 
 export function ProjectsContainer() {
-  const color = useSelector(selectColor);
-  const background = useSelector(selectBackground);
-  const skillsColor = useSelector(selectSkillsColor);
-
   return (
     <SelectableCard item="projects">
-      <MemoizedProjects
-        color={color}
-        background={background}
-        skillsColor={skillsColor}
-      />
+      <MemoizedProjects />
     </SelectableCard>
   );
 }
