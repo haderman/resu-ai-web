@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createAction, createSelector } from '@reduxjs/toolkit';
 
 import { Resume, DeepPartial, ResumeContentPath, ResumeContent } from '@/shared/types';
-import { getHost, mutateObjectProperties, Path, pick } from '@/shared/helpers';
+import { getHost, mutateObjectProperties, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -111,6 +111,12 @@ export function useResumeUpdater() {
   return updateResume;
 }
 
+// export function useResumeFetchStatus() {
+//   const re = apiSlice.useGetResumeQuery();
+
+//   return [meta] as const;
+// }
+
 export function useResumeUpdateStatus() {
   const [_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
@@ -118,5 +124,3 @@ export function useResumeUpdateStatus() {
 }
 
 export default apiSlice;
-
-type ResumePath = Path<Resume['content']>

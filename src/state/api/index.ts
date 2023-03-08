@@ -1,10 +1,11 @@
 import apiSlice, {
-  useResumeUpdater,
   selectResume,
-  useGetResumeQuery,
-  useResumeUpdateStatus,
+  selectResumeStatus,
   selectResumeProperty,
   useResumeContentUpdater,
+  useResumeUpdater,
+  useGetResumeQuery,
+  useResumeUpdateStatus,
 } from './slice';
 import * as StyleApi from './selectors-and-updaters/style';
 import * as LayoutApi from './selectors-and-updaters/layout';
@@ -14,6 +15,7 @@ export const apiState = {
   resume: {
     selectors: {
       selectResume,
+      selectResumeStatus,
       selectResumeProperty,
     },
     useResumeUpdater,
