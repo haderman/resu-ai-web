@@ -14,6 +14,8 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
   const entries = useSelector(apiState.resume.selectors.selectResumeProperty<Experience['entries']>(props.path, []));
   const update = useUpdater();
 
+  console.log('entries', entries);
+
   const handleChange = React.useCallback(
     (value: string) => {
       update(
