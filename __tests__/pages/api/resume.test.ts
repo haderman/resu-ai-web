@@ -80,6 +80,18 @@ let resumeMock: Resume = {
       },
     },
     experience: {
+      title: {
+        text: 'Experience',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      style: {
+        background: 'white',
+      },
+      entryStyle: {
+        background: 'white',
+      },
       entries: [
         {
           title: 'Software Engineer',

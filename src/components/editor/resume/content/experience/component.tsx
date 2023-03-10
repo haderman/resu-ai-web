@@ -1,9 +1,11 @@
+import { useSelector } from 'react-redux';
+
 import { Color, Size } from '@/shared/types';
 import { Stack, Text } from '@/components/editor/common';
-
-import styles from './styles.module.scss';
-import { useSelector } from 'react-redux';
 import { apiState } from '@/state/api';
+
+import { Entry } from './components';
+import styles from './styles.module.scss';
 
 const experience = [
   {
@@ -45,7 +47,7 @@ export function Experience() {
       <Title />
       <Stack gap="large">
         {experience.map((item, idx) =>
-          <Item key={idx} {...item}  color="secondary" />
+          <Entry key={idx} {...item} />
         )}
       </Stack>
     </Stack>

@@ -8,6 +8,12 @@ export type Experience = {
     color: Color
     size: Size
   }
+  style: {
+    background: Color
+  }
+  entryStyle: {
+    background: Color
+  }
   entries: Array<{
     title: string
     company: string
@@ -23,53 +29,28 @@ export const Experience = {
       throw new Error('Invalid experience data');
     }
 
-    const { entries, title } = data as Experience;
-
-    if (!Array.isArray(entries)) {
-      throw new Error('Invalid experience entries');
-    }
-
-    // if (title !== 'string') {
-    //   throw new Error('Invalid experience title');
-    // }
+    const { title, style, entryStyle, entries } = data as Experience;
 
     return {
-      title,
-      entries: entries.map((entry) => {
-        if (typeof entry !== 'object' || entry === null) {
-          throw new Error('Invalid experience entry');
-        }
-
-        const { title, company, startDate, endDate, description } = entry;
-
-        if (typeof title !== 'string') {
-          throw new Error('Invalid experience entry title');
-        }
-
-        if (typeof company !== 'string') {
-          throw new Error('Invalid experience entry company');
-        }
-
-        if (typeof startDate !== 'string') {
-          throw new Error('Invalid experience entry start date');
-        }
-
-        if (typeof endDate !== 'string') {
-          throw new Error('Invalid experience entry end date');
-        }
-
-        if (typeof description !== 'string') {
-          throw new Error('Invalid experience entry description');
-        }
-
-        return {
-          title,
-          company,
-          startDate,
-          endDate,
-          description,
-        };
-      }),
+      title: {
+        text: title.text || 'Experience',
+        align: Alignment.decode(title.align),
+        color: Color.decode(title.color),
+        size: Size.decode(title.size),
+      },
+      style: {
+        background: Color.decode(style?.background),
+      },
+      entryStyle: {
+        background: Color.decode(entryStyle?.background),
+      },
+      entries: entries.map((entry) => ({
+        title: entry.title || '',
+        company: entry.company || '',
+        startDate: entry.startDate || '',
+        endDate: entry.endDate || '',
+        description: entry.description || '',
+      })),
     };
   },
   encode(data: Experience): unknown {
@@ -90,6 +71,12 @@ export const Experience = {
         align: 'left',
         color: 'secondary',
         size: 'medium',
+      },
+      style: {
+        background: 'white',
+      },
+      entryStyle: {
+        background: 'white',
       },
       entries: [],
     };

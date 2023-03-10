@@ -27,5 +27,17 @@ export const experienceSectionSchemaMap: SectionSchemaMap['experience'] = {
       label: 'Experience',
       name: 'experience',
     },
+    {
+      type: 'color',
+      path: 'experience.style.background',
+      label: 'Background Color',
+      name: 'background-color',
+    },
+    {
+      type: 'color',
+      path: 'experience.entryStyle.background',
+      label: 'Entry Background Color',
+      name: 'entry-background-color',
+    },
   ],
 };
