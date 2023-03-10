@@ -1,7 +1,9 @@
-import { Color } from '@/shared/types';
+import { Color, Size } from '@/shared/types';
 import { Stack, Text } from '@/components/editor/common';
 
 import styles from './styles.module.scss';
+import { useSelector } from 'react-redux';
+import { apiState } from '@/state/api';
 
 const experience = [
   {
@@ -40,9 +42,7 @@ const experience = [
 export function Experience() {
   return (
     <Stack padding="large" gap="medium" color="primary">
-      <Text as="h2" size="large" weight="bold">
-        Experience
-      </Text>
+      <Title />
       <Stack gap="large">
         {experience.map((item, idx) =>
           <Item key={idx} {...item}  color="secondary" />
@@ -52,6 +52,22 @@ export function Experience() {
   );
 }
 
+function Title() {
+  const text = useSelector(apiState.resume.selectors.selectResumeProperty('experience.title.text', ''));
+  const color = useSelector(apiState.resume.selectors.selectResumeProperty<Color>('experience.title.color', 'white'));
+  const size = useSelector(apiState.resume.selectors.selectResumeProperty<Size>('experience.title.size', 'large'));
+
+  if (typeof text !== 'string') {
+    console.error('Invalid value type in FullName');
+    return null;
+  }
+
+  return (
+    <Text as="h2" size={size} color={color} weight="bold">
+      {text}
+    </Text>
+  );
+}
 
 type ItemProps = {
   title: string;

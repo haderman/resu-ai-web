@@ -79,6 +79,17 @@ let resumeMock: Resume = {
         background: 'white',
       },
     },
+    experience: {
+      entries: [
+        {
+          title: 'Software Engineer',
+          company: 'Google',
+          startDate: '2020-01-01',
+          endDate: '2020-12-31',
+          description: 'I worked at Google',
+        },
+      ],
+    }
   },
   style: {
     theme: 'dark-space',

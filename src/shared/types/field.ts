@@ -11,6 +11,7 @@ export type Field = {
     | 'color'
     | 'size'
     | 'skill-items'
+    | 'experience-entries'
 }
 
 const sectionTypeValues = [

@@ -14,8 +14,6 @@ export function InputTextAdapter(props: InputTextAdapterProps) {
   const value = useSelector(selectors.selectResumeProperty(props.path, ''));
   const update = useResumeContentUpdater();
 
-  console.log('value', value);
-
   const handleChange = React.useCallback(
     (value: string) => {
       update(createObjectFromPath(props.path, value));

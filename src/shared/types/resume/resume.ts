@@ -18,7 +18,7 @@ export type Resume = {
     basicInfo: BasicInfo
     profile: Profile
     skills: Skills
-    // experience: Experience
+    experience: Experience
     contact: Contact
   },
   style: {
@@ -66,6 +66,7 @@ export const Resume = {
         profile: Profile.decode(content?.profile),
         skills: Skills.decode(content?.skills),
         contact: Contact.decode(content?.contact),
+        experience: Experience.decode(content?.experience),
       },
       style: {
         theme: ResumeTheme.decode(style?.theme),
