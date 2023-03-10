@@ -8,9 +8,7 @@ import { createObjectFromPath } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-export type InputColorAdapterProps = {
-  path: Field['path']
-}
+export type InputColorAdapterProps = Exclude<Field, 'type'>;
 
 export function InputColorAdapter(props: InputColorAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, Color.getDefault()));
@@ -30,9 +28,9 @@ export function InputColorAdapter(props: InputColorAdapterProps) {
 
   return (
     <RadioColorGroup
-      legend='Color'
-      name='color'
-      selected={value as unknown as Color}
+      legend={props.label}
+      name={props.name}
+      selected={value}
       onChange={handleChange}
     />
   );

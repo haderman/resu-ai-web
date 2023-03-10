@@ -36,9 +36,10 @@ function Card(props: CardProps) {
 
 
 function TitleContainer() {
-  const text = useSelector(selectors.selectResumeProperty('profile.title.text', ''));
-  const size = useSelector(selectors.selectResumeProperty('profile.title.size', 'medium' as Size));
-  const align = useSelector(selectors.selectResumeProperty('profile.title.align', 'left' as Alignment));
+  const text = useSelector(selectors.selectResumeProperty<string>('profile.title.text', ''));
+  const size = useSelector(selectors.selectResumeProperty<Size>('profile.title.size', 'medium'));
+  const align = useSelector(selectors.selectResumeProperty<Alignment>('profile.title.align', 'left'));
+  const color = useSelector(selectors.selectResumeProperty<Color>('profile.title.color', 'pink'));
 
   return (
     <Text
@@ -46,6 +47,7 @@ function TitleContainer() {
       size={size}
       weight="bold"
       align={align}
+      color={color}
     >
       {text}
     </Text>

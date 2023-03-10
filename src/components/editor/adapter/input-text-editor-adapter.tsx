@@ -8,9 +8,7 @@ import { createObjectFromPath } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-export type InputTextEditorAdapterProps = {
-  path: Field['path']
-}
+export type InputTextEditorAdapterProps = Exclude<Field, 'type'>;
 
 export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path));

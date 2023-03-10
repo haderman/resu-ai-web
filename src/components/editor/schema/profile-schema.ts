@@ -10,10 +10,10 @@ export const profileSectionSchemaMap: SectionSchemaMap['profile'] = {
       name: 'title',
     },
     {
-      path: 'profile.description.text',
-      type: 'rich-text',
-      label: 'Description',
-      name: 'description',
+      path: 'profile.title.color',
+      type: 'color',
+      label: 'Title Color',
+      name: 'title-color',
     },
     {
       path: 'profile.title.align',
@@ -22,16 +22,22 @@ export const profileSectionSchemaMap: SectionSchemaMap['profile'] = {
       name: 'title-align',
     },
     {
-      path: 'profile.cardStyle.background',
-      type: 'color',
-      label: 'Card Background',
-      name: 'card-background',
-    },
-    {
       path: 'profile.title.size',
       type: 'size',
       label: 'Title Size',
       name: 'title-size',
+    },
+    {
+      path: 'profile.description.text',
+      type: 'rich-text',
+      label: 'Description',
+      name: 'description',
+    },
+    {
+      path: 'profile.cardStyle.background',
+      type: 'color',
+      label: 'Card Background',
+      name: 'card-background',
     },
   ],
 };

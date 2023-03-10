@@ -3,6 +3,9 @@ import { ToggleGroup } from '@/components/editor/form/core';
 import { Alignment } from '@/shared/types';
 
 export type AlignButtonGroupProps = {
+  name: string
+  id: string
+  label: string
   value: Alignment | null;
   onChange: (a: Alignment | null) => void;
 };
@@ -14,10 +17,10 @@ export function AlignButtonGroup(props: AlignButtonGroupProps) {
 
   return (
     <ToggleGroup
-      name="alignment"
+      name={props.name}
       selected={props.value}
       onChange={handleAlignmentChange}
-      legend="Text Align"
+      legend={props.label}
     >
       <ToggleGroup.Item label='Left' value="left">
         Left

@@ -10,16 +10,22 @@ export const skillsSectionSchemaMap: SectionSchemaMap['skills'] = {
       name: 'title',
     },
     {
+      path: 'skills.title.color',
+      type: 'color',
+      label: 'Title Color',
+      name: 'title-color',
+    },
+    {
       path: 'skills.title.align',
       type: 'align',
       label: 'Title Alignment',
       name: 'title-align',
     },
     {
-      path: 'skills.itemStyle.background',
+      path: 'skills.cardStyle.background',
       type: 'color',
-      label: 'Item Background',
-      name: 'item-background',
+      label: 'Card Background',
+      name: 'card-background',
     },
     {
       path: 'skills.itemStyle.size',
@@ -38,7 +44,7 @@ export const skillsSectionSchemaMap: SectionSchemaMap['skills'] = {
       type: 'skill-items',
       label: 'Items',
       name: 'items',
-    }
+    },
   ],
 };
 

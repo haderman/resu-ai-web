@@ -1,13 +1,15 @@
 import { useSelector } from 'react-redux';
 
 import { Chip, Stack, Text } from '@/components/editor/common';
-import { Color, Field, SkillItem } from '@/shared/types';
+import { Color, Field, Size, SkillItem } from '@/shared/types';
 import { apiState } from '@/state/api';
 
 const selectors = apiState.resume.selectors;
 
 export function Skills() {
   const data = useSelector(selectors.selectResumeProperty('skills.items', [] as SkillItem[]));
+  const chipColor = useSelector(selectors.selectResumeProperty<Color>('skills.itemStyle.color', 'pink'));
+  const chipSize = useSelector(selectors.selectResumeProperty<Size>('skills.itemStyle.size', 'small'));
 
   console.log('data', data);
 
@@ -22,7 +24,7 @@ export function Skills() {
       <Chip.Container gap="medium">
         {data.map(({ title }) => {
           return (
-            <Chip key={title} size="small" color="pink">
+            <Chip key={title} size={chipSize} color={chipColor}>
               {title}
             </Chip>
           );
@@ -34,9 +36,10 @@ export function Skills() {
 
 export function TitleContainer() {
   const text = useSelector(selectors.selectResumeProperty('skills.title.text', ''));
+  const color = useSelector(selectors.selectResumeProperty<Color>('skills.title.color', 'pink'));
 
   return (
-    <Text size="large" weight="bold" as="h2">
+    <Text size="large" weight="bold" as="h2" color={color}>
       {text}
     </Text>
   );

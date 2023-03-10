@@ -8,9 +8,7 @@ import { createObjectFromPath } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-export type InputAlignAdapterProps = {
-  path: Field['path']
-}
+export type InputAlignAdapterProps = Exclude<Field, 'type'>;
 
 export function InputAlignAdapter(props: InputAlignAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, 'center'));
@@ -32,6 +30,9 @@ export function InputAlignAdapter(props: InputAlignAdapterProps) {
 
   return (
     <AlignButtonGroup
+      id={props.path}
+      name={props.name}
+      label={props.label}
       value={value}
       onChange={handleChange}
     />

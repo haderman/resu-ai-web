@@ -8,9 +8,7 @@ import { createObjectFromPath } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-export type InputSizeAdapterProps = {
-  path: Field['path']
-}
+export type InputSizeAdapterProps = Exclude<Field, 'type'>;
 
 export function InputSizeAdapter(props: InputSizeAdapterProps) {
   const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
@@ -30,6 +28,9 @@ export function InputSizeAdapter(props: InputSizeAdapterProps) {
 
   return (
     <SizeButtonGroup
+      id={props.path}
+      name={props.name}
+      label={props.label}
       value={value}
       onChange={handleChange}
     />
