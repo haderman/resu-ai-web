@@ -11,8 +11,6 @@ export function Skills() {
   const chipColor = useSelector(selectors.selectResumeProperty<Color>('skills.itemStyle.color', 'pink'));
   const chipSize = useSelector(selectors.selectResumeProperty<Size>('skills.itemStyle.size', 'small'));
 
-  console.log('data', data);
-
   if (!Array.isArray(data)) {
     console.error('Invalid value type in Skills');
     return null;
