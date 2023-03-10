@@ -1,12 +1,9 @@
+import { Color } from "../../color";
+
 export type BasicInfo = {
   fullName: string
   jobTitle: string
 };
-
-// interface BasicInfo {
-//   fullName: string;
-//   jobTitle: string;
-// }
 
 export const BasicInfo = {
   decode(data: unknown): BasicInfo {

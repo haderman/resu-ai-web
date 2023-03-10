@@ -1,4 +1,9 @@
+import { Color } from '../../color';
+
 export type Contact = {
+  cardStyle: {
+    background: Color
+  }
   data: {
     email?: string
     phone?: string
@@ -25,3 +30,44 @@ export type Contact = {
     dribbble?: string
   }
 }
+
+export const Contact = {
+  decode(data: unknown): Contact {
+    if (typeof data !== 'object' || data === null) {
+      throw new Error('Invalid contact data');
+    }
+
+    const { cardStyle, data: contactData } = data as Contact;
+
+    if (typeof cardStyle !== 'object' || cardStyle === null) {
+      throw new Error('Invalid contact card style');
+    }
+
+    if (typeof contactData !== 'object' || contactData === null) {
+      throw new Error('Invalid contact data');
+    }
+
+    return {
+      cardStyle: {
+        background: Color.decode(cardStyle.background),
+      },
+      data: contactData,
+    };
+  },
+  encode(contact: Contact): Record<string, unknown> {
+    return {
+      cardStyle: {
+        background: contact.cardStyle.background,
+      },
+      data: contact.data,
+    };
+  },
+  create(): Contact {
+    return {
+      cardStyle: {
+        background: 'blue',
+      },
+      data: {},
+    };
+  },
+};

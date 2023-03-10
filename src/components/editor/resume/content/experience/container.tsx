@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 
-import { selectColor, selectBackground } from '@/state/experience';
 import { SelectableCard } from '@/components/editor/common';
 
 import { Experience } from './component';
@@ -11,12 +9,9 @@ import { Experience } from './component';
  * @returns Profile component
  */
 export function ExperienceContainer() {
-  const color = useSelector(selectColor);
-  const background = useSelector(selectBackground);
-
   return (
     <SelectableCard item="experience">
-      <MemoizedExperience color={color} background={background} />
+      <MemoizedExperience />
     </SelectableCard>
   );
 }

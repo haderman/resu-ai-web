@@ -40,7 +40,6 @@ type SelectableCardComponentProps = React.PropsWithChildren<{
 
 const MemoizedSelectableCardComponent = React.memo(
   function SelectableCardComponent(props: SelectableCardComponentProps) {
-    console.log('re rendered');
     return (
       <div
         tabIndex={0}

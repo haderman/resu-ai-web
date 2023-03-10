@@ -15,6 +15,6 @@ export default {
 
 export const Basic: ComponentStory<typeof Profile> = (args) => (
   <Container>
-    <Profile {...args} />
+    <Profile />
   </Container>
 );

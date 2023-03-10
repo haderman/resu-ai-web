@@ -1,16 +1,11 @@
 import Image from 'next/image';
 
-import { Color } from '@/shared/types';
 import { Box } from '@/components/editor/common';
 
-export type PhotoProps = {
-  background?: Color
-}
-
-export function Photo(props: PhotoProps) {
+export function Photo() {
 
   return (
-    <Box color={props.background} as="picture">
+    <Box color="black" as="picture">
       <Image
         src="/profile-photo.png"
         alt="CV photo"

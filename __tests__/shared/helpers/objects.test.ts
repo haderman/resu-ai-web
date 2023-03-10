@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import { mutateObjectProperties } from '@/shared/helpers/mutate-object-properties';
+import { mutateObjectProperties, createObjectFromPath } from '@/shared/helpers/objects';
 
 /**
  * These test cases were created by chatGTP
@@ -102,3 +102,45 @@ describe('mutateObjectProperties', () => {
     });
   });
 });
+
+/**
+ * These test cases were created by chatGTP
+ */
+describe('createObjectFromPath', () => {
+  it('creates an object with nested structure from a path and value', () => {
+    const path = 'foo.bar.baz';
+    const value = 'qux';
+    const expected = { foo: { bar: { baz: 'qux' } } };
+    const result = createObjectFromPath(path, value);
+    expect(result).toEqual(expected);
+  });
+
+  it('creates an object with a single property if given a single-key path', () => {
+    const path = 'foo';
+    const value = 'bar';
+    const expected = { foo: 'bar' };
+    const result = createObjectFromPath(path, value);
+    expect(result).toEqual(expected);
+  });
+
+  /**
+   * the function does not support numeric keys in the path yet
+   * so this test case is skipped
+   */
+  it.skip('works correctly for numeric keys in the path', () => {
+    const path = 'foo.0.bar.1.baz';
+    const value = 'qux';
+    const expected = { foo: [{}, { bar: { baz: 'qux' } }] };
+    const result = createObjectFromPath(path, value);
+    expect(result).toEqual(expected);
+  });
+
+  it('works correctly for paths with duplicate keys', () => {
+    const path = 'foo.bar.foo.baz';
+    const value = 'qux';
+    const expected = { foo: { bar: { foo: { baz: 'qux' } } } };
+    const result = createObjectFromPath(path, value);
+    expect(result).toEqual(expected);
+  });
+});
+

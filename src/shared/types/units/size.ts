@@ -27,4 +27,7 @@ export const Size = {
   encode(size: Size): string {
     return size;
   },
+  isSize(value: unknown): value is Size {
+    return typeof value === 'string' && sizes.includes(value as Size);
+  }
 };

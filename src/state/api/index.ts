@@ -1,6 +1,12 @@
-import apiSlice, { useResumeUpdaters, selectResume, useGetResumeQuery, useResumeUpdateStatus } from './slice';
-import { selectors as profileSelectors, useProfileUpdater } from './selectors-and-updaters/profile';
-import * as skillsApi from './selectors-and-updaters/skills';
+import apiSlice, {
+  selectResume,
+  selectResumeStatus,
+  selectResumeProperty,
+  useResumeContentUpdater,
+  useResumeUpdater,
+  useGetResumeQuery,
+  useResumeUpdateStatus,
+} from './slice';
 import * as StyleApi from './selectors-and-updaters/style';
 import * as LayoutApi from './selectors-and-updaters/layout';
 import * as SectionsApi from './selectors-and-updaters/sections';
@@ -9,13 +15,14 @@ export const apiState = {
   resume: {
     selectors: {
       selectResume,
+      selectResumeStatus,
+      selectResumeProperty,
     },
-    useResumeUpdaters,
+    useResumeUpdater,
     useGetResumeQuery,
     useResumeUpdateStatus,
+    useResumeContentUpdater,
   },
-  profile: { selectors: profileSelectors, useProfileUpdater },
-  skills: skillsApi,
   style: StyleApi,
   layout: LayoutApi,
   sections: SectionsApi,

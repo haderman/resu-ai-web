@@ -1,4 +1,3 @@
-// define the array first, note the const
 const colors = [
   'primary',
   'secondary',
@@ -17,7 +16,6 @@ const colors = [
   'pink',
 ] as const;
 
-// this magic incantation will create a union from that array
 export type Color = typeof colors[number];
 
 export const Color = {
@@ -54,5 +52,8 @@ export const Color = {
       .split('')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  },
+  isColor(value: unknown): value is Color {
+    return typeof value === 'string' && colors.includes(value as Color);
   },
 };

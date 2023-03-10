@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { HYDRATE } from 'next-redux-wrapper';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import { Resume, DeepPartial } from '@/shared/types';
-import { getHost, mutateObjectProperties } from '@/shared/helpers';
-import { useSelector } from 'react-redux';
 import { createAction, createSelector } from '@reduxjs/toolkit';
+
+import { Resume, DeepPartial, ResumeContentPath, ResumeContent } from '@/shared/types';
+import { getHost, mutateObjectProperties, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -61,19 +61,30 @@ export const selectResume = createSelector(
   (result) => result.data
 );
 
+export function selectResumeProperty<T>(path: ResumeContentPath, defaultValue?: T) {
+  return createSelector(selectResume, (resume) => {
+    if (!resume) {
+      return defaultValue;
+    }
+
+    // TODO: Wrap this in a assert
+    return pick(resume.content, path as any) as T;
+  });
+}
+
 export const selectResumeId = createSelector(
   selectResume,
   (resume) => resume?.id
 );
 
-export function useResumeUpdaters() {
+export function useResumeContentUpdater() {
   const resumeId = useSelector(selectResumeId);
   const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
   const updateResume = React.useCallback(
-    (resume: DeepPartial<Resume>) => {
+    (newContent: DeepPartial<ResumeContent>) => {
       updateResume_({
-        ...resume,
+        content: newContent,
         id: resumeId,
       });
     },
@@ -82,6 +93,29 @@ export function useResumeUpdaters() {
 
   return updateResume;
 }
+
+export function useResumeUpdater() {
+  const resumeId = useSelector(selectResumeId);
+  const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+
+  const updateResume = React.useCallback(
+    (newContent: DeepPartial<Resume>) => {
+      updateResume_({
+        ...newContent,
+        id: resumeId,
+      });
+    },
+    [resumeId, updateResume_]
+  );
+
+  return updateResume;
+}
+
+// export function useResumeFetchStatus() {
+//   const re = apiSlice.useGetResumeQuery();
+
+//   return [meta] as const;
+// }
 
 export function useResumeUpdateStatus() {
   const [_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });

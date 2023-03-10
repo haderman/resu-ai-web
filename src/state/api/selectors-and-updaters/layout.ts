@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { ResumeLayout } from '@/shared/types';
 
-import { selectResume, useResumeUpdaters } from '../slice';
+import { selectResume, useResumeUpdater } from '../slice';
 
 const selectLayout = createSelector(
   selectResume,
@@ -10,7 +10,7 @@ const selectLayout = createSelector(
 );
 
 export function useUpdaters() {
-  const updateResume = useResumeUpdaters();
+  const updateResume = useResumeUpdater();
 
   function updateLayout(layout: ResumeLayout) {
     updateResume({ layout });

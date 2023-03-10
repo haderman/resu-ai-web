@@ -1,4 +1,4 @@
-import { generateId } from '@/shared/helpers';
+import { generateId, Path } from '@/shared/helpers';
 import { ResumeTheme } from '@/themes';
 
 import {
@@ -18,8 +18,8 @@ export type Resume = {
     basicInfo: BasicInfo
     profile: Profile
     skills: Skills
-    experience?: Experience
-    contact?: Contact
+    // experience: Experience
+    contact: Contact
   },
   style: {
     theme: ResumeTheme
@@ -31,6 +31,8 @@ export type Resume = {
 export type ResumeContent = Resume['content'];
 
 export type ResumeStyle = Resume['style'];
+
+export type ResumeContentPath = Path<Resume['content']>;
 
 export const Resume = {
   decode(data: unknown): Resume {
@@ -63,6 +65,7 @@ export const Resume = {
         basicInfo: BasicInfo.decode(content?.basicInfo),
         profile: Profile.decode(content?.profile),
         skills: Skills.decode(content?.skills),
+        contact: Contact.decode(content?.contact),
       },
       style: {
         theme: ResumeTheme.decode(style?.theme),

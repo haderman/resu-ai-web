@@ -24,15 +24,9 @@ const PROJECTS: Project[] = [
   },
 ];
 
-export type ProjectsProps = {
-  color: Color
-  background: Color
-  skillsColor: Color
-}
-
-export function Projects(props: ProjectsProps) {
+export function Projects() {
   return (
-    <Stack padding="large" gap="medium" color={props.background}>
+    <Stack padding="large" gap="medium" color="primary">
       <Text as="h2" size="large" weight="bold">
         Side Projects
       </Text>
@@ -40,8 +34,8 @@ export function Projects(props: ProjectsProps) {
         {PROJECTS.map((project) =>
           <ProjectCard
             key={project.name}
-            color={props.color}
-            skillsColor={props.skillsColor}
+            color="secondary"
+            skillsColor="pink"
             {...project}
           />
         )}
