@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { TextEditor } from '@/components/editor/form';
+import { TextEditor, TextEditorProps } from '@/components/editor/form';
 import { Field } from '@/shared/types';
-import { createObjectFromPath } from '@/shared/helpers';
+import { createObjectFromPath, useDebouncedFunction } from '@/shared/helpers';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
@@ -27,10 +27,22 @@ export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
   }
 
   return (
-    <TextEditor
+    <DebouncedTextEditor
       label="Description"
       markdown={value}
       onChange={handleChange}
     />
   );
+}
+
+function DebouncedTextEditor(props: TextEditorProps) {
+  const [value, setValue] = React.useState(() => props.markdown);
+  const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
+
+  function handleChange(newValue: string) {
+    setValue(newValue);
+    debouncedOnChange(newValue);
+  }
+
+  return <TextEditor {...props} markdown={value} onChange={handleChange} />;
 }
