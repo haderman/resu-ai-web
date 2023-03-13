@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { apiState } from '@/state/api';
 import { InputText, InputTextProps } from '@/components/editor/form';
 import { Field } from '@/shared/types';
-import { createObjectFromPath } from '@/shared/helpers';
+import { createObjectFromPath, useDebouncedFunction } from '@/shared/helpers';
 
 const { useResumeContentUpdater, selectors } = apiState.resume;
 
@@ -13,8 +13,6 @@ export type InputTextAdapterProps = Exclude<Field, 'type'>;
 export function InputTextAdapter(props: InputTextAdapterProps) {
   const value = useSelector(selectors.selectResumeProperty(props.path, ''));
   const update = useResumeContentUpdater();
-
-  console.log('value', value);
 
   const handleChange = React.useCallback(
     (value: string) => {
@@ -48,26 +46,4 @@ function DebouncedInputText(props: InputTextProps) {
   }
 
   return <InputText {...props} value={value} onChange={handleChange} />;
-}
-
-/**
- * function created with chatGTP
- */
-function useDebouncedFunction<T extends any[]>(
-  func: (...args: T) => void,
-  delay: number
-): (...args: T) => void {
-  const timerIdRef = React.useRef<NodeJS.Timeout>();
-
-  return React.useCallback(
-    (...args: T) => {
-      if (timerIdRef.current) {
-        clearTimeout(timerIdRef.current);
-      }
-      timerIdRef.current = setTimeout(() => {
-        func(...args);
-      }, delay);
-    },
-    [func, delay, timerIdRef]
-  );
 }
