@@ -15,6 +15,8 @@ import {
 import styles from './text-editor.module.scss';
 
 export type TextEditorProps = {
+  id: string
+  name: string
   label: string
   markdown: string
   onChange: (markdown: string) => void

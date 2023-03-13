@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { SelectableCard } from '@/components/editor/common';
 
-import { Experience } from './component';
+import { ExperienceComponent } from './component';
 
 /**
  * This is the Experience component but connected to the store
@@ -16,4 +16,4 @@ export function ExperienceContainer() {
   );
 }
 
-const MemoizedExperience = React.memo(Experience);
+const MemoizedExperience = React.memo(ExperienceComponent);

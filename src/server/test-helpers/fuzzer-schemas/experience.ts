@@ -14,6 +14,11 @@ const experienceEntrySchema: FuzzerSchema<Experience['entries'][0]> = {
   startDate: Fuzz.string(),
   endDate: Fuzz.string(),
   description: Fuzz.string(),
+  location: Fuzz.string(),
+  locationType: Fuzz.locationType(),
+  skills: Fuzz.array({
+    type: Fuzz.string(),
+  }),
 };
 
 const styleFuzzerSchema: FuzzerSchema<Experience['style']> = {

@@ -1,4 +1,5 @@
 import { Color } from '../../color';
+import { LocationType } from '../../location-type';
 import { Alignment, Size } from '../../units';
 
 export type Experience = {
@@ -20,6 +21,9 @@ export type Experience = {
     startDate: string
     endDate: string
     description: string
+    location: string
+    locationType: LocationType
+    skills: string[]
   }>
 }
 
@@ -50,6 +54,9 @@ export const Experience = {
         startDate: entry.startDate || '',
         endDate: entry.endDate || '',
         description: entry.description || '',
+        location: entry.location || '',
+        locationType: entry.locationType || 'on-site',
+        skills: entry.skills || [],
       })),
     };
   },
@@ -61,6 +68,9 @@ export const Experience = {
         startDate: entry.startDate,
         endDate: entry.endDate,
         description: entry.description,
+        location: entry.location,
+        locationType: entry.locationType,
+        skills: entry.skills,
       })),
     };
   },

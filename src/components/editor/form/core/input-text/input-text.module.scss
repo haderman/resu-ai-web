@@ -3,10 +3,11 @@
   --bg: hsl(210deg 30% 10%);
   --placeholder-color: hsl(210deg 10% 35%);
   --radius: 6px;
+  --gap: 5px;
 
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--gap);
   width: 100%;
 
   label {

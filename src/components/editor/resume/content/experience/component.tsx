@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
 
-import { Color, Size } from '@/shared/types';
+import { Color, Experience, Size } from '@/shared/types';
 import { Stack, Text } from '@/components/editor/common';
 import { apiState } from '@/state/api';
 
 import { Entry } from './components';
-import styles from './styles.module.scss';
 
 const experience = [
   {
@@ -41,12 +40,17 @@ const experience = [
   }
 ];
 
-export function Experience() {
+export function ExperienceComponent() {
+  const entries = useSelector(apiState.resume.selectors.selectResumeProperty<Experience['entries']>(
+    'experience.entries',
+    []
+  ));
+
   return (
     <Stack padding="large" gap="medium" color="primary">
       <Title />
       <Stack gap="large">
-        {experience.map((item, idx) =>
+        {entries?.map((item, idx) =>
           <Entry key={idx} {...item} />
         )}
       </Stack>
@@ -68,39 +72,5 @@ function Title() {
     <Text as="h2" size={size} color={color} weight="bold">
       {text}
     </Text>
-  );
-}
-
-type ItemProps = {
-  title: string;
-  company: string;
-  location: string;
-  description: string[];
-  startDate: string;
-  endDate: string;
-  color: Color;
-}
-
-function Item(props: ItemProps) {
-  return (
-    <Stack padding="medium" borderRadius="medium" color={props.color} className={styles.card}>
-      <Text as="h3" color="blue" weight="bold">
-        {props.startDate} - {props.endDate}
-      </Text>
-      <Text as="h4">
-        <Text>{props.title} at</Text>
-        {' '}
-        <Text weight="bold">{props.company}</Text>
-        {' - '}
-        <Text size="small">{props.location}</Text>
-      </Text>
-      <ul>
-        {props.description.map((txt, idx) =>
-          <li key={idx}>
-            <Text size="small">{txt}</Text>
-          </li>
-        )}
-      </ul>
-    </Stack>
   );
 }
