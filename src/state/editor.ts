@@ -10,7 +10,7 @@ export type EditorState = {
 }
 
 const initialState: EditorState = {
-  selectedItem: 'profile',
+  selectedItem: 'experience',
 };
 
 export const editorSlice = createSlice({

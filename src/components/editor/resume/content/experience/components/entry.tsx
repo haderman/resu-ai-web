@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { Stack, Text } from '@/components/editor/common';
 import { apiState } from '@/state/api';
-import { Color, Experience } from '@/shared/types';
+import { Color, Experience, LocationType } from '@/shared/types';
 
 export type EntryProps = Experience['entries'][number];
 
@@ -16,8 +16,12 @@ export function Entry(props: EntryProps) {
         <Text>{props.title} at</Text>
         {' '}
         <Text weight="bold">{props.company}</Text>
+        {', '}
+        <Text size="small">{props.location}</Text>
         {' - '}
-        <Text size="small">location</Text>
+        <Text size="small">
+          ({LocationType.toFriendlyString(props.locationType)})
+        </Text>
       </Text>
       <Text as="p">
         {props.description}

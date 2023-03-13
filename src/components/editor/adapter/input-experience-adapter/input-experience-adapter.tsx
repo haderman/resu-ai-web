@@ -125,6 +125,26 @@ function EntryCard(props: EntryCardProps) {
       </div>
       <div>
         <InputText
+          id="entry-location"
+          name="entry-location"
+          label="Location"
+          value={location}
+          onChange={setLocation}
+          hint="e.g. San Francisco, CA."
+        />
+      </div>
+      <div>
+        <InputText
+          id="entry-location-type"
+          name="entry-location-type"
+          label="Location Type"
+          value={locationType}
+          onChange={(value) => setLocationType(value as LocationType)}
+          hint="e.g. Remote."
+        />
+      </div>
+      <div>
+        <InputText
           id="entry-start-date"
           name="entry-start-date"
           label="Start Date"
