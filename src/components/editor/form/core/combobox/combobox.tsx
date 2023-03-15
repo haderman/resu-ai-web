@@ -16,6 +16,16 @@ type Options = ComboBoxProps['options'];
 export function Combobox(props: ComboBoxProps) {
   const searchTimeoutRef = React.useRef<number | undefined>(undefined);
   const searchStringRef = React.useRef<string>('');
+  const optionsRef = React.useRef<HTMLDivElement[]>([]);
+
+  const addNodeToOptionsRef = React.useCallback(
+    (node: HTMLDivElement) => {
+      if (node !== null) {
+        optionsRef.current.push(node);
+      }
+    },
+    []
+  );
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
@@ -27,6 +37,17 @@ export function Combobox(props: ComboBoxProps) {
 
   const label = props.label || 'Combobox';
   const placeholder = props.value || 'Select an option';
+
+  React.useEffect(() => {
+    const $option = optionsRef.current[activeIndex];
+    if (!$option) {
+      return;
+    }
+
+    if (!isElementInView($option)) {
+      $option.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [activeIndex]);
 
   function handleComboClick() {
     setIsOpen(!isOpen);
@@ -158,6 +179,7 @@ export function Combobox(props: ComboBoxProps) {
                     role="option"
                     aria-selected={activeIndex === idx}
                     onClick={handleOptionClick(idx)}
+                    ref={addNodeToOptionsRef}
                   >
                     {option.label}
                   </div>
@@ -286,4 +308,18 @@ function filterOptions(options: Options = [], filter: string, exclude: Options =
     const matches = option.value.toLowerCase().indexOf(filter.toLowerCase()) === 0;
     return matches && exclude.indexOf(option) < 0;
   });
+}
+
+// check if element is visible in browser view port
+function isElementInView($element: HTMLElement) {
+  var bounding = $element.getBoundingClientRect();
+
+  return (
+    bounding.top >= 0 &&
+    bounding.left >= 0 &&
+    bounding.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    bounding.right <=
+      (window.innerWidth || document.documentElement.clientWidth)
+  );
 }

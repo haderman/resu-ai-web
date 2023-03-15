@@ -61,7 +61,8 @@
     top: 5px;
     border-radius: var(--radius);
     background: var(--bg);
-    background-color: hsl(210deg 30% 5%);;
+    background-color: hsl(210deg 30% 5%);
+    max-height: 300px;
 
     [role="option"] {
       padding: 10px;
