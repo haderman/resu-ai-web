@@ -5,13 +5,14 @@
   --radius: 6px;
   --label-color: hsl(210deg 10% 55%);
   --acent-color: hsl(210deg 50% 70%);
+  --popup-max-height: 300px;
 
   font-size: 13px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 20ch;
+  width: 25ch;
 
   font-family: Untitled Sans, -apple-system, system-ui, sans-serif;
 
@@ -62,7 +63,8 @@
     border-radius: var(--radius);
     background: var(--bg);
     background-color: hsl(210deg 30% 5%);
-    max-height: 300px;
+    max-height: var(--popup-max-height);
+    overflow: auto;
 
     [role="option"] {
       padding: 10px;

@@ -17,6 +17,7 @@ export function Combobox(props: ComboBoxProps) {
   const searchTimeoutRef = React.useRef<number | undefined>(undefined);
   const searchStringRef = React.useRef<string>('');
   const optionsRef = React.useRef<HTMLDivElement[]>([]);
+  const listboxRef = React.useRef<HTMLDivElement>(null);
 
   const addNodeToOptionsRef = React.useCallback(
     (node: HTMLDivElement) => {
@@ -40,8 +41,13 @@ export function Combobox(props: ComboBoxProps) {
 
   React.useEffect(() => {
     const $option = optionsRef.current[activeIndex];
-    if (!$option) {
+    if (!$option || !listboxRef.current) {
       return;
+    }
+
+    // ensure the new option is in view
+    if (isScrollable(listboxRef.current)) {
+      maintainScrollVisibility($option, listboxRef.current);
     }
 
     if (!isElementInView($option)) {
@@ -163,6 +169,7 @@ export function Combobox(props: ComboBoxProps) {
         </div>
         <div
           role="listbox"
+          ref={listboxRef}
           className={isOpen ? '' : 'visually-hidden'}
           id={listboxId}
           aria-labelledby={props.id}
@@ -322,4 +329,25 @@ function isElementInView($element: HTMLElement) {
     bounding.right <=
       (window.innerWidth || document.documentElement.clientWidth)
   );
+}
+
+// check if an element is currently scrollable
+function isScrollable(element: HTMLElement) {
+  return element && element.clientHeight < element.scrollHeight;
+}
+
+// ensure a given child element is within the parent's visible scroll area
+// if the child is not visible, scroll the parent
+function maintainScrollVisibility(activeElement: HTMLElement, scrollParent: HTMLElement) {
+  const { offsetHeight, offsetTop } = activeElement;
+  const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
+
+  const isAbove = offsetTop < scrollTop;
+  const isBelow = offsetTop + offsetHeight > scrollTop + parentOffsetHeight;
+
+  if (isAbove) {
+    scrollParent.scrollTo(0, offsetTop);
+  } else if (isBelow) {
+    scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
+  }
 }
