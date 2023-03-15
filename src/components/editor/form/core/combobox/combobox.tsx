@@ -8,9 +8,15 @@ export type ComboBoxProps = {
   label?: string
   value?: string
   onChange?: (value: string) => void
+  options: { label: string, value: string }[]
 }
 
+type Options = ComboBoxProps['options'];
+
 export function Combobox(props: ComboBoxProps) {
+  const searchTimeoutRef = React.useRef<number | undefined>(undefined);
+  const searchStringRef = React.useRef<string>('');
+
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
   const [activeIndex, setActiveIndex] = React.useState<number>(0);
@@ -43,7 +49,7 @@ export function Combobox(props: ComboBoxProps) {
   }
 
   function handleComboKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    const max = options.length - 1;
+    const max = props.options.length - 1;
     const action = getActionFromKey(event, isOpen);
 
     switch (action) {
@@ -65,6 +71,8 @@ export function Combobox(props: ComboBoxProps) {
         event.preventDefault();
         return setIsOpen(false);
       case 'type':
+        event.preventDefault();
+        event.stopPropagation();
         return handleComboType(event.key);
       case 'open':
         event.preventDefault();
@@ -73,7 +81,33 @@ export function Combobox(props: ComboBoxProps) {
   }
 
   function handleComboType(letter: string) {
+    setIsOpen(true);
 
+    const searchString = getSearchString(letter);
+    const searchIndex = getIndexByLetter(props.options, searchString, activeIndex + 1);
+
+    // if a match was found, go to it
+    if (searchIndex >= 0) {
+      setActiveIndex(searchIndex);
+    }
+    // if no matches, clear the timeout and search string
+    else {
+      window.clearTimeout(searchTimeoutRef.current);
+      searchStringRef.current = '';
+    }
+  }
+
+  function getSearchString(char: string) {
+    if (typeof searchTimeoutRef.current === 'number') {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = window.setTimeout(() => {
+      searchStringRef.current = '';
+    }, 500);
+
+    searchStringRef.current = searchStringRef.current + char;
+    return searchStringRef.current;
   }
 
   return (
@@ -97,7 +131,7 @@ export function Combobox(props: ComboBoxProps) {
         >
           <div>
             {selectedIndex !== undefined ? (
-              <span>{options[selectedIndex].label}</span>
+              <span>{props.options[selectedIndex].label}</span>
             ) : (
               <span>{placeholder}</span>
             )}
@@ -115,7 +149,7 @@ export function Combobox(props: ComboBoxProps) {
         >
           {isOpen && (
             <div>
-              {options.map((option, idx) => {
+              {props.options.map((option, idx) => {
                 return (
                   <div
                     key={option.value}
@@ -136,20 +170,6 @@ export function Combobox(props: ComboBoxProps) {
     </div>
   );
 }
-
-const options = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'orange', label: 'Orange' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'grape', label: 'Grape' },
-  { value: 'pear', label: 'Pear' },
-  { value: 'peach', label: 'Peach' },
-  { value: 'watermelon', label: 'Watermelon' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'blueberry', label: 'Blueberry' },
-  { value: 'raspberry', label: 'Raspberry' },
-  { value: 'blackberry', label: 'Blackberry' },
-];
 
 type SelectAction =
   | 'close'
@@ -230,4 +250,40 @@ function getUpdatedIndex(currentIndex: number, maxIndex: number, action: SelectA
     default:
       return currentIndex;
   }
+}
+
+// return the index of an option from an array of options, based on a search string
+// if the filter is multiple iterations of the same letter (e.g "aaa"), then cycle through first-letter matches
+function getIndexByLetter(options: Options, filter: string, startIndex = 0) {
+  const orderedOptions = [
+    ...options.slice(startIndex),
+    ...options.slice(0, startIndex),
+  ];
+  const firstMatch = filterOptions(orderedOptions, filter)[0];
+  const allSameLetter = (array: string[]) => array.every((letter) => letter === array[0]);
+
+  // first check if there is an exact match for the typed string
+  if (firstMatch) {
+    return options.indexOf(firstMatch);
+  }
+
+  // if the same letter is being repeated, cycle through first-letter matches
+  else if (allSameLetter(filter.split(''))) {
+    const matches = filterOptions(orderedOptions, filter[0]);
+    return options.indexOf(matches[0]);
+  }
+
+  // if no matches, return -1
+  else {
+    return -1;
+  }
+}
+
+// filter an array of options against an input string
+// returns an array of options that begin with the filter string, case-independent
+function filterOptions(options: Options = [], filter: string, exclude: Options = []) {
+  return options.filter((option) => {
+    const matches = option.value.toLowerCase().indexOf(filter.toLowerCase()) === 0;
+    return matches && exclude.indexOf(option) < 0;
+  });
 }
