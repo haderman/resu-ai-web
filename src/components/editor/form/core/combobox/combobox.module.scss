@@ -1,0 +1,98 @@
+.root {
+  --pad: 8px;
+  --bg: hsl(210deg 30% 10%);
+  --placeholder-color: hsl(210deg 10% 35%);
+  --radius: 6px;
+  --label-color: hsl(210deg 10% 55%);
+  --acent-color: hsl(210deg 50% 70%);
+
+  font-size: 13px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20ch;
+
+  font-family: Untitled Sans, -apple-system, system-ui, sans-serif;
+
+  label {
+    width: 100%;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--label-color);
+  }
+
+  [role="combobox"] {
+    padding: var(--pad);
+    background: var(--bg);
+    border-radius: var(--radius);
+    caret-color: hsl(172, 1%, 90%);
+    color: hsl(172, 1%, 90%);
+    font-size: 1em;
+    font-weight: 300;
+    width: 100%;
+    border: none;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    &:focus {
+      outline: 2px solid hsl(210deg 50% 70%);
+    }
+
+    &::placeholder {
+      color: var(--placeholder-color);
+      font-weight: 300;
+    }
+
+    i {
+      display: flex;
+    }
+  }
+
+  [role="listbox"] {
+    position: relative;
+    z-index: 2;
+    padding: 4px;
+    top: 5px;
+    border-radius: var(--radius);
+    background: var(--bg);
+    background-color: hsl(210deg 30% 5%);;
+
+    [role="option"] {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 150ms;
+      border-radius: calc(var(--radius) - 2px);
+
+      &:hover {
+        background: hsl(210deg 50% 70%);
+      }
+    }
+  }
+
+  :has([aria-expanded="true"]) {
+    [role="listbox"] {
+      border: 1px solid hsl(210deg 30% 40% / 0.5);
+      background: var(--bg);
+    }
+
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  [aria-selected="true"] {
+    background: hsl(210deg 30% 30% / 0.5);
+  }
+}
+
+.icon {
+  fill: var(--acent-color);
+  stroke: var(--acent-color);
+  transition: transform 150ms;
+}
