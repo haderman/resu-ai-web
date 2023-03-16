@@ -27,6 +27,7 @@ type MutableState = {
   searchTimeout: number | undefined
   searchString: string
   previousState: State
+  ignoreBlur: boolean
 }
 
 type Action =
@@ -85,7 +86,8 @@ export function Combobox(props: ComboBoxProps) {
     $combo: null,
     searchTimeout: undefined,
     searchString: '',
-    previousState: state
+    previousState: state,
+    ignoreBlur: false,
   });
 
   const addNodeToOptionsRef = React.useCallback(
@@ -97,32 +99,37 @@ export function Combobox(props: ComboBoxProps) {
     []
   );
 
-  const labelId = `${props.id}-label`;
-  const comboId = `${props.id}-combo`;
-  const listboxId = `${props.id}-listbox`;
+  const { labelId, comboId, listboxId } = React.useMemo(() => {
+    return {
+      labelId: `${props.id}-label`,
+      comboId: `${props.id}-combo`,
+      listboxId: `${props.id}-listbox`,
+    };
+  }, [props.id]);
 
   const label = props.label || 'Combobox';
   const placeholder = props.value || 'Select an option';
 
   React.useEffect(() => {
-    const { previousState, $listbox } = mutableStateRef.current;
+    const { previousState } = mutableStateRef.current;
 
     const $option = mutableStateRef.current.$options[state.activeIndex];
     if (!$option || !mutableStateRef.current.$listbox) {
       return;
     }
 
-    if (previousState.activeIndex !== state.activeIndex) {
-      if (isScrollable(mutableStateRef.current.$listbox)) {
-        maintainScrollVisibility($option, mutableStateRef.current.$listbox);
-      }
+    if (isScrollable(mutableStateRef.current.$listbox)) {
+      maintainScrollVisibility($option, mutableStateRef.current.$listbox);
     }
 
     if (!previousState.isOpen && state.isOpen) {
+      console.log('opened');
       if (!isElementInView($option)) {
         $option.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
+
+    mutableStateRef.current.previousState = state;
   }, [state]);
 
   function handleComboClick() {
@@ -133,6 +140,7 @@ export function Combobox(props: ComboBoxProps) {
     return (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
       dispatch({ type: 'select', index });
+      mutableStateRef.current.$combo?.focus();
     };
   }
 
@@ -198,6 +206,17 @@ export function Combobox(props: ComboBoxProps) {
     }
   }
 
+  function handleComboBlur() {
+    if (mutableStateRef.current.ignoreBlur) {
+      mutableStateRef.current.ignoreBlur = false;
+      return;
+    }
+
+    if (state.isOpen) {
+      dispatch({ type: 'close' });
+    }
+  }
+
   function getSearchString(char: string) {
     if (typeof mutableStateRef.current.searchTimeout === 'number') {
       clearTimeout(mutableStateRef.current.searchTimeout);
@@ -230,6 +249,7 @@ export function Combobox(props: ComboBoxProps) {
           tabIndex={0}
           onClick={handleComboClick}
           onKeyDown={handleComboKeyDown}
+          onBlur={handleComboBlur}
         >
           <div>
             {state.selectedIndex !== undefined ? (
@@ -261,6 +281,7 @@ export function Combobox(props: ComboBoxProps) {
                   aria-selected={state.selectedIndex === idx}
                   data-active={state.activeIndex === idx}
                   onClick={handleOptionClick(idx)}
+                  onMouseDown={() => { mutableStateRef.current.ignoreBlur = true; }}
                 >
                   {option.label}
                 </div>
