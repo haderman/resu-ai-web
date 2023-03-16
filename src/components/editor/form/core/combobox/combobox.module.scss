@@ -92,6 +92,10 @@
   [aria-selected="true"] {
     background: hsl(210deg 30% 30% / 0.5);
   }
+
+  [data-active="true"] {
+    background: hsl(210deg 30% 30% / 0.5);
+  }
 }
 
 .icon {

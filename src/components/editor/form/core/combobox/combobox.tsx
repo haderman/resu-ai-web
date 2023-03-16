@@ -13,24 +13,89 @@ export type ComboBoxProps = {
 
 type Options = ComboBoxProps['options'];
 
+type State = {
+  isOpen: boolean
+  selectedIndex: number | undefined
+  activeIndex: number
+  max: number
+}
+
+type MutableState = {
+  $options: HTMLDivElement[]
+  $listbox: HTMLDivElement | null
+  $combo: HTMLDivElement | null
+  searchTimeout: number | undefined
+  searchString: string
+  previousState: State
+}
+
+type Action =
+  | { type: 'open' }
+  | { type: 'close' }
+  | { type: 'close-select' }
+  | { type: 'select', index: number }
+  | { type: 'active', index: number }
+  | { type: 'next' }
+  | { type: 'previous' }
+  | { type: 'first' }
+  | { type: 'last' }
+  | { type: 'type', letter: string }
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'open':
+      return { ...state, isOpen: true };
+    case 'close':
+      return {
+        ...state,
+        isOpen: false,
+        activeIndex: state.selectedIndex || state.activeIndex,
+      };
+    case 'select':
+      return {
+        ...state,
+        selectedIndex: action.index,
+        isOpen: false,
+        activeIndex: action.index,
+      };
+    case 'active':
+      return { ...state, activeIndex: action.index, isOpen: true };
+    case 'next':
+    case 'previous':
+      return {
+        ...state,
+        activeIndex: getUpdatedIndex(state.activeIndex, state.max, action.type)
+      };
+    default:
+      return state;
+  }
+}
+
 export function Combobox(props: ComboBoxProps) {
-  const searchTimeoutRef = React.useRef<number | undefined>(undefined);
-  const searchStringRef = React.useRef<string>('');
-  const optionsRef = React.useRef<HTMLDivElement[]>([]);
-  const listboxRef = React.useRef<HTMLDivElement>(null);
+  const [state, dispatch] = React.useReducer(reducer, {
+    isOpen: false,
+    selectedIndex: undefined,
+    activeIndex: 0,
+    max: props.options.length - 1,
+  });
+
+  const mutableStateRef = React.useRef<MutableState>({
+    $options: [],
+    $listbox: null,
+    $combo: null,
+    searchTimeout: undefined,
+    searchString: '',
+    previousState: state
+  });
 
   const addNodeToOptionsRef = React.useCallback(
     (node: HTMLDivElement) => {
       if (node !== null) {
-        optionsRef.current.push(node);
+        mutableStateRef.current.$options.push(node);
       }
     },
     []
   );
-
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const [selectedIndex, setSelectedIndex] = React.useState<number | undefined>(undefined);
-  const [activeIndex, setActiveIndex] = React.useState<number>(0);
 
   const labelId = `${props.id}-label`;
   const comboId = `${props.id}-combo`;
@@ -40,101 +105,110 @@ export function Combobox(props: ComboBoxProps) {
   const placeholder = props.value || 'Select an option';
 
   React.useEffect(() => {
-    const $option = optionsRef.current[activeIndex];
-    if (!$option || !listboxRef.current) {
+    const { previousState, $listbox } = mutableStateRef.current;
+
+    const $option = mutableStateRef.current.$options[state.activeIndex];
+    if (!$option || !mutableStateRef.current.$listbox) {
       return;
     }
 
-    // ensure the new option is in view
-    if (isScrollable(listboxRef.current)) {
-      maintainScrollVisibility($option, listboxRef.current);
+    if (previousState.activeIndex !== state.activeIndex) {
+      if (isScrollable(mutableStateRef.current.$listbox)) {
+        maintainScrollVisibility($option, mutableStateRef.current.$listbox);
+      }
     }
 
-    if (!isElementInView($option)) {
-      $option.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (!previousState.isOpen && state.isOpen) {
+      if (!isElementInView($option)) {
+        $option.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
-  }, [activeIndex]);
+  }, [state]);
 
   function handleComboClick() {
-    setIsOpen(!isOpen);
-  }
-
-  function handleOpenChange(index: number) {
-    setActiveIndex(index);
+    dispatch({ type: state.isOpen ? 'close' : 'open' });
   }
 
   function handleOptionClick(index: number) {
     return (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
-      selectItem(index);
+      dispatch({ type: 'select', index });
     };
   }
 
-  function selectItem(index: number) {
-    setSelectedIndex(index);
-    setIsOpen(false);
-  }
-
   function handleComboKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    const max = props.options.length - 1;
-    const action = getActionFromKey(event, isOpen);
+    const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' ']; // all keys that will do the default open action
+    // handle opening when closed
+    if (!state.isOpen && openKeys.includes(event.key)) {
+      dispatch({ type: 'open' });
+    }
 
-    switch (action) {
-      case 'last':
-      case 'first':
-        return setIsOpen(true);
-      case 'next':
-      case 'previous':
-      case 'page-up':
-      case 'page-down':
-        event.preventDefault();
-        return handleOpenChange(
-          getUpdatedIndex(activeIndex, max, action)
-        );
-      case 'close-select':
-        event.preventDefault();
-        return selectItem(activeIndex);
-      case 'close':
-        event.preventDefault();
-        return setIsOpen(false);
-      case 'type':
-        event.preventDefault();
-        event.stopPropagation();
-        return handleComboType(event.key);
-      case 'open':
-        event.preventDefault();
-        return setIsOpen(true);
+    // home and end move the selected option when open or closed
+    if (event.key === 'Home') {
+      dispatch({ type: 'first' });
+    }
+    if (event.key === 'End') {
+      return dispatch({ type: 'last' });
+    }
+
+    // handle typing characters when open or closed
+    if (
+      event.key === 'Backspace' ||
+      event.key === 'Clear' ||
+      (event.key.length === 1 && event.key !== ' ' && !event.altKey && !event.ctrlKey && !event.metaKey)
+    ) {
+      event.stopPropagation();
+      handleComboType(event.key);
+      dispatch({ type: 'type', letter: event.key });
+    }
+
+    if (!state.isOpen) {
+      return;
+    }
+
+    if (event.key === 'ArrowUp' && event.altKey) {
+      dispatch({ type: 'close-select' });
+    } else if (event.key === 'ArrowDown' && !event.altKey) {
+      dispatch({ type: 'next' });
+    } else if (event.key === 'ArrowUp') {
+      dispatch({ type: 'previous' });
+    } else if (event.key === 'PageUp') {
+      // return 'page-up';
+    } else if (event.key === 'PageDown') {
+      // return 'page-down';
+    } else if (event.key === 'Escape') {
+      dispatch({ type: 'close' });
+    } else if (event.key === 'Enter' || event.key === ' ' || event.key === 'Tab') {
+      dispatch({ type: 'select', index: state.activeIndex });
     }
   }
 
   function handleComboType(letter: string) {
-    setIsOpen(true);
-
     const searchString = getSearchString(letter);
-    const searchIndex = getIndexByLetter(props.options, searchString, activeIndex + 1);
+    const searchIndex = getIndexByLetter(props.options, searchString, state.activeIndex + 1);
 
     // if a match was found, go to it
     if (searchIndex >= 0) {
-      setActiveIndex(searchIndex);
+      dispatch({ type: 'active', index: searchIndex });
     }
     // if no matches, clear the timeout and search string
     else {
-      window.clearTimeout(searchTimeoutRef.current);
-      searchStringRef.current = '';
+      window.clearTimeout(mutableStateRef.current.searchTimeout);
+      mutableStateRef.current.searchString = '';
     }
   }
 
   function getSearchString(char: string) {
-    if (typeof searchTimeoutRef.current === 'number') {
-      clearTimeout(searchTimeoutRef.current);
+    if (typeof mutableStateRef.current.searchTimeout === 'number') {
+      clearTimeout(mutableStateRef.current.searchTimeout);
     }
 
-    searchTimeoutRef.current = window.setTimeout(() => {
-      searchStringRef.current = '';
+    mutableStateRef.current.searchTimeout = window.setTimeout(() => {
+      mutableStateRef.current.searchString = '';
     }, 500);
 
-    searchStringRef.current = searchStringRef.current + char;
-    return searchStringRef.current;
+    mutableStateRef.current.searchString = mutableStateRef.current.searchString + char;
+    return mutableStateRef.current.searchString;
   }
 
   return (
@@ -145,11 +219,12 @@ export function Combobox(props: ComboBoxProps) {
       <div>
         <div
           role="combobox"
+          ref={ref => { mutableStateRef.current.$combo = ref; }}
           aria-controls={listboxId}
-          aria-expanded={isOpen}
+          aria-expanded={state.isOpen}
           aria-haspopup="listbox"
           aria-labelledby={props.id}
-          aria-activedescendant={`${props.id}-value-${activeIndex}`}
+          aria-activedescendant={`${props.id}-value-${state.activeIndex}`}
           id={comboId}
           className="combo-input"
           tabIndex={0}
@@ -157,8 +232,8 @@ export function Combobox(props: ComboBoxProps) {
           onKeyDown={handleComboKeyDown}
         >
           <div>
-            {selectedIndex !== undefined ? (
-              <span>{props.options[selectedIndex].label}</span>
+            {state.selectedIndex !== undefined ? (
+              <span>{props.options[state.selectedIndex].label}</span>
             ) : (
               <span>{placeholder}</span>
             )}
@@ -169,98 +244,36 @@ export function Combobox(props: ComboBoxProps) {
         </div>
         <div
           role="listbox"
-          ref={listboxRef}
-          className={isOpen ? '' : 'visually-hidden'}
+          ref={ref => { mutableStateRef.current.$listbox = ref; }}
+          className={state.isOpen ? '' : 'visually-hidden'}
           id={listboxId}
           aria-labelledby={props.id}
           tabIndex={-1}
         >
-          {isOpen && (
-            <div>
-              {props.options.map((option, idx) => {
-                return (
-                  <div
-                    key={option.value}
-                    id={`${props.id}-value-${option.value}`}
-                    className="combo-option"
-                    role="option"
-                    aria-selected={activeIndex === idx}
-                    onClick={handleOptionClick(idx)}
-                    ref={addNodeToOptionsRef}
-                  >
-                    {option.label}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <div>
+            {props.options.map((option, idx) => {
+              return (
+                <div
+                  role="option"
+                  key={option.value}
+                  ref={addNodeToOptionsRef}
+                  id={`${props.id}-value-${option.value}`}
+                  aria-selected={state.selectedIndex === idx}
+                  data-active={state.activeIndex === idx}
+                  onClick={handleOptionClick(idx)}
+                >
+                  {option.label}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-type SelectAction =
-  | 'close'
-  | 'close-select'
-  | 'first'
-  | 'last'
-  | 'next'
-  | 'open'
-  | 'page-down'
-  | 'page-up'
-  | 'previous'
-  | 'select'
-  | 'type';
-
-function getActionFromKey(event: React.KeyboardEvent<HTMLDivElement>, menuOpen: boolean): SelectAction {
-  const { key, altKey, ctrlKey, metaKey } = event;
-  const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' ']; // all keys that will do the default open action
-  // handle opening when closed
-  if (!menuOpen && openKeys.includes(key)) {
-    return 'open';
-  }
-
-  // home and end move the selected option when open or closed
-  if (key === 'Home') {
-    return 'first';
-  }
-  if (key === 'End') {
-    return 'last';
-  }
-
-  // handle typing characters when open or closed
-  if (
-    key === 'Backspace' ||
-    key === 'Clear' ||
-    (key.length === 1 && key !== ' ' && !altKey && !ctrlKey && !metaKey)
-  ) {
-    return 'type';
-  }
-
-  // handle keys when open
-  if (menuOpen) {
-    if (key === 'ArrowUp' && altKey) {
-      return 'close-select';
-    } else if (key === 'ArrowDown' && !altKey) {
-      return 'next';
-    } else if (key === 'ArrowUp') {
-      return 'previous';
-    } else if (key === 'PageUp') {
-      return 'page-up';
-    } else if (key === 'PageDown') {
-      return 'page-down';
-    } else if (key === 'Escape') {
-      return 'close';
-    } else if (key === 'Enter' || key === ' ' || key === 'Tab') {
-      return 'close-select';
-    }
-  }
-
-  return 'select';
-}
-
-function getUpdatedIndex(currentIndex: number, maxIndex: number, action: SelectAction) {
+function getUpdatedIndex(currentIndex: number, maxIndex: number, action: Action['type']) {
   const pageSize = 10; // used for pageup/pagedown
 
   switch (action) {
@@ -272,10 +285,10 @@ function getUpdatedIndex(currentIndex: number, maxIndex: number, action: SelectA
       return Math.max(0, currentIndex - 1);
     case 'next':
       return Math.min(maxIndex, currentIndex + 1);
-    case 'page-up':
-      return Math.max(0, currentIndex - pageSize);
-    case 'page-down':
-      return Math.min(maxIndex, currentIndex + pageSize);
+    // case 'page-up':
+    //   return Math.max(0, currentIndex - pageSize);
+    // case 'page-down':
+    //   return Math.min(maxIndex, currentIndex + pageSize);
     default:
       return currentIndex;
   }
