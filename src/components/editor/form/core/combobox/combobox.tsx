@@ -1,3 +1,9 @@
+/**
+ * this is based on https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
+ *
+ * TODO: Refactor to improve readability
+ */
+
 import * as React from 'react';
 import { IconCaretDown } from '@tabler/icons';
 
@@ -379,9 +385,11 @@ function maintainScrollVisibility(activeElement: HTMLElement, scrollParent: HTML
   const isAbove = offsetTop < scrollTop;
   const isBelow = offsetTop + offsetHeight > scrollTop + parentOffsetHeight;
 
+  // I subtract 6px and add 6px to the scroll position to account for the padding
+  // on the listbox element
   if (isAbove) {
-    scrollParent.scrollTo(0, offsetTop);
+    scrollParent.scrollTo(0, offsetTop - 6);
   } else if (isBelow) {
-    scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
+    scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight + 6);
   }
 }

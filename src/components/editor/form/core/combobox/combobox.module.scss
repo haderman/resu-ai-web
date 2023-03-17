@@ -65,6 +65,9 @@
     background-color: hsl(210deg 30% 5%);
     max-height: var(--popup-max-height);
     overflow: auto;
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: top center;
 
     [role="option"] {
       padding: 10px;
@@ -82,6 +85,8 @@
     [role="listbox"] {
       border: 1px solid hsl(210deg 30% 40% / 0.5);
       background: var(--bg);
+      animation: growDown 150ms ease-in-out forwards;
+      transform-origin: top center;
     }
 
     .icon {
@@ -103,3 +108,18 @@
   stroke: var(--acent-color);
   transition: transform 150ms;
 }
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
