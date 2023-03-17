@@ -1,7 +1,11 @@
 /**
  * this is based on https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
  *
- * TODO: Refactor to improve readability
+ * TODO: Refactor to improve readability and maintainability
+ * TODO: Add support for disabled options
+ * TODO: Add support for optgroups
+ * TODO: Create abstraction for listbox
+ * TODO: move to its own file the DOM manipulation functions (e.g. isScrollable, maintainScrollVisibility)
  */
 
 import * as React from 'react';
@@ -13,77 +17,17 @@ import styles from './combobox.module.scss';
 
 export type ComboBoxProps = {
   id: string
-  label?: string
-  value?: string
-  onChange?: (value: string) => void
+  label: string
+  placeholder: string
+  value: string | undefined
+  onChange: (value: string | undefined) => void
   options: { label: string, value: string }[]
-}
-
-type Options = ComboBoxProps['options'];
-
-type State = {
-  isOpen: boolean
-  selectedIndex: number | undefined
-  activeIndex: number
-  max: number
-}
-
-type MutableState = {
-  $options: HTMLDivElement[]
-  $listbox: HTMLDivElement | null
-  $combo: HTMLDivElement | null
-  searchTimeout: number | undefined
-  searchString: string
-  previousState: State
-  ignoreBlur: boolean
-}
-
-type Action =
-  | { type: 'open' }
-  | { type: 'close' }
-  | { type: 'close-select' }
-  | { type: 'select', index: number }
-  | { type: 'active', index: number }
-  | { type: 'next' }
-  | { type: 'previous' }
-  | { type: 'first' }
-  | { type: 'last' }
-  | { type: 'type', letter: string }
-
-function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case 'open':
-      return { ...state, isOpen: true };
-    case 'close':
-      return {
-        ...state,
-        isOpen: false,
-        activeIndex: state.selectedIndex || state.activeIndex,
-      };
-    case 'select':
-      return {
-        ...state,
-        selectedIndex: action.index,
-        isOpen: false,
-        activeIndex: action.index,
-      };
-    case 'active':
-      return { ...state, activeIndex: action.index, isOpen: true };
-    case 'next':
-    case 'previous':
-      return {
-        ...state,
-        activeIndex: getUpdatedIndex(state.activeIndex, state.max, action.type)
-      };
-    default:
-      return state;
-  }
 }
 
 export function Combobox(props: ComboBoxProps) {
   const [state, dispatch] = React.useReducer(reducer, {
     isOpen: false,
-    selectedIndex: undefined,
+    selectedIndex: findIndexFromValue(props.options, props.value),
     activeIndex: 0,
     max: props.options.length - 1,
   });
@@ -152,6 +96,13 @@ export function Combobox(props: ComboBoxProps) {
 
     mutableStateRef.current.previousState = state;
   }, [state]);
+
+  React.useEffect(() => {
+    props.onChange(state.selectedIndex
+      ? props.options[state.selectedIndex]?.value
+      : undefined
+    );
+  }, [state.selectedIndex]);
 
   function handleComboClick() {
     dispatch({ type: state.isOpen ? 'close' : 'open' });
@@ -276,7 +227,7 @@ export function Combobox(props: ComboBoxProps) {
             {state.selectedIndex !== undefined ? (
               <span>{props.options[state.selectedIndex].label}</span>
             ) : (
-              <span>{placeholder}</span>
+              <span>{props.placeholder || 'Select Option'}</span>
             )}
             <i aria-hidden="true">
               <IconCaretDown stroke={1} className={styles.icon} />
@@ -316,6 +267,67 @@ export function Combobox(props: ComboBoxProps) {
       </div>
     </div>
   );
+}
+
+type Options = ComboBoxProps['options'];
+
+type State = {
+  isOpen: boolean
+  selectedIndex: number | undefined
+  activeIndex: number
+  max: number
+}
+
+type MutableState = {
+  $options: HTMLDivElement[]
+  $listbox: HTMLDivElement | null
+  $combo: HTMLDivElement | null
+  searchTimeout: number | undefined
+  searchString: string
+  previousState: State
+  ignoreBlur: boolean
+}
+
+type Action =
+  | { type: 'open' }
+  | { type: 'close' }
+  | { type: 'close-select' }
+  | { type: 'select', index: number }
+  | { type: 'active', index: number }
+  | { type: 'next' }
+  | { type: 'previous' }
+  | { type: 'first' }
+  | { type: 'last' }
+  | { type: 'type', letter: string }
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'open':
+      return { ...state, isOpen: true };
+    case 'close':
+      return {
+        ...state,
+        isOpen: false,
+        activeIndex: state.selectedIndex || state.activeIndex,
+      };
+    case 'select':
+      return {
+        ...state,
+        selectedIndex: action.index,
+        isOpen: false,
+        activeIndex: action.index,
+      };
+    case 'active':
+      return { ...state, activeIndex: action.index, isOpen: true };
+    case 'next':
+    case 'previous':
+      return {
+        ...state,
+        activeIndex: getUpdatedIndex(state.activeIndex, state.max, action.type)
+      };
+    default:
+      return state;
+  }
 }
 
 function getUpdatedIndex(currentIndex: number, maxIndex: number, action: Action['type']) {
@@ -410,4 +422,12 @@ function maintainScrollVisibility(activeElement: HTMLElement, scrollParent: HTML
   } else if (isBelow) {
     scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight + 6);
   }
+}
+
+function findIndexFromValue(options: Options, value?: string): number | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  return options.findIndex((option) => option.value === value) || 0;
 }

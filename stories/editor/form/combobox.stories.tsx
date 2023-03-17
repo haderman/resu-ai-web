@@ -12,12 +12,21 @@ export default {
 } as ComponentMeta<typeof Combobox>;
 
 export const Basic: ComponentStory<typeof Combobox> = (args) => {
-  const [selected, setSelected] = useAddonState<string | null>('editor/form/combobox', null);
+  const [selected, setSelected] = useAddonState<string | undefined>('editor/form/combobox', undefined);
+
+  console.log('selected:', selected);
 
   return (
     <Container>
       <ResizableBox>
-        <Combobox id="example" options={OPTIONS} />
+        <Combobox
+          id="example"
+          options={OPTIONS}
+          label="Example"
+          placeholder="Select a country"
+          value={selected}
+          onChange={setSelected}
+        />
       </ResizableBox>
     </Container>
   );
