@@ -6,7 +6,6 @@ export function Container(props: ContainerProps) {
   const style = {
     height: '100%',
     padding: '10px',
-    background: 'black',
   };
 
   return (
