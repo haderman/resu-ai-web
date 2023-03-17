@@ -1,4 +1,4 @@
-.root {
+:root {
   --pad: 8px;
   --bg: hsl(210deg 30% 10%);
   --placeholder-color: hsl(210deg 10% 35%);
@@ -7,6 +7,10 @@
   --acent-color: hsl(210deg 50% 70%);
   --popup-max-height: 300px;
 
+  font-family: Untitled Sans, -apple-system, system-ui, sans-serif;
+}
+
+.root {
   font-size: 13px;
   position: relative;
   display: flex;
@@ -34,6 +38,12 @@
     width: 100%;
     border: none;
 
+    &[aria-expanded="true"] {
+      .icon {
+        transform: rotate(180deg);
+      }
+    }
+
     & > div {
       display: flex;
       align-items: center;
@@ -54,52 +64,62 @@
       display: flex;
     }
   }
+}
 
-  [role="listbox"] {
-    position: relative;
-    z-index: 2;
-    padding: 4px;
-    top: 5px;
-    border-radius: var(--radius);
-    background: var(--bg);
-    background-color: hsl(210deg 30% 5%);
-    max-height: var(--popup-max-height);
-    overflow: auto;
-    transform: scaleY(0);
-    opacity: 0;
-    transform-origin: top center;
+.icon {
+  fill: var(--acent-color);
+  stroke: var(--acent-color);
+  transition: transform 150ms;
+}
 
-    [role="option"] {
-      padding: 10px;
-      cursor: pointer;
-      transition: background 150ms;
-      border-radius: calc(var(--radius) - 2px);
+.popup {
+  position: relative;
+  z-index: 2;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  background-color: hsl(210deg 30% 5%);
+  max-height: var(--popup-max-height);
+  overflow: auto;
+  transform: scaleY(0);
+  opacity: 0;
+  transform-origin: top center;
 
-      &:hover {
-        background: hsl(210deg 50% 70%);
-      }
+  [role="option"] {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 150ms;
+    border-radius: calc(var(--radius) - 2px);
+
+    &:hover {
+      background: hsl(210deg 50% 70%);
+      background: hsla(210deg, 35%, 20%, 1);
     }
   }
 
-  :has([aria-expanded="true"]) {
-    [role="listbox"] {
-      border: 1px solid hsl(210deg 30% 40% / 0.5);
-      background: var(--bg);
-      animation: growDown 150ms ease-in-out forwards;
-      transform-origin: top center;
-    }
-
-    .icon {
-      transform: rotate(180deg);
-    }
+  &[data-expanded="true"] {
+    border: 1px solid hsl(210deg 30% 40% / 0.5);
+    background: var(--bg);
+    animation: growDown 150ms ease-in-out forwards;
+    transform-origin: top center;
   }
 
   [aria-selected="true"] {
-    background: hsl(210deg 30% 30% / 0.5);
+    background: hsla(210deg, 35%, 20%, 1);
+    outline: 1px solid hsla(210deg, 50%, 50%);
   }
 
   [data-active="true"] {
-    background: hsl(210deg 30% 30% / 0.5);
+    background: hsla(210deg, 35%, 20%, 1);
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 

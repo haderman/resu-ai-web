@@ -33,7 +33,7 @@ export const parameters = {
 // });
 
 addDecorator(story => (
-  <div className="theme-container" data-resume-theme="dark-space">
+  <div className="theme-container" data-resume-theme="dark-space" id="root">
     {story()}
   </div>
 ));

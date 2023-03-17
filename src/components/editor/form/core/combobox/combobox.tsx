@@ -7,6 +7,8 @@
 import * as React from 'react';
 import { IconCaretDown } from '@tabler/icons';
 
+import { Portal } from '@/components/common';
+
 import styles from './combobox.module.scss';
 
 export type ComboBoxProps = {
@@ -117,6 +119,19 @@ export function Combobox(props: ComboBoxProps) {
   const placeholder = props.value || 'Select an option';
 
   React.useEffect(() => {
+    const { $listbox, $combo } = mutableStateRef.current;
+    if (!$listbox || !$combo) {
+      return;
+    }
+
+    const $comboRect = $combo.getBoundingClientRect();
+    $listbox.style.position = 'absolute';
+    $listbox.style.left = `${$comboRect.left}px`;
+    $listbox.style.width = `${$comboRect.width}px`;
+    $listbox.style.top = `${$comboRect.bottom + 6}px`;
+  }, []);
+
+  React.useEffect(() => {
     const { previousState } = mutableStateRef.current;
 
     const $option = mutableStateRef.current.$options[state.activeIndex];
@@ -129,9 +144,9 @@ export function Combobox(props: ComboBoxProps) {
     }
 
     if (!previousState.isOpen && state.isOpen) {
-      console.log('opened');
-      if (!isElementInView($option)) {
-        $option.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const $selected = mutableStateRef.current.$options[state.selectedIndex || state.activeIndex];
+      if (!isElementInView($selected)) {
+        $selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
 
@@ -268,33 +283,36 @@ export function Combobox(props: ComboBoxProps) {
             </i>
           </div>
         </div>
-        <div
-          role="listbox"
-          ref={ref => { mutableStateRef.current.$listbox = ref; }}
-          className={state.isOpen ? '' : 'visually-hidden'}
-          id={listboxId}
-          aria-labelledby={props.id}
-          tabIndex={-1}
-        >
-          <div>
-            {props.options.map((option, idx) => {
-              return (
-                <div
-                  role="option"
-                  key={option.value}
-                  ref={addNodeToOptionsRef}
-                  id={`${props.id}-value-${option.value}`}
-                  aria-selected={state.selectedIndex === idx}
-                  data-active={state.activeIndex === idx}
-                  onClick={handleOptionClick(idx)}
-                  onMouseDown={() => { mutableStateRef.current.ignoreBlur = true; }}
-                >
-                  {option.label}
-                </div>
-              );
-            })}
+        <Portal>
+          <div
+            role="listbox"
+            ref={ref => { mutableStateRef.current.$listbox = ref; }}
+            className={`${styles.popup} ${state.isOpen ? '' : 'visually-hidden'}`}
+            id={listboxId}
+            data-expanded={state.isOpen}
+            aria-labelledby={props.id}
+            tabIndex={-1}
+          >
+            <div>
+              {props.options.map((option, idx) => {
+                return (
+                  <div
+                    role="option"
+                    key={option.value}
+                    ref={addNodeToOptionsRef}
+                    id={`${props.id}-value-${option.value}`}
+                    aria-selected={state.selectedIndex === idx}
+                    data-active={state.activeIndex === idx}
+                    onClick={handleOptionClick(idx)}
+                    onMouseDown={() => { mutableStateRef.current.ignoreBlur = true; }}
+                  >
+                    {option.label}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </Portal>
       </div>
     </div>
   );
