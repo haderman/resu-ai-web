@@ -43,6 +43,7 @@ export function Combobox(props: ComboBoxProps) {
       }),
     ],
   });
+
   const [state, dispatch] = React.useReducer(reducer, {
     isOpen: false,
     selectedIndex: findIndexFromValue(props.options, props.value),
@@ -161,27 +162,39 @@ export function Combobox(props: ComboBoxProps) {
       return;
     }
 
-    if (event.key === 'ArrowUp' && event.altKey) {
-      event.preventDefault();
-      dispatch({ type: 'close-select' });
-    } else if (event.key === 'ArrowDown' && !event.altKey) {
-      event.preventDefault();
-      dispatch({ type: 'next' });
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      dispatch({ type: 'previous' });
-    } else if (event.key === 'PageUp') {
-      event.preventDefault();
-      // return 'page-up';
-    } else if (event.key === 'PageDown') {
-      event.preventDefault();
-      // return 'page-down';
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      dispatch({ type: 'close' });
-    } else if (event.key === 'Enter' || event.key === ' ' || event.key === 'Tab') {
-      event.preventDefault();
-      dispatch({ type: 'select', index: state.activeIndex });
+    switch (true) {
+      case event.key === 'ArrowUp' && event.altKey:
+        event.preventDefault();
+        dispatch({ type: 'close-select' });
+        break;
+      case event.key === 'ArrowDown' && !event.altKey:
+        event.preventDefault();
+        dispatch({ type: 'next' });
+        break;
+      case event.key === 'ArrowUp':
+        event.preventDefault();
+        dispatch({ type: 'previous' });
+        break;
+      case event.key === 'PageUp':
+        event.preventDefault();
+        // return 'page-up';
+        break;
+      case event.key === 'PageDown':
+        event.preventDefault();
+        // return 'page-down';
+        break;
+      case event.key === 'Escape':
+        event.preventDefault();
+        dispatch({ type: 'close' });
+        break;
+      case event.key === 'Enter' || event.key === ' ':
+        event.preventDefault();
+        dispatch({ type: 'select', index: state.activeIndex });
+        break;
+      case event.key === 'Tab':
+        dispatch({ type: 'select', index: state.activeIndex });
+      default:
+        break;
     }
   }
 
