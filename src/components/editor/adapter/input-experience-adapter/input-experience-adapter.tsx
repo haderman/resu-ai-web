@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { InputText, TextEditor } from '@/components/editor/form';
+import { InputText, TextEditor, Combobox } from '@/components/editor/form';
 import { Experience, Field, LocationType } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
@@ -46,6 +46,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
           <div key={index} className={styles.wrapper}>
             <h3>{entry.title} - {entry.company}</h3>
             <EntryCard
+              id={String(index)}
               title={entry.title}
               company={entry.company}
               startDate={entry.startDate}
@@ -57,6 +58,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
         );
       })}
       <EntryCard
+        id="new-entry"
         title=""
         company=""
         startDate=""
@@ -69,6 +71,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
 }
 
 type EntryCardProps = {
+  id: string;
   title: string;
   company: string;
   startDate: string;
@@ -134,13 +137,19 @@ function EntryCard(props: EntryCardProps) {
         />
       </div>
       <div>
-        <InputText
-          id="entry-location-type"
-          name="entry-location-type"
+        <Combobox
+          fullWidth
+          id={`entry-location-type-${props.id}`}
           label="Location Type"
           value={locationType}
+          placeholder="Select a location type"
+          options={LocationType.values.map((value) => {
+            return {
+              value,
+              label: LocationType.toFriendlyString(value),
+            };
+          })}
           onChange={(value) => setLocationType(value as LocationType)}
-          hint="e.g. Remote."
         />
       </div>
       <div>
