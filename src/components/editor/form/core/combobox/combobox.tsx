@@ -7,13 +7,14 @@
  * TODO: Create abstraction for listbox
  * TODO: move to its own file the DOM manipulation functions (e.g. isScrollable, maintainScrollVisibility)
  */
-
 import * as React from 'react';
+import * as FloatingUI from '@floating-ui/react-dom';
 import { IconCaretDown } from '@tabler/icons';
 
 import { Portal } from '@/components/common';
 
 import styles from './combobox.module.scss';
+import * as DOMHelpers from '../helpers/dom';
 
 export type ComboBoxProps = {
   id: string
@@ -22,9 +23,27 @@ export type ComboBoxProps = {
   value: string | undefined
   onChange: (value: string | undefined) => void
   options: { label: string, value: string }[]
+  fullWidth?: boolean
 }
 
 export function Combobox(props: ComboBoxProps) {
+  const { x, y, strategy, refs } = FloatingUI.useFloating({
+    strategy: 'fixed',
+    whileElementsMounted: FloatingUI.autoUpdate,
+    middleware: [
+      FloatingUI.offset({ mainAxis: 6 }),
+      FloatingUI.flip(),
+      FloatingUI.shift(),
+      FloatingUI.size({
+        apply({ rects }) {
+          if (refs.floating.current) {
+            refs.floating.current.style.width = `${rects.reference.width}px`;
+          }
+        },
+      }),
+    ],
+  });
+
   const [state, dispatch] = React.useReducer(reducer, {
     isOpen: false,
     selectedIndex: findIndexFromValue(props.options, props.value),
@@ -59,50 +78,38 @@ export function Combobox(props: ComboBoxProps) {
     };
   }, [props.id]);
 
-  const label = props.label || 'Combobox';
-  const placeholder = props.value || 'Select an option';
-
   React.useEffect(() => {
-    const { $listbox, $combo } = mutableStateRef.current;
-    if (!$listbox || !$combo) {
+    if (!refs.floating.current) {
       return;
     }
 
-    const $comboRect = $combo.getBoundingClientRect();
-    $listbox.style.position = 'absolute';
-    $listbox.style.left = `${$comboRect.left}px`;
-    $listbox.style.width = `${$comboRect.width}px`;
-    $listbox.style.top = `${$comboRect.bottom + 6}px`;
-  }, []);
-
-  React.useEffect(() => {
     const { previousState } = mutableStateRef.current;
 
     const $option = mutableStateRef.current.$options[state.activeIndex];
-    if (!$option || !mutableStateRef.current.$listbox) {
+    if (!$option || !refs.floating) {
       return;
     }
 
-    if (isScrollable(mutableStateRef.current.$listbox)) {
-      maintainScrollVisibility($option, mutableStateRef.current.$listbox);
+    if (DOMHelpers.isScrollable(refs.floating.current)) {
+      DOMHelpers.maintainScrollVisibility($option, refs.floating.current, { offset: 6 });
     }
 
     if (!previousState.isOpen && state.isOpen) {
       const $selected = mutableStateRef.current.$options[state.selectedIndex || state.activeIndex];
-      if (!isElementInView($selected)) {
+      if (!DOMHelpers.isElementInView($selected)) {
         $selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
 
     mutableStateRef.current.previousState = state;
-  }, [state]);
+  }, [state, refs.floating]);
 
   React.useEffect(() => {
     props.onChange(state.selectedIndex
       ? props.options[state.selectedIndex]?.value
       : undefined
     );
-  }, [state.selectedIndex]);
+  }, [state.selectedIndex, props.options]);
 
   function handleComboClick() {
     dispatch({ type: state.isOpen ? 'close' : 'open' });
@@ -116,18 +123,26 @@ export function Combobox(props: ComboBoxProps) {
     };
   }
 
+  /**
+   * I could have added event.preventDefault() to all the keydown events
+   * but I decided to add it only to the ones that need it and don't interfere
+   * with the default behavior of the browser in some cases, like pressing Tab or cmd+R
+   */
   function handleComboKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     const openKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' ']; // all keys that will do the default open action
     // handle opening when closed
     if (!state.isOpen && openKeys.includes(event.key)) {
+      event.preventDefault();
       dispatch({ type: 'open' });
     }
 
     // home and end move the selected option when open or closed
     if (event.key === 'Home') {
+      event.preventDefault();
       dispatch({ type: 'first' });
     }
     if (event.key === 'End') {
+      event.preventDefault();
       return dispatch({ type: 'last' });
     }
 
@@ -137,6 +152,7 @@ export function Combobox(props: ComboBoxProps) {
       event.key === 'Clear' ||
       (event.key.length === 1 && event.key !== ' ' && !event.altKey && !event.ctrlKey && !event.metaKey)
     ) {
+      event.preventDefault();
       event.stopPropagation();
       handleComboType(event.key);
       dispatch({ type: 'type', letter: event.key });
@@ -146,20 +162,39 @@ export function Combobox(props: ComboBoxProps) {
       return;
     }
 
-    if (event.key === 'ArrowUp' && event.altKey) {
-      dispatch({ type: 'close-select' });
-    } else if (event.key === 'ArrowDown' && !event.altKey) {
-      dispatch({ type: 'next' });
-    } else if (event.key === 'ArrowUp') {
-      dispatch({ type: 'previous' });
-    } else if (event.key === 'PageUp') {
-      // return 'page-up';
-    } else if (event.key === 'PageDown') {
-      // return 'page-down';
-    } else if (event.key === 'Escape') {
-      dispatch({ type: 'close' });
-    } else if (event.key === 'Enter' || event.key === ' ' || event.key === 'Tab') {
-      dispatch({ type: 'select', index: state.activeIndex });
+    switch (true) {
+      case event.key === 'ArrowUp' && event.altKey:
+        event.preventDefault();
+        dispatch({ type: 'close-select' });
+        break;
+      case event.key === 'ArrowDown' && !event.altKey:
+        event.preventDefault();
+        dispatch({ type: 'next' });
+        break;
+      case event.key === 'ArrowUp':
+        event.preventDefault();
+        dispatch({ type: 'previous' });
+        break;
+      case event.key === 'PageUp':
+        event.preventDefault();
+        // return 'page-up';
+        break;
+      case event.key === 'PageDown':
+        event.preventDefault();
+        // return 'page-down';
+        break;
+      case event.key === 'Escape':
+        event.preventDefault();
+        dispatch({ type: 'close' });
+        break;
+      case event.key === 'Enter' || event.key === ' ':
+        event.preventDefault();
+        dispatch({ type: 'select', index: state.activeIndex });
+        break;
+      case event.key === 'Tab':
+        dispatch({ type: 'select', index: state.activeIndex });
+      default:
+        break;
     }
   }
 
@@ -203,21 +238,20 @@ export function Combobox(props: ComboBoxProps) {
   }
 
   return (
-    <div className={styles.root}>
-      <label id={labelId} className="combo-label">
-        {label}:
+    <div className={styles.root} data-full-width={props.fullWidth}>
+      <label id={labelId}>
+        {props.label || 'Select an Option'}:
       </label>
       <div>
         <div
           role="combobox"
-          ref={ref => { mutableStateRef.current.$combo = ref; }}
+          ref={refs.setReference}
           aria-controls={listboxId}
           aria-expanded={state.isOpen}
           aria-haspopup="listbox"
           aria-labelledby={props.id}
           aria-activedescendant={`${props.id}-value-${state.activeIndex}`}
           id={comboId}
-          className="combo-input"
           tabIndex={0}
           onClick={handleComboClick}
           onKeyDown={handleComboKeyDown}
@@ -237,12 +271,18 @@ export function Combobox(props: ComboBoxProps) {
         <Portal>
           <div
             role="listbox"
-            ref={ref => { mutableStateRef.current.$listbox = ref; }}
             className={`${styles.popup} ${state.isOpen ? '' : 'visually-hidden'}`}
             id={listboxId}
             data-expanded={state.isOpen}
             aria-labelledby={props.id}
             tabIndex={-1}
+            ref={refs.setFloating}
+            style={{
+              position: strategy,
+              top: y ?? 0,
+              left: x ?? 0,
+              width: 'max-content',
+            }}
           >
             <div>
               {props.options.map((option, idx) => {
@@ -385,43 +425,6 @@ function filterOptions(options: Options = [], filter: string, exclude: Options =
     const matches = option.value.toLowerCase().indexOf(filter.toLowerCase()) === 0;
     return matches && exclude.indexOf(option) < 0;
   });
-}
-
-// check if element is visible in browser view port
-function isElementInView($element: HTMLElement) {
-  var bounding = $element.getBoundingClientRect();
-
-  return (
-    bounding.top >= 0 &&
-    bounding.left >= 0 &&
-    bounding.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
-    bounding.right <=
-      (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
-
-// check if an element is currently scrollable
-function isScrollable(element: HTMLElement) {
-  return element && element.clientHeight < element.scrollHeight;
-}
-
-// ensure a given child element is within the parent's visible scroll area
-// if the child is not visible, scroll the parent
-function maintainScrollVisibility(activeElement: HTMLElement, scrollParent: HTMLElement) {
-  const { offsetHeight, offsetTop } = activeElement;
-  const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
-
-  const isAbove = offsetTop < scrollTop;
-  const isBelow = offsetTop + offsetHeight > scrollTop + parentOffsetHeight;
-
-  // I subtract 6px and add 6px to the scroll position to account for the padding
-  // on the listbox element
-  if (isAbove) {
-    scrollParent.scrollTo(0, offsetTop - 6);
-  } else if (isBelow) {
-    scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight + 6);
-  }
 }
 
 function findIndexFromValue(options: Options, value?: string): number | undefined {

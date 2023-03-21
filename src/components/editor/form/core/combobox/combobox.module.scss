@@ -4,7 +4,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+
   width: 24ch;
+  &[data-full-width="true"] {
+    width: 100%;
+  }
 
   font-family: Untitled Sans, -apple-system, system-ui, sans-serif;
 
@@ -61,7 +65,7 @@
 }
 
 .popup {
-  position: relative;
+  position: fixed;
   z-index: 2;
   padding: 6px;
   font-size: 13px;

@@ -14,23 +14,41 @@ export default {
 export const Basic: ComponentStory<typeof Combobox> = (args) => {
   const [selected, setSelected] = useAddonState<string | undefined>('editor/form/combobox', undefined);
 
-  console.log('selected:', selected);
-
   return (
     <Container>
-      <ResizableBox>
-        <Combobox
-          id="example"
-          options={OPTIONS}
-          label="Example"
-          placeholder="Select a country"
-          value={selected}
-          onChange={setSelected}
-        />
-      </ResizableBox>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '20px',
+          alignItems: 'center',
+          gap: '200px',
+          overflow: 'auto',
+          height: '100%',
+          width: '300px',
+          background: 'hsl(210 10% 30%)',
+        }}
+      >
+        {ITEMS.map((item) => {
+          return (
+            <Combobox
+              key={item}
+              fullWidth
+              id={`example-${item}`}
+              options={OPTIONS}
+              label="Example"
+              placeholder="Select a country"
+              value={selected}
+              onChange={setSelected}
+            />
+          );
+        })}
+      </div>
     </Container>
   );
 };
+
+const ITEMS = [1, 2, 3, 4, 5, 6];
 
 const OPTIONS = [
   { value: 'afghanistan', label: 'Afghanistan' },
