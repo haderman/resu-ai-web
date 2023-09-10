@@ -111,4 +111,25 @@ export const Resume = {
       },
     };
   },
+  createDefault(): Resume {
+    return {
+      id: generateId(),
+      userId: '',
+      content: DEFAULT_RESUME_CONTENT,
+      style: DEFAULT_RESUME_STYLE,
+      layout: ResumeLayout.DEFAULT_LAYOUT,
+      sections: ResumeSections.DEFAULT_LIST,
+    };
+  },
+};
+
+const DEFAULT_RESUME_CONTENT: ResumeContent = {
+  basicInfo: BasicInfo.create(),
+  profile: Profile.create(),
+  skills: Skills.create(),
+  contact: Contact.create(),
+};
+
+const DEFAULT_RESUME_STYLE: ResumeStyle = {
+  theme: 'dark-space',
 };

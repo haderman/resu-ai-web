@@ -9,7 +9,28 @@ import { getHost, mutateObjectProperties, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/` }),
+  /**
+   * This is temporary until we have a backend
+   *
+   * it should be something like:
+   * baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/`
+   *
+   */
+  baseQuery: ({ method, body }) => {
+    return new Promise((resolve, reject) => {
+      if (method === 'GET') {
+        resolve({
+          data: getResume(),
+        });
+      }
+
+      if (method === 'PATCH') {
+        const resume = getResume();
+        mutateObjectProperties(resume, body);
+        setResume(resume);
+      }
+    });
+  },
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
@@ -17,7 +38,12 @@ export const apiSlice = createApi({
   },
   endpoints: (builder) => ({
     getResume: builder.query<Resume, void>({
-      query: () => 'resume',
+      query: () => {
+        return {
+          url: 'resume',
+          method: 'GET',
+        };
+      },
       transformResponse: Resume.decode,
     }),
     updateResume: builder.mutation<void, DeepPartial<Resume>>({
@@ -123,4 +149,25 @@ export function useResumeUpdateStatus() {
   return [meta] as const;
 }
 
+function getResume(): Resume {
+  try{
+    let rawResume = localStorage.getItem('resume');
+    if (!rawResume) {
+      rawResume = JSON.stringify(Resume.createDefault());
+    }
+    const resume = JSON.parse(rawResume);
+    setResume(resume);
+    return resume;
+  } catch (err) {
+    let resume = Resume.createDefault();
+    setResume(resume);
+    return resume;
+  }
+}
+
+function setResume(r: Resume) {
+  localStorage.setItem('resume', JSON.stringify(r));
+}
+
 export default apiSlice;
+
