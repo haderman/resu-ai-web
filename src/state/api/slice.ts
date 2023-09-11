@@ -20,14 +20,14 @@ export const apiSlice = createApi({
     return new Promise((resolve, reject) => {
       if (method === 'GET') {
         resolve({
-          data: getResume(),
+          data: getResumeFromLocalStorage(),
         });
       }
 
       if (method === 'PATCH') {
-        const resume = getResume();
+        const resume = getResumeFromLocalStorage();
         mutateObjectProperties(resume, body);
-        setResume(resume);
+        setResumeToLocalStorage(resume);
       }
     });
   },
@@ -149,23 +149,23 @@ export function useResumeUpdateStatus() {
   return [meta] as const;
 }
 
-function getResume(): Resume {
+function getResumeFromLocalStorage(): Resume {
   try{
     let rawResume = localStorage.getItem('resume');
     if (!rawResume) {
       rawResume = JSON.stringify(Resume.createDefault());
     }
     const resume = JSON.parse(rawResume);
-    setResume(resume);
+    setResumeToLocalStorage(resume);
     return resume;
   } catch (err) {
     let resume = Resume.createDefault();
-    setResume(resume);
+    setResumeToLocalStorage(resume);
     return resume;
   }
 }
 
-function setResume(r: Resume) {
+function setResumeToLocalStorage(r: Resume) {
   localStorage.setItem('resume', JSON.stringify(r));
 }
 

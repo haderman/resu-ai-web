@@ -181,6 +181,32 @@ const DEFAULT_RESUME_CONTENT: ResumeContent = {
       website: 'https://maximussteelgrave.com',
     }
   },
+  experience: {
+    title: {
+      text: 'Experience',
+      align: 'left',
+      color: 'white',
+      size: 'large',
+    },
+    style: {
+      background: 'almost-black',
+    },
+    entryStyle: {
+      background: 'almost-black',
+    },
+    entries: [
+      {
+        title: 'Galactic Software Engineer',
+        company: 'Galactic Empire',
+        startDate: 'Jan 2017',
+        endDate: 'Present',
+        description: 'Developed and maintained various software solutions for the Empire. Worked with a team of engineers to develop a new software solution for the Empire\'s Death Star project. Utilized the Force to bridge the gap between technical and non-technical stakeholders. Worked with the Empire\'s IT department to ensure that all software solutions were compliant with the Empire\'s security standards.',
+        skills: ['JavaScript', 'Lightsaber techniques', 'The Force'],
+        location: 'Coruscant, Coruscant System',
+        locationType: 'remote',
+      },
+    ],
+  }
 };
 
 const DEFAULT_RESUME_STYLE: ResumeStyle = {
