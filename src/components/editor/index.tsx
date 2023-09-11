@@ -11,7 +11,6 @@ export function Editor() {
 
   return (
     <div className={styles.layout}>
-      <Header data-section="header" />
       {isLoading
         ? <div>Loading...</div>
         : <>
