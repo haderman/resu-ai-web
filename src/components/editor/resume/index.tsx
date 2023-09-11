@@ -25,3 +25,4 @@ export function ResumeContainer(props: ResumeContainerProps) {
     </ScalableContainer>
   );
 }
+

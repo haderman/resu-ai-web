@@ -112,4 +112,77 @@ export const Resume = {
       },
     };
   },
+  createDefault(): Resume {
+    return {
+      id: generateId(),
+      userId: '',
+      content: DEFAULT_RESUME_CONTENT,
+      style: DEFAULT_RESUME_STYLE,
+      layout: ResumeLayout.DEFAULT_LAYOUT,
+      sections: ResumeSections.DEFAULT_LIST,
+    };
+  },
+};
+
+const DEFAULT_RESUME_CONTENT: ResumeContent = {
+  basicInfo: {
+    fullName: 'Maximus Steelgrave',
+    jobTitle: 'Galactic Software Engineer',
+  },
+  profile: {
+    title: {
+      text: 'Summary',
+      align: 'left',
+      color: 'white',
+      size: 'large',
+    },
+    description: {
+      text: 'Ex software Jedi with a deep understanding of the Force and mastery over various coding languages like Java, Python, and C++. Skilled in utilizing the power of the Dark and Light Sides of coding to deliver high-quality and efficient software solutions. Adept at navigating through the galaxies of requirements gathering, design, coding, testing, and deployment. Collaborative team player with excellent communication skills, known for utilizing the Force to bridge the gap between technical and non-technical stakeholders. Seeking an exciting role in software development that allows me to harness the Force to bring forth innovative solutions to a universe in need.',
+      color: 'white',
+      size: 'medium',
+    },
+    cardStyle: {
+      background: 'almost-black',
+    },
+  },
+  skills: {
+    title: {
+      text: 'Skills',
+      align: 'left',
+      color: 'white',
+      size: 'large',
+    },
+    cardStyle: {
+      background: 'almost-black',
+    },
+    items: [
+      { title: 'Java', yearsOfExperience: 5 },
+      { title: 'Python', yearsOfExperience: 3 },
+      { title: 'C++', yearsOfExperience: 4 },
+      { title: 'HTML', yearsOfExperience: 6 },
+      { title: 'CSS', yearsOfExperience: 6 },
+      { title: 'JavaScript', yearsOfExperience: 4 },
+      { title: 'Lightsaber techniques', yearsOfExperience: 10 },
+      { title: 'The Force', yearsOfExperience: 1 },
+    ],
+    itemStyle: {
+      background: 'almost-black',
+      color: 'pink',
+      size: 'small',
+    },
+  },
+  contact: {
+    cardStyle: {
+      background: 'almost-black',
+    },
+    data: {
+      email: 'maximus.steelgrave@example.com',
+      github: 'maximus-st',
+      website: 'https://maximussteelgrave.com',
+    }
+  },
+};
+
+const DEFAULT_RESUME_STYLE: ResumeStyle = {
+  theme: 'dark-space',
 };
