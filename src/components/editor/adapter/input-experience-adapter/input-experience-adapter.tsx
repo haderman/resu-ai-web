@@ -44,7 +44,6 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
       {entries?.map((entry, index) => {
         return (
           <div key={index} className={styles.wrapper}>
-            <h3>{entry.title} - {entry.company}</h3>
             <EntryCard
               id={String(index)}
               title={entry.title}
@@ -52,6 +51,8 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
               startDate={entry.startDate}
               endDate={entry.endDate}
               description={entry.description}
+              locationType={entry.locationType}
+              location={entry.location}
               onChange={handleUpdate(index)}
             />
           </div>
@@ -64,6 +65,8 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
         startDate=""
         endDate=""
         description=""
+        location=""
+        locationType="on-site"
         onChange={handleOnChange}
       />
     </div>
@@ -77,31 +80,30 @@ type EntryCardProps = {
   startDate: string;
   endDate: string;
   description: string;
+  locationType: LocationType;
+  location: string;
   onChange: (value: Entry) => void;
 }
 
 function EntryCard(props: EntryCardProps) {
-  const [title, setTitle] = React.useState<string>(props.title);
-  const [company, setCompany] = React.useState<string>(props.company);
-  const [startDate, setStartDate] = React.useState<string>(props.startDate);
-  const [endDate, setEndDate] = React.useState<string>(props.endDate);
-  const [description, setDescription] = React.useState<string>(props.description);
-  const [location, setLocation] = React.useState<string>('');
-  const [locationType, setLocationType] = React.useState<LocationType>('remote');
-  const [skills, setSkills] = React.useState<string[]>([]);
+  const [entryData, setEntryData] = React.useState({
+    title: props.title,
+    company: props.company,
+    startDate: props.startDate,
+    endDate: props.endDate,
+    description: props.description,
+    locationType: props.locationType,
+    location: props.location,
+    skills: []
+  });
 
   function handleOnSave() {
-    props.onChange({
-      title,
-      company,
-      startDate,
-      endDate,
-      description,
-      location,
-      locationType,
-      skills,
-    });
+    props.onChange(entryData);
   }
+
+  const handleChange = (key: string) => (value: string | LocationType | undefined) => {
+    setEntryData(prevData => ({ ...prevData, [key]: value }));
+  };
 
   return (
     <div className={styles.layout}>
@@ -110,8 +112,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-title"
           name="entry-title"
           label="Title"
-          value={title}
-          onChange={setTitle}
+          value={entryData.title}
+          onChange={handleChange('title')}
           data-layout="extended"
           hint="e.g. Frontend Developer."
         />
@@ -121,8 +123,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-company"
           name="entry-company"
           label="Company"
-          value={company}
-          onChange={setCompany}
+          value={entryData.company}
+          onChange={handleChange('company')}
           hint="e.g. Google."
         />
       </div>
@@ -131,8 +133,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-location"
           name="entry-location"
           label="Location"
-          value={location}
-          onChange={setLocation}
+          value={entryData.location}
+          onChange={handleChange('location')}
           hint="e.g. San Francisco, CA."
         />
       </div>
@@ -141,7 +143,7 @@ function EntryCard(props: EntryCardProps) {
           fullWidth
           id={`entry-location-type-${props.id}`}
           label="Location Type"
-          value={locationType}
+          value={entryData.locationType}
           placeholder="Select a location type"
           options={LocationType.values.map((value) => {
             return {
@@ -149,7 +151,7 @@ function EntryCard(props: EntryCardProps) {
               label: LocationType.toFriendlyString(value),
             };
           })}
-          onChange={(value) => setLocationType(value as LocationType)}
+          onChange={handleChange('locationType')}
         />
       </div>
       <div>
@@ -157,8 +159,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-start-date"
           name="entry-start-date"
           label="Start Date"
-          value={startDate}
-          onChange={setStartDate}
+          value={entryData.startDate}
+          onChange={handleChange('startDate')}
         />
       </div>
       <div>
@@ -166,8 +168,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-end-date"
           name="entry-end-date"
           label="End Date"
-          value={endDate}
-          onChange={setEndDate}
+          value={entryData.endDate}
+          onChange={handleChange('endDate')}
           data-layout="extended"
         />
       </div>
@@ -176,8 +178,8 @@ function EntryCard(props: EntryCardProps) {
           id="entry-description"
           name="entry-description"
           label="Description"
-          markdown={description}
-          onChange={setDescription}
+          markdown={entryData.description}
+          onChange={handleChange('description')}
         />
       </div>
       <div data-align="right">
@@ -188,3 +190,4 @@ function EntryCard(props: EntryCardProps) {
     </div>
   );
 }
+
