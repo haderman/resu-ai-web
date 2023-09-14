@@ -8,6 +8,7 @@ import {
   skillsFuzzer,
   basicInfoFuzzer,
   contactFuzzer,
+  experienceFuzzer,
 } from '@/server/test-helpers';
 
 /**
@@ -17,7 +18,7 @@ var contentFuzzerSchema: FuzzerSchema<ResumeContent> = {
   basicInfo: basicInfoFuzzer(),
   profile: profileFuzzer(),
   skills: skillsFuzzer(),
-  experience: Fuzz.undefined(),
+  experience: experienceFuzzer(),
   contact: contactFuzzer(),
 };
 

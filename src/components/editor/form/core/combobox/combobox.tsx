@@ -105,11 +105,11 @@ export function Combobox(props: ComboBoxProps) {
   }, [state, refs.floating]);
 
   React.useEffect(() => {
-    props.onChange(state.selectedIndex
-      ? props.options[state.selectedIndex]?.value
-      : undefined
-    );
-  }, [state.selectedIndex, props.options]);
+    const index = findIndexFromValue(props.options, props.value);
+    if (index) {
+      dispatch({ type: 'select', index });
+    }
+  }, [props.value, props.options]);
 
   function handleComboClick() {
     dispatch({ type: state.isOpen ? 'close' : 'open' });
@@ -119,6 +119,7 @@ export function Combobox(props: ComboBoxProps) {
     return (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
       dispatch({ type: 'select', index });
+      props.onChange(props.options[index].value);
       mutableStateRef.current.$combo?.focus();
     };
   }

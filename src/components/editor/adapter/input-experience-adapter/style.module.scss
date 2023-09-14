@@ -1,0 +1,62 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  & > div {
+    border: 1px solid hsl(0 0% 20%);
+    background-color: black;
+    padding: 10px;
+    border-radius: 8px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px;
+
+  [data-full-width="true"] {
+    grid-column: 1/-1;
+  }
+
+  [data-align="right"] {
+    grid-column: 2;
+
+  }
+
+  & .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      cursor: pointer;
+      background-color: hsl(210, 55%, 35%);
+      border-radius: var(--radius);
+
+      &[data-variant="danger"] {
+        background-color: hsl(0, 55%, 35%);
+        color: white;
+        margin-right: auto;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+      &:focus {
+        outline: 2px solid hsl(210deg, 20%, 70%);
+      }
+    }
+
+  }
+}
+

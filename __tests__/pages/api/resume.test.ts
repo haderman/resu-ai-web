@@ -79,6 +79,32 @@ let resumeMock: Resume = {
         background: 'white',
       },
     },
+    experience: {
+      title: {
+        text: 'Experience',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      style: {
+        background: 'white',
+      },
+      entryStyle: {
+        background: 'white',
+      },
+      entries: [
+        {
+          title: 'Software Engineer',
+          company: 'Google',
+          startDate: '2020-01-01',
+          endDate: '2020-12-31',
+          description: 'I worked at Google',
+          location: 'Mountain View, CA',
+          locationType: 'on-site',
+          skills: ['JavaScript', 'TypeScript', 'React'],
+        },
+      ],
+    }
   },
   style: {
     theme: 'dark-space',

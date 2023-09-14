@@ -19,64 +19,8 @@ import styles from './resume.module.scss';
 
 type Page = Block[];
 
-type Path<T> = T extends object
-  ? {
-      [K in keyof T]: T[K] extends (infer U)[]
-        ? K & string
-        : K extends string ? `${K & string}${"" extends Path<T[K]> ? "" : "."}${Path<T[K]>}` : never
-    }[keyof T]
-  : "";
-
-function createObjectFromPath<P, T>(path: Path<P>, value: T): any {
-  const keys = path.split('.');
-  const result: any = {};
-  let current = result;
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    if (i === keys.length - 1) {
-      current[key] = value;
-    } else {
-      current[key] = {};
-      current = current[key];
-    }
-  }
-  return result;
-}
-
-type Person = {
-  name: string;
-  houses: {
-    pets: {
-      name: string;
-      age: number;
-    }[];
-  };
-};
-
-const person: Person = {
-  name: "John",
-  houses: {
-    pets: [
-      { name: "Fluffy", age: 3 },
-      { name: "Spot", age: 5 },
-    ],
-  },
-};
-
-type PersonPath = Path<Person>;
-
-const obj = createObjectFromPath<Person, Person['houses']['pets']>("houses.pets",
-  [
-    { name: "Fluffy", age: 93 },
-    { name: "Spot", age: 5 },
-  ]
-);
-
-console.log('obj', obj);
-
 export function PagesManager() {
   const pages = usePages();
-
   return (
     <>
       <div

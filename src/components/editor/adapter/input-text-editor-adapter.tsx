@@ -28,6 +28,8 @@ export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
 
   return (
     <DebouncedTextEditor
+      id={props.path}
+      name={props.path}
       label="Description"
       markdown={value}
       onChange={handleChange}
