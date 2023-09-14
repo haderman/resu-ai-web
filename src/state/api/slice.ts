@@ -90,7 +90,7 @@ export const selectResume = createSelector(
 export function selectResumeProperty<T>(path: ResumeContentPath, defaultValue?: T) {
   return createSelector(selectResume, (resume) => {
     if (!resume) {
-      return defaultValue;
+      return defaultValue as T;
     }
 
     // TODO: Wrap this in a assert

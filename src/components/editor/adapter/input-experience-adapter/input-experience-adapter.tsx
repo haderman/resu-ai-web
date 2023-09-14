@@ -3,22 +3,25 @@ import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
 import { InputText, TextEditor, Combobox } from '@/components/editor/form';
-import { Experience, Field, LocationType } from '@/shared/types';
+import { ExperienceEntry, Field, LocationType } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
 import styles from './style.module.scss';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
-type Entry = Experience['entries'][number];
-
 export type InputExperienceAdapterProps = Exclude<Field, 'type'>;
 
 export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
-  const entries = useSelector(apiState.resume.selectors.selectResumeProperty<Experience['entries']>(props.path, []));
+  const entries = useSelector(
+    apiState.resume.selectors.selectResumeProperty<ExperienceEntry[]>(
+      props.path,
+      []
+    )
+  );
   const update = useUpdater();
 
-  function saveEntries(entries: Entry[]) {
+  function saveEntries(entries: ExperienceEntry[]) {
     update(
       createObjectFromPath(
         props.path,
@@ -27,16 +30,21 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
     );
   }
 
-  function handleOnChange(entry: Entry) {
-    saveEntries([...entries as Entry[], entry]);
+  function handleOnChange(entry: ExperienceEntry) {
+    saveEntries([...entries as ExperienceEntry[], entry]);
   }
 
   function handleUpdate(index: number) {
-    return (entry: Entry) => {
-      const newEntries = [...entries as Entry[]];
+    return (entry: ExperienceEntry) => {
+      const newEntries = [...entries as ExperienceEntry[]];
       newEntries[index] = entry;
       saveEntries(newEntries);
     };
+  }
+
+  function handleOnDelete(id: string) {
+    const newEntries: Array<ExperienceEntry> = entries.filter((_, index) => String(index) !== id);
+    saveEntries(newEntries);
   }
 
   return (
@@ -54,6 +62,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
               locationType={entry.locationType}
               location={entry.location}
               onChange={handleUpdate(index)}
+              onDelete={handleOnDelete}
             />
           </div>
         );
@@ -82,7 +91,8 @@ type EntryCardProps = {
   description: string;
   locationType: LocationType;
   location: string;
-  onChange: (value: Entry) => void;
+  onChange: (value: ExperienceEntry) => void;
+  onDelete?: (id: string) => void;
 }
 
 function EntryCard(props: EntryCardProps) {
@@ -99,6 +109,12 @@ function EntryCard(props: EntryCardProps) {
 
   function handleOnSave() {
     props.onChange(entryData);
+  }
+
+  function handleOnDelete() {
+    if (props.onDelete) {
+      props.onDelete(props.id);
+    }
   }
 
   const handleChange = (key: string) => (value: string | LocationType | undefined) => {
@@ -182,7 +198,12 @@ function EntryCard(props: EntryCardProps) {
           onChange={handleChange('description')}
         />
       </div>
-      <div data-align="right">
+      <div data-full-width="true" className={styles.actions}>
+        {props.onDelete &&
+          <button onClick={handleOnDelete} data-variant="danger">
+            Delete
+          </button>
+        }
         <button onClick={handleOnSave}>
           Save
         </button>

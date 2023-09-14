@@ -30,10 +30,33 @@
   [data-align="right"] {
     grid-column: 2;
 
+  }
+
+  & .actions {
+    display: flex;
+    justify-content: flex-end;
+
     button {
-      width: 100%;
-      height: 40px;
+      padding: 6px 12px;
+      border: none;
+      cursor: pointer;
+      background-color: hsl(210, 55%, 35%);
+      border-radius: var(--radius);
+
+      &[data-variant="danger"] {
+        background-color: hsl(0, 55%, 35%);
+        color: white;
+        margin-right: auto;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+      &:focus {
+        outline: 2px solid hsl(210deg, 20%, 70%);
+      }
     }
+
   }
 }
 

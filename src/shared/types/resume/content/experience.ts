@@ -27,6 +27,8 @@ export type Experience = {
   }>
 }
 
+export type ExperienceEntry = Experience['entries'][number];
+
 export const Experience = {
   decode(data: unknown): Experience {
     if (typeof data !== 'object' || data === null) {
