@@ -47,38 +47,43 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
     saveEntries(newEntries);
   }
 
+  function handleOnAddNewEntry() {
+    saveEntries([...entries as ExperienceEntry[], {
+      title: '',
+      company: '',
+      startDate: '',
+      endDate: '',
+      description: '',
+      locationType: 'on-site',
+      location: '',
+      skills: []
+    }]);
+  }
+
   return (
-    <div className={styles.root}>
-      {entries?.map((entry, index) => {
-        return (
-          <div key={index} className={styles.wrapper}>
-            <EntryCard
-              id={String(index)}
-              title={entry.title}
-              company={entry.company}
-              startDate={entry.startDate}
-              endDate={entry.endDate}
-              description={entry.description}
-              locationType={entry.locationType}
-              location={entry.location}
-              onChange={handleUpdate(index)}
-              onDelete={handleOnDelete}
-            />
-          </div>
-        );
-      })}
-      <EntryCard
-        id="new-entry"
-        title=""
-        company=""
-        startDate=""
-        endDate=""
-        description=""
-        location=""
-        locationType="on-site"
-        onChange={handleOnChange}
-      />
-    </div>
+    <>
+      <div className={styles.root}>
+        {entries?.map((entry, index) => {
+          return (
+            <div key={index} className={styles.wrapper}>
+              <EntryCard
+                id={String(index)}
+                title={entry.title}
+                company={entry.company}
+                startDate={entry.startDate}
+                endDate={entry.endDate}
+                description={entry.description}
+                locationType={entry.locationType}
+                location={entry.location}
+                onChange={handleUpdate(index)}
+                onDelete={handleOnDelete}
+              />
+            </div>
+          );
+        })}
+        <ButtonNewEntry onClick={handleOnAddNewEntry} />
+      </div>
+    </>
   );
 }
 
@@ -212,3 +217,14 @@ function EntryCard(props: EntryCardProps) {
   );
 }
 
+type ButtonNewEntryProps = {
+  onClick: () => void;
+}
+
+function ButtonNewEntry(props: ButtonNewEntryProps) {
+  return (
+    <button onClick={props.onClick}>
+      Add New Experience Entry
+    </button>
+  );
+}

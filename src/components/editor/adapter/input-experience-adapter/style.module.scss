@@ -9,6 +9,18 @@
     padding: 10px;
     border-radius: 8px;
   }
+
+  & > button {
+    padding: 12px 12px;
+    border: 1px dashed hsl(210 0% 30%);
+    border-radius: var(--radius);
+    background-color: hsl(210 10% 10%);
+    cursor: pointer;
+
+    &:hover {
+      background-color: hsl(210 10% 15%);
+    }
+  }
 }
 
 .wrapper {
