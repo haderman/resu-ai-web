@@ -6,6 +6,7 @@ import apiSlice, {
   useResumeUpdater,
   useGetResumeQuery,
   useResumeUpdateStatus,
+  useIsLoadingResume,
 } from './slice';
 import * as StyleApi from './selectors-and-updaters/style';
 import * as LayoutApi from './selectors-and-updaters/layout';
@@ -18,6 +19,7 @@ export const apiState = {
       selectResumeStatus,
       selectResumeProperty,
     },
+    useIsLoadingResume,
     useResumeUpdater,
     useGetResumeQuery,
     useResumeUpdateStatus,

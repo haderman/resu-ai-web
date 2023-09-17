@@ -30,10 +30,6 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
     );
   }
 
-  function handleOnChange(entry: ExperienceEntry) {
-    saveEntries([...entries as ExperienceEntry[], entry]);
-  }
-
   function handleUpdate(index: number) {
     return (entry: ExperienceEntry) => {
       const newEntries = [...entries as ExperienceEntry[]];

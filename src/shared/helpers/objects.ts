@@ -11,7 +11,7 @@ import { DeepPartial, Resume } from '../types';
  * @param partialObj A partial object that holds the updated properties
  * @param level The current level of nesting, used for limiting the depth of the function
  */
-export function mutateObjectProperties<T extends object>(mutableObj: T, partialObj: DeepPartial <T> , level = 0): void {
+export function mutateObjectProperties<T extends object>(mutableObj: T, partialObj: DeepPartial<T> , level = 0): void {
   if (level > 3) {
     return;
   }

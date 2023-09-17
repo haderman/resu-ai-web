@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectSelectedItem } from '@/state';
-import { SectionType } from '@/shared/types';
+import { Field, SectionType } from '@/shared/types';
 
 import { sectionSchemaMap } from '../schema';
 import { Adapter } from '../adapter';
@@ -19,9 +19,21 @@ export function Panel(props: PanelProps) {
 
   return (
     <div {...props} className={styles.panel}>
-      {schemaMap.fields.map((field) => {
+      <Fields fields={schemaMap.fields} />
+    </div>
+  );
+}
+
+type FieldsProps = {
+  fields: Array<Field>;
+};
+
+function Fields(props: FieldsProps) {
+  return (
+    <>
+      {props.fields.map((field) => {
         return <Adapter key={field.path} field={field} />;
       })}
-    </div>
+    </>
   );
 }

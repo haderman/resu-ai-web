@@ -27,8 +27,8 @@ export function InputSizeAdapter(props: InputSizeAdapterProps) {
   }
 
   return (
-    <SizeButtonGroup
-      id={props.path}
+    <InputSizeAdapterComponent
+      path={props.path}
       name={props.name}
       label={props.label}
       value={value}
@@ -36,3 +36,25 @@ export function InputSizeAdapter(props: InputSizeAdapterProps) {
     />
   );
 }
+
+type InputSizeAdapterComponentProps = {
+  path: string;
+  name: string;
+  label: string;
+  value: Size;
+  onChange: (value: Size | null) => void;
+}
+
+const InputSizeAdapterComponent = React.memo(
+  function InputSizeAdapterComponent(props: InputSizeAdapterComponentProps) {
+    return (
+      <SizeButtonGroup
+        id={props.path}
+        name={props.name}
+        label={props.label}
+        value={props.value}
+        onChange={props.onChange}
+      />
+    );
+  }
+);

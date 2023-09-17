@@ -27,7 +27,7 @@ export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
   }
 
   return (
-    <DebouncedTextEditor
+    <DebouncedTextEditorComponent
       id={props.path}
       name={props.path}
       label="Description"
@@ -37,14 +37,24 @@ export function InputTextEditorAdapter(props: InputTextEditorAdapterProps) {
   );
 }
 
-function DebouncedTextEditor(props: TextEditorProps) {
-  const [value, setValue] = React.useState(() => props.markdown);
-  const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
-
-  function handleChange(newValue: string) {
-    setValue(newValue);
-    debouncedOnChange(newValue);
-  }
-
-  return <TextEditor {...props} markdown={value} onChange={handleChange} />;
+type DebouncedTextEditorComponentProps = {
+  id: string;
+  name: string;
+  label: string;
+  markdown: string;
+  onChange: (value: string) => void;
 }
+
+const DebouncedTextEditorComponent = React.memo(
+  function DebouncedTextEditorComponent(props: DebouncedTextEditorComponentProps) {
+    const [value, setValue] = React.useState(() => props.markdown);
+    const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
+
+    function handleChange(newValue: string) {
+      setValue(newValue);
+      debouncedOnChange(newValue);
+    }
+
+    return <TextEditor {...props} markdown={value} onChange={handleChange} />;
+  }
+);

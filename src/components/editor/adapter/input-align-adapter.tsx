@@ -29,8 +29,8 @@ export function InputAlignAdapter(props: InputAlignAdapterProps) {
   }
 
   return (
-    <AlignButtonGroup
-      id={props.path}
+    <InputAlignAdapterComponent
+      path={props.path}
       name={props.name}
       label={props.label}
       value={value}
@@ -38,3 +38,25 @@ export function InputAlignAdapter(props: InputAlignAdapterProps) {
     />
   );
 }
+
+type InputAlignAdapterComponentProps = {
+  path: string;
+  name: string;
+  label: string;
+  value: Alignment;
+  onChange: (value: Alignment | null) => void;
+}
+
+const InputAlignAdapterComponent = React.memo(
+  function InputAlignAdapterComponent(props: InputAlignAdapterComponentProps) {
+    return (
+      <AlignButtonGroup
+        id={props.path}
+        name={props.name}
+        label={props.label}
+        value={props.value}
+        onChange={props.onChange}
+      />
+    );
+  }
+);

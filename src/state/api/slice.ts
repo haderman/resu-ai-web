@@ -61,7 +61,7 @@ export const apiSlice = createApi({
           })
         );
         try {
-          dispatch(resumeUpdated(resume));
+          // dispatch(resumeUpdated(resume));
           await queryFulfilled;
         } catch (err) {
           patchResult.undo();
@@ -81,6 +81,11 @@ export const selectResumeStatus = createSelector(
   selectResumeResult,
   (result) => result.status,
 );
+
+export function useIsLoadingResume() {
+  const { isLoading } = useGetResumeQuery();
+  return isLoading;
+};
 
 export const selectResume = createSelector(
   selectResumeResult,
@@ -103,9 +108,14 @@ export const selectResumeId = createSelector(
   (resume) => resume?.id
 );
 
+function useUpdateResume() {
+  const [updateResume] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+  return updateResume;
+}
+
 export function useResumeContentUpdater() {
   const resumeId = useSelector(selectResumeId);
-  const [updateResume_] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
+  const updateResume_ = useUpdateResume();
 
   const updateResume = React.useCallback(
     (newContent: DeepPartial<ResumeContent>) => {
@@ -114,7 +124,7 @@ export function useResumeContentUpdater() {
         id: resumeId,
       });
     },
-    [resumeId, updateResume_]
+    [updateResume_, resumeId]
   );
 
   return updateResume;

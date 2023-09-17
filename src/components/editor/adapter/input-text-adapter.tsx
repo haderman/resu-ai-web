@@ -27,7 +27,7 @@ export function InputTextAdapter(props: InputTextAdapterProps) {
   }
 
   return (
-    <DebouncedInputText
+    <DebouncedInputTextComponent
       id={props.path}
       label={props.label}
       value={value}
@@ -35,15 +35,18 @@ export function InputTextAdapter(props: InputTextAdapterProps) {
     />
   );
 }
+type DebouncedInputTextComponentProps = InputTextProps;
 
-function DebouncedInputText(props: InputTextProps) {
-  const [value, setValue] = React.useState(() => props.value);
-  const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
+const DebouncedInputTextComponent = React.memo(
+  function DebouncedInputTextComponent(props: DebouncedInputTextComponentProps) {
+    const [value, setValue] = React.useState(() => props.value);
+    const debouncedOnChange = useDebouncedFunction(props.onChange, 500);
 
-  function handleChange(newValue: string) {
-    setValue(newValue);
-    debouncedOnChange(newValue);
+    function handleChange(newValue: string) {
+      setValue(newValue);
+      debouncedOnChange(newValue);
+    }
+
+    return <InputText {...props} value={value} onChange={handleChange} />;
   }
-
-  return <InputText {...props} value={value} onChange={handleChange} />;
-}
+);
