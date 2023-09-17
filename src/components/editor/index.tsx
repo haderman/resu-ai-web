@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { apiState } from '@/state/api';
 
 import { ResumeContainer } from './resume';
@@ -8,23 +10,30 @@ import styles from './editor.module.scss';
 export function Editor() {
   const isLoading = apiState.resume.useIsLoadingResume();
 
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  return <Content />;
+}
+
+function LoadingState() {
   return (
     <div className={styles.layout}>
-      {isLoading
-        ? <div>Loading...</div>
-        : <Content />
-      }
+      <div>Loading...</div>
     </div>
   );
 }
 
-function Content() {
-  return (
-    <>
-      <div data-section="panel">
-        <Panel />
+const Content = React.memo(
+  function ContentInner() {
+    return (
+      <div className={styles.layout}>
+        <div data-section="panel">
+          <Panel />
+        </div>
+        <ResumeContainer data-section="resume" />
       </div>
-      <ResumeContainer data-section="resume" />
-    </>
-  );
-}
+    );
+  }
+);
