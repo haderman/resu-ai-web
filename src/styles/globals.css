@@ -79,6 +79,7 @@ a {
   --label-color: hsl(210deg 10% 55%);
   --acent-color: hsl(210deg 50% 70%);
   --popup-max-height: 300px;
+  --input-height: 35px;
 
   font-family: Untitled Sans, -apple-system, system-ui, sans-serif;
 }

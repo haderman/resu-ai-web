@@ -18,6 +18,7 @@
   }
 
   input {
+    height: var(--input-height);
     padding: var(--pad);
     background: var(--bg);
     border-radius: var(--radius);

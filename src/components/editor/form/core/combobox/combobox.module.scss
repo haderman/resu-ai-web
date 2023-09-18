@@ -3,7 +3,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 
   width: 24ch;
   &[data-full-width="true"] {
@@ -20,15 +20,17 @@
   }
 
   [role="combobox"] {
+    height: var(--input-height);
     padding: var(--pad);
     background: var(--bg);
     border-radius: var(--radius);
     caret-color: hsl(172, 1%, 90%);
     color: hsl(172, 1%, 90%);
-    font-size: 1em;
+    font-size: 1rem;
     font-weight: 300;
     width: 100%;
     border: none;
+    display: flex;
 
     &[aria-expanded="true"] {
       .icon {
@@ -37,6 +39,7 @@
     }
 
     & > div {
+      flex-grow: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
