@@ -118,91 +118,49 @@ function EntryCard(props: EntryCardProps) {
     }
   }
 
-  const handleChange = (key: string) => (value: string | LocationType | undefined) => {
+  const handleChangeOld = (key: string) => (value: string | LocationType | undefined) => {
     setEntryData(prevData => ({ ...prevData, [key]: value }));
   };
 
+  const handleChange = React.useCallback((key: string) => (value: string | LocationType | undefined) => {
+    setEntryData(prevData => ({ ...prevData, [key]: value }));
+  }, []);
+
   return (
     <div className={styles.layout}>
-      <div>
-        <InputText
-          id="entry-title"
-          name="entry-title"
-          label="Title"
-          value={entryData.title}
-          onChange={handleChange('title')}
-          data-layout="extended"
-          hint="e.g. Frontend Developer."
-        />
-      </div>
-      <div>
-        <InputText
-          id="entry-company"
-          name="entry-company"
-          label="Company"
-          value={entryData.company}
-          onChange={handleChange('company')}
-          hint="e.g. Google."
-        />
-      </div>
-      <div>
-        <InputText
-          id="entry-location"
-          name="entry-location"
-          label="Location"
-          value={entryData.location}
-          onChange={handleChange('location')}
-          hint="e.g. San Francisco, CA."
-        />
-      </div>
-      <div>
-        <Combobox
-          fullWidth
-          id={`entry-location-type-${props.id}`}
-          label="Location Type"
-          value={entryData.locationType}
-          placeholder="Select a location type"
-          options={LocationType.values.map((value) => {
-            return {
-              value,
-              label: LocationType.toFriendlyString(value),
-            };
-          })}
-          onChange={handleChange('locationType')}
-        />
-      </div>
-      <div>
-        <InputText
-          id="entry-start-date"
-          name="entry-start-date"
-          label="Start Date"
-          value={entryData.startDate}
-          onChange={handleChange('startDate')}
-        />
-      </div>
-      <div>
-        <InputText
-          id="entry-end-date"
-          name="entry-end-date"
-          label="End Date"
-          value={entryData.endDate}
-          onChange={handleChange('endDate')}
-          data-layout="extended"
-        />
-      </div>
-      <div data-full-width="true">
-        <TextEditor
-          id="entry-description"
-          name="entry-description"
-          label="Description"
-          markdown={entryData.description}
-          onChange={handleChange('description')}
-        />
-      </div>
+      <InputTitle
+        value={entryData.title}
+        onChange={handleChange('title')}
+      />
+      <InputCompany
+        value={entryData.company}
+        onChange={handleChange('company')}
+      />
+      <InputLocation
+        value={entryData.location}
+        onChange={handleChange('location')}
+      />
+      <ComboboxLocationType
+        id={props.id}
+        value={entryData.locationType}
+        onChange={handleChange('locationType')}
+      />
+      <InputStartDate
+        value={entryData.startDate}
+        onChange={handleChange('startDate')}
+      />
+      <InputEndDate
+        value={entryData.endDate}
+        onChange={handleChange('endDate')}
+      />
+      <InputDescription
+        value={entryData.description}
+        onChange={handleChange('description')}
+      />
       <div data-full-width="true" className={styles.actions}>
         {props.onDelete &&
           <button onClick={handleOnDelete} data-variant="danger">
-            Delete
+          Delete
           </button>
         }
         <button onClick={handleOnSave}>
@@ -212,6 +170,173 @@ function EntryCard(props: EntryCardProps) {
     </div>
   );
 }
+
+type InputTitleProps = {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const InputTitle = React.memo(
+  function InputTitleComponent({value, onChange}: InputTitleProps) {
+    return (
+      <div>
+        <InputText
+          id="entry-title"
+          name="entry-title"
+          label="Title"
+          value={value}
+          onChange={onChange}
+          data-layout="extended"
+          hint="e.g. Frontend Developer."
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+
+type InputCompanyProps = {
+  value: string
+  onChange: (value: string) => void
+}
+const InputCompany = React.memo(
+  function InputCompany(props: InputCompanyProps) {
+    return (
+      <div>
+        <InputText
+          id="entry-company"
+          name="entry-company"
+          label="Company"
+          value={props.value}
+          onChange={props.onChange}
+          hint="e.g. Google."
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+type InputLocationProps = {
+  value: string
+  onChange: (value: string) => void
+}
+
+const InputLocation = React.memo(
+  function InputLocation(props: InputLocationProps) {
+    return (
+      <div>
+        <InputText
+          id="entry-location"
+          name="entry-location"
+          label="Location"
+          value={props.value}
+          onChange={props.onChange}
+          hint="e.g. San Francisco, CA."
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+type InputStartDateProps = {
+  value: string
+  onChange: (value: string) => void
+}
+const InputStartDate = React.memo(
+  function InputStartDate(props: InputStartDateProps) {
+    return (
+      <div>
+        <InputText
+          id="entry-start-date"
+          name="entry-start-date"
+          label="Start Date"
+          value={props.value}
+          onChange={props.onChange}
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+type InputEndDateProps = {
+  value: string
+  onChange: (value: string) => void
+}
+
+const InputEndDate = React.memo(
+  function InputEndDate(props: InputEndDateProps) {
+    return (
+      <div>
+        <InputText
+          id="entry-end-date"
+          name="entry-end-date"
+          label="End Date"
+          value={props.value}
+          onChange={props.onChange}
+          data-layout="extended"
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+type InputDescriptionProps = {
+  value: string
+  onChange: (value: string) => void
+}
+
+const InputDescription = React.memo(
+  function InputDescription(props: InputDescriptionProps) {
+    return (
+      <div data-full-width="true">
+        <TextEditor
+          id="entry-description"
+          name="entry-description"
+          label="Description"
+          markdown={props.value}
+          onChange={props.onChange}
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+);
+
+type ComboboxLocationTypeProps = {
+  id: string;
+  value: LocationType;
+  onChange: (value: LocationType) => void;
+}
+
+const ComboboxLocationType = React.memo(
+  function ComboboxLocationType(props: ComboboxLocationTypeProps) {
+    return (
+      <div>
+        <Combobox
+          fullWidth
+          id={`entry-location-type-${props.id}`}
+          label="Location Type"
+          value={props.value}
+          placeholder="Select a location type"
+          options={LocationType.values.map((value) => {
+            return {
+              value,
+              label: LocationType.toFriendlyString(value),
+            };
+          })}
+          onChange={(v) => props.onChange(v as LocationType)}
+        />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.value === nextProps.value
+    && prevProps.id === nextProps.id
+);
 
 type ButtonNewEntryProps = {
   onClick: () => void;
@@ -224,3 +349,4 @@ function ButtonNewEntry(props: ButtonNewEntryProps) {
     </button>
   );
 }
+
