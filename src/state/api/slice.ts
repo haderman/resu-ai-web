@@ -115,16 +115,16 @@ function useUpdateResume() {
 
 export function useResumeContentUpdater() {
   const resumeId = useSelector(selectResumeId);
-  const updateResume_ = useUpdateResume();
+  const update = useUpdateResume();
 
   const updateResume = React.useCallback(
     (newContent: DeepPartial<ResumeContent>) => {
-      updateResume_({
+      update({
         content: newContent,
         id: resumeId,
       });
     },
-    [updateResume_, resumeId]
+    [update, resumeId]
   );
 
   return updateResume;

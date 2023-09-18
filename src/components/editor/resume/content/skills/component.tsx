@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Chip, Stack, Text } from '@/components/editor/common';
@@ -17,20 +18,41 @@ export function Skills() {
   }
 
   return (
-    <Card path="skills.cardStyle.background">
-      <TitleContainer />
-      <Chip.Container gap="medium">
-        {data.map(({ title }) => {
-          return (
-            <Chip key={title} size={chipSize} color={chipColor}>
-              {title}
-            </Chip>
-          );
-        })}
-      </Chip.Container>
-    </Card>
+    <SkillsComponent
+      data={data}
+      chipColor={chipColor}
+      chipSize={chipSize}
+    />
   );
 }
+
+type SkillsComponentProps = {
+  data: Array<SkillItem>;
+  chipColor: Color;
+  chipSize: Size;
+}
+
+const SkillsComponent = React.memo(
+  function SkillsComponentInner(props: SkillsComponentProps) {
+    return (
+      <Card path="skills.cardStyle.background">
+        <MemoTitleContainer />
+        <Chip.Container gap="medium">
+          {props.data.map(({ title }) => {
+            return (
+              <MemoChip key={title} size={props.chipSize} color={props.chipColor}>
+                {title}
+              </MemoChip>
+            );
+          })}
+        </Chip.Container>
+      </Card>
+    );
+  }
+);
+
+const MemoChip = React.memo(Chip);
+const MemoTitleContainer = React.memo(TitleContainer);
 
 export function TitleContainer() {
   const text = useSelector(selectors.selectResumeProperty('skills.title.text', ''));
@@ -46,7 +68,6 @@ export function TitleContainer() {
 type CardProps = React.PropsWithChildren<{
   path: Field['path'],
 }>
-
 
 function Card(props: CardProps) {
   const color = useSelector(selectors.selectResumeProperty(props.path, ''));
