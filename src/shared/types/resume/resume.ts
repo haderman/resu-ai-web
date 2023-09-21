@@ -200,11 +200,30 @@ const DEFAULT_RESUME_CONTENT: ResumeContent = {
         company: 'Galactic Empire',
         startDate: 'Jan 2017',
         endDate: 'Present',
-        description: 'Developed and maintained various software solutions for the Empire. Worked with a team of engineers to develop a new software solution for the Empire\'s Death Star project. Utilized the Force to bridge the gap between technical and non-technical stakeholders. Worked with the Empire\'s IT department to ensure that all software solutions were compliant with the Empire\'s security standards.',
+        achievements: [
+          'Developed and maintained various software solutions for the Empire.',
+          'Worked with a team of engineers to develop a new software solution for the Empire\'s Death Star project.',
+          'Utilized the Force to bridge the gap between technical and non-technical stakeholders.',
+          'Worked with the Empire\'s IT department to ensure that all software solutions were compliant with the Empire\'s security standards.',
+        ],
         skills: ['JavaScript', 'Lightsaber techniques', 'The Force'],
         location: 'Coruscant, Coruscant System',
         locationType: 'remote',
-      },
+      }, {
+        title: 'Software Engineer',
+        company: 'Rebel Alliance',
+        startDate: 'Jan 2015',
+        endDate: 'Dec 2016',
+        achievements: [
+          'Developed and maintained various software solutions for the Rebel Alliance.',
+          'Worked with a team of engineers to develop a new software solution for the Rebel Alliance\'s Death Star project.',
+          'Utilized the Force to bridge the gap between technical and non-technical stakeholders.',
+          'Worked with the Rebel Alliance\'s IT department to ensure that all software solutions were compliant with the Rebel Alliance\'s security standards.',
+        ],
+        skills: ['Java', 'Python', 'C++', 'Lightsaber techniques', 'The Force'],
+        location: 'Yavin 4, Yavin System',
+        locationType: 'remote',
+      }
     ],
   }
 };
