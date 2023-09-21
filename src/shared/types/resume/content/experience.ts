@@ -20,7 +20,7 @@ export type Experience = {
     company: string
     startDate: string
     endDate: string
-    description: string
+    achievements: string[]
     location: string
     locationType: LocationType
     skills: string[]
@@ -55,7 +55,7 @@ export const Experience = {
         company: entry.company || '',
         startDate: entry.startDate || '',
         endDate: entry.endDate || '',
-        description: entry.description || '',
+        achievements: entry.achievements || [],
         location: entry.location || '',
         locationType: entry.locationType || 'on-site',
         skills: entry.skills || [],
@@ -69,7 +69,7 @@ export const Experience = {
         company: entry.company,
         startDate: entry.startDate,
         endDate: entry.endDate,
-        description: entry.description,
+        achievements: entry.achievements,
         location: entry.location,
         locationType: entry.locationType,
         skills: entry.skills,

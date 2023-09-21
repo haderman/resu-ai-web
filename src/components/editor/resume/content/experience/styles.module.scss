@@ -1,6 +1,21 @@
 .card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  & header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   & ul {
     margin-left: 0mm;
-    padding-left: 8mm;
+    padding-left: 5mm;
   }
 }

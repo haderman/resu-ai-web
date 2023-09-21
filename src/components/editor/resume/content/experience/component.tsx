@@ -6,40 +6,6 @@ import { apiState } from '@/state/api';
 
 import { Entry } from './components';
 
-const experience = [
-  {
-    title: 'Frontend Developer',
-    company: 'Rose Technology',
-    location: 'New York (remote)',
-    description: [
-      'Create components for mettrr project using React and Nextjs',
-      'Update Somoglobal website to the new design using React and Gatsby',
-    ],
-    startDate: '2021',
-    endDate: '2022',
-  }, {
-    title: 'Frontend Developer',
-    company: 'Somoglobal',
-    location: 'Medellín, Colombia',
-    description: [
-      'Create components for mettrr project using React and Nextjs',
-      'Update Somoglobal website to the new design using React and Gatsby',
-    ],
-    startDate: '2021',
-    endDate: '2021',
-  }, {
-    title: 'Frontend Developer',
-    company: 'Firebase S.A.S',
-    location: 'Medellín, Colombia (remote)',
-    description: [
-      'I built the entire front end for a web app using react and redux.',
-      'I built an electron web app using react and redux.',
-    ],
-    startDate: '2016',
-    endDate: '2018',
-  }
-];
-
 export function ExperienceComponent() {
   const entries = useSelector(apiState.resume.selectors.selectResumeProperty<Experience['entries']>(
     'experience.entries',

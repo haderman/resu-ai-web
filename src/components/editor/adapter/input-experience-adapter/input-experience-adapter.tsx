@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
-import { InputText, TextEditor, Combobox } from '@/components/editor/form';
+import { InputText, TextEditor, Combobox, Textarea } from '@/components/editor/form';
 import { ExperienceEntry, Field, LocationType } from '@/shared/types';
 import { createObjectFromPath } from '@/shared/helpers';
 
@@ -49,7 +49,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
       company: '',
       startDate: '',
       endDate: '',
-      description: '',
+      achievements: [],
       locationType: 'on-site',
       location: '',
       skills: []
@@ -68,7 +68,7 @@ export function InputExperienceAdapter(props: InputExperienceAdapterProps) {
                 company={entry.company}
                 startDate={entry.startDate}
                 endDate={entry.endDate}
-                description={entry.description}
+                achievements={entry.achievements}
                 locationType={entry.locationType}
                 location={entry.location}
                 onChange={handleUpdate(index)}
@@ -89,7 +89,7 @@ type EntryCardProps = {
   company: string;
   startDate: string;
   endDate: string;
-  description: string;
+  achievements: Array<string>;
   locationType: LocationType;
   location: string;
   onChange: (value: ExperienceEntry) => void;
@@ -102,7 +102,7 @@ function EntryCard(props: EntryCardProps) {
     company: props.company,
     startDate: props.startDate,
     endDate: props.endDate,
-    description: props.description,
+    achievements: props.achievements,
     locationType: props.locationType,
     location: props.location,
     skills: []
@@ -118,13 +118,15 @@ function EntryCard(props: EntryCardProps) {
     }
   }
 
-  const handleChangeOld = (key: string) => (value: string | LocationType | undefined) => {
-    setEntryData(prevData => ({ ...prevData, [key]: value }));
-  };
-
-  const handleChange = React.useCallback((key: string) => (value: string | LocationType | undefined) => {
-    setEntryData(prevData => ({ ...prevData, [key]: value }));
-  }, []);
+  const handleChange = React.useCallback((key: string) =>
+    (value: string | LocationType | undefined | Array<string>) => {
+      setEntryData(prevData =>  ({
+        ...prevData,
+        [key]: value
+      }));
+    },
+    []
+  );
 
   return (
     <div className={styles.layout}>
@@ -153,9 +155,9 @@ function EntryCard(props: EntryCardProps) {
         value={entryData.endDate}
         onChange={handleChange('endDate')}
       />
-      <InputDescription
-        value={entryData.description}
-        onChange={handleChange('description')}
+      <InputAchievements
+        value={entryData.achievements}
+        onChange={handleChange('achievements')}
       />
       <div data-full-width="true" className={styles.actions}>
         {props.onDelete &&
@@ -285,22 +287,60 @@ const InputEndDate = React.memo(
   (prevProps, nextProps) => prevProps.value === nextProps.value
 );
 
-type InputDescriptionProps = {
-  value: string
-  onChange: (value: string) => void
+type InputAchievementsProps = {
+  value: Array<string>
+  onChange: (value: Array<string>) => void
 }
 
-const InputDescription = React.memo(
-  function InputDescription(props: InputDescriptionProps) {
+const InputAchievements = React.memo(
+  function InputAchievementsComponent(props: InputAchievementsProps) {
+    const [newAchievement, setNewAchievement] = React.useState('');
+
+    function addNewAchievement() {
+      if (!newAchievement) {
+        return;
+      }
+
+      const newAchievements = [...props.value, newAchievement];
+      props.onChange(newAchievements);
+      setNewAchievement('');
+    }
+
+    function updateAchievement(index: number) {
+      return (value: string) => {
+        const newAchievements = [...props.value];
+        newAchievements[index] = value;
+        props.onChange(newAchievements);
+      };
+    }
+
     return (
-      <div data-full-width="true">
-        <TextEditor
-          id="entry-description"
-          name="entry-description"
-          label="Description"
-          markdown={props.value}
-          onChange={props.onChange}
-        />
+      <div data-full-width="true" className={styles.achievements}>
+        <ul data-full-width="true">
+          {props.value.map((achievement, index) => {
+            return (
+              <li key={index}>
+                <Textarea
+                  id={`entry-achievement-${index}`}
+                  name={`entry-achievement-${index}`}
+                  label={`Achievement ${index + 1}`}
+                  value={achievement}
+                  onChange={updateAchievement(index)}
+                />
+              </li>
+            );
+          })}
+        </ul>
+        <div>
+          <Textarea
+            id="entry-achievement-new"
+            name="entry-achievement-new"
+            label="New Achievement"
+            value={newAchievement}
+            onChange={setNewAchievement}
+            onEnter={addNewAchievement}
+          />
+        </div>
       </div>
     );
   },
