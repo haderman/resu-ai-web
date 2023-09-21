@@ -13,7 +13,9 @@ const experienceEntrySchema: FuzzerSchema<Experience['entries'][0]> = {
   company: Fuzz.string(),
   startDate: Fuzz.string(),
   endDate: Fuzz.string(),
-  description: Fuzz.string(),
+  achievements: Fuzz.array({
+    type: Fuzz.string(),
+  }),
   location: Fuzz.string(),
   locationType: Fuzz.locationType(),
   skills: Fuzz.array({

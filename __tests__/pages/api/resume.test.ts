@@ -98,7 +98,7 @@ let resumeMock: Resume = {
           company: 'Google',
           startDate: '2020-01-01',
           endDate: '2020-12-31',
-          description: 'I worked at Google',
+          achievements: ['I worked at Google'],
           location: 'Mountain View, CA',
           locationType: 'on-site',
           skills: ['JavaScript', 'TypeScript', 'React'],
