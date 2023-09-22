@@ -1,67 +1,82 @@
-import { useAddonState } from '@storybook/client-api';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { useState } from '@storybook/preview-api';
 
+import type { Meta, StoryObj } from '@storybook/react';
 import { InputText } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';
 
-export default {
+const meta: Meta<typeof InputText> = {
   title: 'editor/form/input',
   component: InputText,
-  argTypes: {},
-} as ComponentMeta<typeof InputText>;
-
-export const Basic: ComponentStory<typeof InputText> = (args) => {
-  const [value, setValue] = useAddonState<string>('editor/form/input-text', '');
-
-  return (
-    <Container>
-      <ResizableBox>
-        <InputText
-          autoFocus
-          id="example"
-          label="Example"
-          value={value}
-          onChange={setValue}
-        />
-      </ResizableBox>
-    </Container>
-  );
+  parameters: {
+    layout: 'fullscreen',
+  },
+  args: {},
 };
 
-export const WithPlaceholder: ComponentStory<typeof InputText> = (args) => {
-  const [value, setValue] = useAddonState<string>('editor/form/input-text/placeholder', '');
+export default meta;
+type Story = StoryObj<typeof InputText>
 
-  return (
-    <Container>
-      <ResizableBox>
-        <InputText
-          autoFocus
-          id="example"
-          label="Example"
-          value={value}
-          onChange={setValue}
-          placeholder='This is a placeholder'
-        />
-      </ResizableBox>
-    </Container>
-  );
+export const Basic: Story = {
+  args: {},
+  render: function Wrapper(args) {
+    const [value, setValue] = useState<string>('');
+
+    return (
+      <Container>
+        <ResizableBox>
+          <InputText
+            autoFocus
+            id="example"
+            label="Example"
+            value={value}
+            onChange={setValue}
+          />
+        </ResizableBox>
+      </Container>
+    );
+  }
 };
 
-export const WithHint: ComponentStory<typeof InputText> = (args) => {
-  const [value, setValue] = useAddonState<string>('editor/form/input-text/hint', '');
+export const WithPlaceholder: Story = {
+  args: { placeholder: 'This is a placeholder' },
+  render: function Wrapper({ placeholder }) {
+    const [value, setValue] = useState<string>('');
 
-  return (
-    <Container>
-      <ResizableBox>
-        <InputText
-          autoFocus
-          id="example"
-          label="Example"
-          value={value}
-          onChange={setValue}
-          hint='This is a hint'
-        />
-      </ResizableBox>
-    </Container>
-  );
+    return (
+      <Container>
+        <ResizableBox>
+          <InputText
+            autoFocus
+            id="example"
+            label="Example"
+            value={value}
+            onChange={setValue}
+            placeholder={placeholder}
+          />
+        </ResizableBox>
+      </Container>
+    );
+  }
+};
+
+export const WithHint: Story = {
+  args: { hint: 'This is a hint' },
+  render: function Wrapper({ hint }) {
+    const [value, setValue] = useState('');
+
+    return (
+      <Container>
+        <ResizableBox>
+          <InputText
+            autoFocus
+            id="example"
+            label="Example"
+            value={value}
+            onChange={setValue}
+            hint={hint}
+          />
+        </ResizableBox>
+      </Container>
+    );
+  }
 };

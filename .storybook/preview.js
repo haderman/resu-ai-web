@@ -1,5 +1,5 @@
 import { themes } from '@storybook/theming';
-import { addDecorator, addParameters } from '@storybook/react';
+import { addDecorator } from '@storybook/react';
 import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
 
 // import themes from '!!style-loader?injectType=lazyStyleTag!css-loader!../src/themes/resume-theme.css'
@@ -32,8 +32,12 @@ export const parameters = {
 //   },
 // });
 
-addDecorator(story => (
-  <div className="theme-container" data-resume-theme="dark-space" id="root">
-    {story()}
-  </div>
-));
+export const decorators = [
+  function ProvideTheme(story) {
+    return (
+      <div className="theme-container" data-resume-theme="dark-space" id="root">
+        {story()}
+      </div>
+    );
+  },
+];

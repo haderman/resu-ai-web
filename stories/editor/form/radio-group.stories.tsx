@@ -1,29 +1,39 @@
-import { useAddonState } from '@storybook/client-api';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { useState } from '@storybook/preview-api';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { RadioColorGroup } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';
 import { Color } from '@/shared/types';
 
-export default {
+const meta: Meta<typeof RadioColorGroup> = {
   title: 'editor/form/radio-color-group',
   component: RadioColorGroup,
-  argTypes: {},
-} as ComponentMeta<typeof RadioColorGroup>;
+  parameters: {
+    layout: 'fullscreen',
+  },
+  args: {},
+};
 
-export const Basic: ComponentStory<typeof RadioColorGroup> = (args) => {
-  const [selected, setSelected] = useAddonState<Color>('editor/form/radio-color-group', 'red');
+export default meta;
 
-  return (
-    <Container>
-      <ResizableBox>
-        <RadioColorGroup
-          legend="Text Align"
-          name="text-align-option-group"
-          selected={selected}
-          onChange={setSelected}
-        />
-      </ResizableBox>
-    </Container>
-  );
+type Story = StoryObj<typeof RadioColorGroup>
+
+export const Basic: Story = {
+  args: {},
+  render: function Wrapper(args) {
+    const [selected, setSelected] = useState<Color>('red');
+
+    return (
+      <Container>
+        <ResizableBox>
+          <RadioColorGroup
+            legend="Text Align"
+            name="text-align-option-group"
+            selected={selected}
+            onChange={setSelected}
+          />
+        </ResizableBox>
+      </Container>
+    );
+  }
 };

@@ -1,41 +1,41 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Color } from '@/shared/types';
-import { Box, Inline } from '@/components/editor/common';
+import { Inline, Box } from '@/components/editor/common';
 
 import { Container } from '../../helpers/container';
 
-export default {
+const meta: Meta<typeof Inline> = {
   title: 'editor/common/inline',
   component: Inline,
-  argTypes: {
-    padding: { defaultValue: 'medium' },
-    fitContent: { defaultValue: true },
-    borderRadius: { defaultValue: 'medium' },
-    gap: { defaultValue: 'medium' },
-    color: {
-      defaultValue: 'blue',
-      control: {
-        type: 'select',
-        options: Color.values,
-      }
-    },
+  parameters: {
+    layout: 'fullscreen',
   },
-} as ComponentMeta<typeof Inline>;
+  args: {
+    padding: 'medium',
+    fitContent: true,
+    borderRadius: 'medium',
+    gap: 'medium',
+    color: 'blue'
+  },
+};
 
-export const Basic: ComponentStory<typeof Inline> = (args) => (
-  <Container>
-    <Inline {...args}>
-      <Box color="pink">
-        <div style={{ width: 100, height: 100 }}></div>
-      </Box>
-      <Box color="pink">
-        <div style={{ width: 100, height: 100 }}></div>
-      </Box>
-      <Box color="pink">
-        <div style={{ width: 100, height: 100 }}></div>
-      </Box>
-    </Inline>
-  </Container>
-);
+export default meta;
+type Story = StoryObj<typeof Inline>
+
+export const Primary: Story = {
+  args: {},
+  render: (args) =>
+    <Container>
+      <Inline {...args}>
+        <Box color="pink">
+          <div style={{ width: 100, height: 100 }}></div>
+        </Box>
+        <Box color="pink">
+          <div style={{ width: 100, height: 100 }}></div>
+        </Box>
+        <Box color="pink">
+          <div style={{ width: 100, height: 100 }}></div>
+        </Box>
+      </Inline>
+    </Container>,
+};

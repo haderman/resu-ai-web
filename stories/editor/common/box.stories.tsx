@@ -1,32 +1,32 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Color } from '@/shared/types';
 import { Box, Text } from '@/components/editor/common';
 
 import { Container } from '../../helpers/container';
 
-export default {
+const meta: Meta<typeof Box> = {
   title: 'editor/common/box',
   component: Box,
-  argTypes: {
-    padding: { defaultValue: 'medium' },
-    fitContent: { defaultValue: true },
-    borderRadius: { defaultValue: 'medium' },
-    color: {
-      defaultValue: 'secondary',
-      control: {
-        type: 'select',
-        options: Color.values,
-      }
-    },
+  parameters: {
+    layout: 'fullscreen',
   },
-} as ComponentMeta<typeof Box>;
+  args: {
+    padding: 'medium',
+    fitContent: true,
+    borderRadius: 'medium',
+    color: 'secondary'
+  },
+};
 
-export const Basic: ComponentStory<typeof Box> = (args) => (
-  <Container>
-    <Box {...args}>
-      <Text size="large">Text</Text>
-    </Box>
-  </Container>
-);
+export default meta;
+type Story = StoryObj<typeof Box>
+
+export const Primary: Story = {
+  args: {},
+  render: (args) =>
+    <Container>
+      <Box {...args}>
+        <Text size="large">Text</Text>
+      </Box>
+    </Container>,
+};

@@ -1,31 +1,39 @@
-import { useAddonState } from '@storybook/client-api';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { useState } from '@storybook/preview-api';
 
-import { TextEditor, TextEditorProps } from '@/components/editor/form';
-// import { Box as TextEditor } from '@/components/editor/common';
+import type { Meta, StoryObj } from '@storybook/react';
+import { TextEditor } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';
-import { Color } from '@/shared/types';
 
-export default {
+const meta: Meta<typeof TextEditor> = {
   title: 'editor/form/text-editor',
   component: TextEditor,
-  argTypes: {},
-} as ComponentMeta<typeof TextEditor>;
-
-export const Basic: ComponentStory<typeof TextEditor> = (args) => {
-  const [value, setValue] = useAddonState<string>('editor/form/text-editor', '');
-
-  return (
-    <Container>
-      <ResizableBox>
-        <TextEditor
-          id="example"
-          name="example"
-          label="Example"
-          markdown={value}
-          onChange={setValue}
-        />
-      </ResizableBox>
-    </Container>
-  );
+  parameters: {
+    layout: 'fullscreen',
+  },
+  args: {},
 };
+
+export default meta;
+type Story = StoryObj<typeof TextEditor>
+
+export const Basic: Story = {
+  args: {},
+  render: function Wrapper(args) {
+    const [value, setValue] = useState<string>('');
+
+    return (
+      <Container>
+        <ResizableBox>
+          <TextEditor
+            id="example"
+            name="example"
+            label="Example"
+            markdown={value}
+            onChange={setValue}
+          />
+        </ResizableBox>
+      </Container>
+    );
+  }
+};
+

@@ -1,36 +1,44 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Size } from '@/shared/types';
 import { Chip, Text } from '@/components/editor/common';
 
 import { Container } from '../../helpers/container';
 
-export default {
+const meta: Meta<typeof Chip> = {
   title: 'editor/common/chip',
   component: Chip,
-  argTypes: {
-    size: { defaultValue: 'default' as Size },
+  parameters: {
+    layout: 'fullscreen',
   },
-} as ComponentMeta<typeof Chip>;
+  args: {
+    size: 'medium',
+  },
+};
 
-export const Basic: ComponentStory<typeof Chip> = (args) => (
-  <Container>
-    <Chip {...args}>
-      <Text size="large">Text</Text>
-    </Chip>
-  </Container>
-);
+export default meta;
+type Story = StoryObj<typeof Chip>
 
-export const InlineChips: ComponentStory<typeof Chip> = (args) => (
-  <Container>
-    <Chip.Container gap="medium">
+export const Primary: Story = {
+  args: {},
+  render: (args) =>
+    <Container>
       <Chip {...args}>
-        <Text>Text 1</Text>
+        <Text size="large">Text</Text>
       </Chip>
-      <Chip {...args}>
-        <Text>Text 2</Text>
-      </Chip>
-    </Chip.Container>
-  </Container>
-);
+    </Container>,
+};
+
+export const InlineChips: Story = {
+  args: {},
+  render: (args) =>
+    <Container>
+      <Chip.Container gap="medium">
+        <Chip {...args}>
+          <Text>Text 1</Text>
+        </Chip>
+        <Chip {...args}>
+          <Text>Text 2</Text>
+        </Chip>
+      </Chip.Container>
+    </Container>,
+};
