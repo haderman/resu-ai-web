@@ -10,6 +10,7 @@
 
   & > div[data-section='header'] {
     grid-area: header;
+    display: none;
   }
 
   & > div[data-section='panel'] {
