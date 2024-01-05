@@ -1,7 +1,10 @@
 import * as React from 'react';
+import { Textarea, TextareaProps } from '../form/core/text-area'; // Adjust the import path as necessary
 
 import { apiState } from '@/state/api';
 import { createObjectFromPath } from '@/shared/helpers';
+
+import styles from './chat.module.scss';
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
@@ -19,7 +22,7 @@ export function Chat() {
       const { message } = data;
       try {
         const content = JSON.parse(message.content);
-        console.log('chat reponse -> content: ', content);
+        console.log('chat response -> content: ', content);
         if (content?.function === 'updateField') {
           for (const key in content.args) {
             const value = content.args[key];
@@ -27,31 +30,41 @@ export function Chat() {
             update(createObjectFromPath(key, value));
           }
         }
-
       } catch (error) {
         console.error('Error parsing assistant message:', error);
       }
 
-      console.log('chat reponse -> data: ', data);
-      // update(createObjectFromPath(props.path, value));
+      console.log('chat response -> data: ', data);
     });
   }
 
-  function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value);
-  }
+  const textAreaProps: TextareaProps = {
+    id: 'chat-textarea',
+    name: 'chat',
+    label: 'Chat',
+    value: value,
+    onChange: setValue,
+    onEnter: handleOnClick // Assuming you want to send the message when Enter is pressed
+  };
 
   return (
-    <div>
-      <h1>Chat</h1>
-      <input
-        type="text"
-        value={value}
-        onChange={handleOnChange}
-      />
-      <button onClick={handleOnClick}>
-        Send
-      </button>
+    <div className={styles.container}>
+      <section data-name="chat" className={styles.chat}>
+        <article data-role="user" className={styles.message}>
+          <span>User</span>
+          <div>Hello</div>
+        </article>
+        <article data-role="bot" className={styles.message}>
+          <span>Assistant</span>
+          <div>I am your assistant, how can I help you?</div>
+        </article>
+      </section>
+      <section data-name="prompt">
+        <Textarea {...textAreaProps} />
+        <button onClick={handleOnClick} className={styles['send-button']}>
+          Send
+        </button>
+      </section>
     </div>
   );
 }

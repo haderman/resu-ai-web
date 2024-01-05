@@ -1,0 +1,100 @@
+.container {
+  --pad-1: 8px;
+  --pad-2: 20px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #121212; // Dark background similar to the image
+  padding: var(--pad-2);
+
+  & > section[data-name='chat'] {
+    flex-grow: 1;
+    overflow: auto;
+    padding: var(--pad-1);
+  }
+
+  & > section[data-name='prompt'] {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: var(--pad-1);
+  }
+}
+
+.send-button {
+  height: 40px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #0a7cff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005ecb; // Darker blue on hover
+  }
+
+  &:active {
+    background-color: #004c9e; // Even darker blue when active/clicked
+  }
+
+  &:focus {
+    outline: none; // Remove the default focus outline
+  }
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  & > .message {
+    max-width: 90%;
+  }
+
+  & > .message[data-role='user'] {
+    align-self: flex-end;
+    align-items: flex-end;
+  }
+
+  & > .message[data-role='bot'] {
+    align-self: flex-start;
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+
+  & > span {
+    color: hsl(0 0% 55% / 1);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+
+  &[data-role='user'] {
+    & > div {
+      background-color: #0a7cff;
+    }
+  }
+
+  &[data-role='bot'] {
+    & > div {
+      background-color: #1f1f1f;
+    }
+  }
+}
