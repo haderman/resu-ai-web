@@ -6,6 +6,7 @@ import { ResumeContainer } from './resume';
 import { Panel } from './panel';
 
 import styles from './editor.module.scss';
+import { Chat } from '../chat';
 
 export function Editor() {
   const isLoading = apiState.resume.useIsLoadingResume();
@@ -30,6 +31,7 @@ const Content = React.memo(
     return (
       <div className={styles.layout}>
         <div data-section="panel">
+          <Chat />
           <Panel />
         </div>
         <ResumeContainer data-section="resume" />
