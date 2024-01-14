@@ -60,7 +60,7 @@
     align-items: flex-end;
   }
 
-  & > .message[data-role='bot'] {
+  & > .message[data-role='assistant'] {
     align-self: flex-start;
   }
 }
@@ -92,7 +92,7 @@
     }
   }
 
-  &[data-role='bot'] {
+  &[data-role='assistant'] {
     & > div {
       background-color: #1f1f1f;
     }
