@@ -6,19 +6,18 @@
   flex-direction: column;
   height: 100%;
   background-color: #121212; // Dark background similar to the image
-  padding: var(--pad-2);
 
   & > section[data-name='chat'] {
     flex-grow: 1;
     overflow: auto;
-    padding: var(--pad-1);
+    padding: var(--pad-2);
   }
 
   & > section[data-name='prompt'] {
     display: flex;
     align-items: flex-end;
     gap: 10px;
-    padding: var(--pad-1);
+    padding: var(--pad-2);
   }
 }
 

@@ -87,6 +87,29 @@ export function createObjectFromPath<T>(path: string, value: T): any {
   return result;
 }
 
+export function createObjectFromPaths<T>(pathValuePairs: [string, T][]): any {
+  const result: any = {};
+
+  pathValuePairs.forEach(([path, value]) => {
+    const keys = path.split('.');
+    let current = result;
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (i === keys.length - 1) {
+        current[key] = value;
+      } else {
+        if (!current[key]) {
+          current[key] = {};
+        }
+        current = current[key];
+      }
+    }
+  });
+
+  return result;
+}
+
 /**
  * PD: this function was created by chatGTP
  *

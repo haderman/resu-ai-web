@@ -1,39 +1,26 @@
 import { ChatResponse, Message } from './types';
+import { tools } from './tools';
 
-const URL = 'https://1b7e-181-58-39-128.ngrok-free.app';
-const ENDPOINT = '/v1/chat';
+const URL_BASE = 'https://api.openai.com';
+const ENDPOINT = '/v1/chat/completions';
 
-export async function send(prompt: string) {
-  return fetch(URL + ENDPOINT, {
+export async function send(messages: Message[]): Promise<Message> {
+  const url = new URL(ENDPOINT, URL_BASE);
+
+  const body = JSON.stringify({
+    messages,
+    model: 'gpt-4-1106-preview', // 'gpt-3.5-turbo-1106'
+    tools,
+  });
+
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + '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',
     },
-    body: JSON.stringify({
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        }
-      ]
-    }),
+    body,
   }).then(response => response.json())
+    .then(data => data.choices[0].message)
     .catch(error => { throw error; });
-}
-
-
-export async function sendMocked(messages: Message[]): Promise<ChatResponse> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        error: null,
-        reply: 'Hello, world!',
-        args: {
-          'profile.title.color': null,
-          'skills.title.color': 'blue',
-        },
-        function: 'updateFields',
-      });
-    }, 1000);
-  });
 }

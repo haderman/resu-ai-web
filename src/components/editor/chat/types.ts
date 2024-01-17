@@ -1,12 +1,8 @@
 export type Message =
-  | {
-    role: 'user';
-    content: string;
-  }
-  | {
-    role: 'assistant';
-    content: string;
-  };
+  | { role: 'user'; content: string; }
+  | { role: 'assistant'; content: string; }
+  | { role: 'assistant'; content: null; tool_calls: Array<any>; }
+  | { role: 'system'; content: string; }
 
 export type ChatResponse = {
   error: null

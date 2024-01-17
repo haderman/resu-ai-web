@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Textarea } from '../form/core/text-area';
 
 import { apiState } from '@/state/api';
-import { createObjectFromPath } from '@/shared/helpers';
+import { createObjectFromPath, createObjectFromPaths } from '@/shared/helpers';
 import { Field } from '@/shared/types';
 
 import { Adapter } from '../adapter';
@@ -10,12 +10,18 @@ import { ThreeDots } from './three-dots';
 import { Message } from './types';
 import * as api from './api';
 import styles from './chat.module.scss';
+import * as prompts from './prompts';
+
+const systemMessage: Message = {
+  role: 'system',
+  content: prompts.system,
+};
 
 const useUpdater = apiState.resume.useResumeContentUpdater;
 
 export function Chat() {
   const [value, setValue] = React.useState<string>('');
-  const [messages, setMessages] = React.useState<Message[]>([]);
+  const [messages, setMessages] = React.useState<Message[]>([systemMessage]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [field, setField] = React.useState<Field | null>(null);
 
@@ -35,42 +41,75 @@ export function Chat() {
 
     setMessages(newMessages);
     setIsLoading(true);
+    setValue('');
 
-    api.sendMocked(newMessages)
-      .then((chatResponse) => {
-        if (chatResponse.function === 'updateFields') {
-          updateFields(chatResponse.args);
-          setMessages([...newMessages,
-            {
-              role: 'assistant',
-              content: chatResponse.reply,
-            }
-          ]);
+    api.send(newMessages)
+      .then((message) => {
+        if (message.content === null) {
+          const pathsValuePairs = message.tool_calls
+            .map((tc) => {
+              if (tc.type === 'function') {
+                const func = tc.function;
+                if (func.name === 'update_fields') {
+                  const args = JSON.parse(func.arguments);
+                  return [args.path, args.value];
+                }
+              }
+
+              return null;
+            })
+            .filter((p) => p !== null) as Array<[path: string, value: any]>;
+
+          updateFields(pathsValuePairs);
+
+          // message.tool_calls.forEach((tool_call) => {
+          //   if (tool_call.type === 'function') {
+          //     const func = tool_call.function;
+          //     if (func.name === 'update_fields') {
+          //       const args = JSON.parse(func.arguments);
+          //       updateFields(args.path, args.value);
+          //     }
+          //   }
+          // });
+        } else {
+          setMessages((messages) => [...messages, message]);
         }
+      })
+      .catch((error) => {
+        console.error('error: ', error);
       })
       .finally(() => {
         setIsLoading(false);
-        setValue('');
       });
-
-    // api.send(value).then(processResponse);
   }
 
-  function updateFields(fields: Record<string, any>) {
-    for (const key in fields) {
-      const value = fields[key];
-      if (value === null) {
-        setField({
-          path: key as Field['path'],
-          label: key,
-          name: key,
-          type: 'color',
-        });
-      } else {
-        update(createObjectFromPath(key, value));
-      }
-    }
+  function updateFields(p: Array<[path: string, value: any]>) {
+    const fields = p.map(([path, value]) => {
+      return {
+        path: path as Field['path'],
+        label: path,
+        name: path,
+        type: 'color',
+      };
+    });
+    const objFromPaths = createObjectFromPaths(p);
+    console.log('------> p: ', p);
+    console.log('------> objFromPaths: ', objFromPaths);
+    update(objFromPaths);
   }
+
+  // function updateFields(path: string, value: any) {
+  //   if (value === null) {
+  //     setField({
+  //       path: path as Field['path'],
+  //       label: path,
+  //       name: path,
+  //       type: 'color',
+  //     });
+  //   } else {
+  //     update(createObjectFromPath(path, value));
+  //   }
+  // }
 
   function processResponse(data: any) {
     const { message } = data;
@@ -120,6 +159,10 @@ type MessageProps = {
 };
 
 function Message({ message }: MessageProps) {
+  if (message.role === 'system') {
+    return null;
+  }
+
   return (
     <article data-role={message.role} className={styles.message}>
       <span>{message.role}</span>

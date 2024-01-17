@@ -34,7 +34,7 @@ export function ThreeDots({ size = 120, color = '#fff' }: ThreeDotsProps) {
           repeatCount="indefinite"
         />
         <animate
-          attributeName="fill-opacity"
+          attributeName="fillOpacity"
           from="1"
           to="1"
           begin="0s"
@@ -44,7 +44,7 @@ export function ThreeDots({ size = 120, color = '#fff' }: ThreeDotsProps) {
           repeatCount="indefinite"
         />
       </circle>
-      <circle cx={secondCircleX} cy={radius} r={radius / 1.666} fill-opacity="0.3">
+      <circle cx={secondCircleX} cy={radius} r={radius / 1.666} fillOpacity="0.3">
         <animate
           attributeName="r"
           from={radius / 1.666}
@@ -56,7 +56,7 @@ export function ThreeDots({ size = 120, color = '#fff' }: ThreeDotsProps) {
           repeatCount="indefinite"
         />
         <animate
-          attributeName="fill-opacity"
+          attributeName="fillOpacity"
           from="0.5"
           to="0.5"
           begin="0s"
@@ -78,7 +78,7 @@ export function ThreeDots({ size = 120, color = '#fff' }: ThreeDotsProps) {
           repeatCount="indefinite"
         />
         <animate
-          attributeName="fill-opacity"
+          attributeName="fillOpacity"
           from="1"
           to="1"
           begin="0s"
