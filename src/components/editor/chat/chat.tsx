@@ -43,6 +43,8 @@ export function Chat() {
     setIsLoading(true);
     setValue('');
 
+    console.log('------> newMessages: ', newMessages);
+
     api.send(newMessages)
       .then((message) => {
         if (message.content === null) {

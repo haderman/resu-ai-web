@@ -7,9 +7,11 @@ const ENDPOINT = '/v1/chat/completions';
 export async function send(messages: Message[]): Promise<Message> {
   const url = new URL(ENDPOINT, URL_BASE);
 
+  console.log('process.env.OPENAI_API_KEY: ', process.env.OPENAI_API_KEY);
+
   const body = JSON.stringify({
     messages,
-    model: 'gpt-4-1106-preview', // 'gpt-3.5-turbo-1106'
+    model: 'gpt-4-turbo-preview', // 'gpt-3.5-turbo-1106'
     tools,
   });
 
@@ -17,7 +19,7 @@ export async function send(messages: Message[]): Promise<Message> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + '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',
+      'Authorization': 'Bearer ' + '',
     },
     body,
   }).then(response => response.json())
