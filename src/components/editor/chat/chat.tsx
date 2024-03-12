@@ -43,36 +43,34 @@ export function Chat() {
     setIsLoading(true);
     setValue('');
 
-    console.log('------> newMessages: ', newMessages);
-
     api.send(newMessages)
       .then((message) => {
         if (message.content === null) {
-          const pathsValuePairs = message.tool_calls
-            .map((tc) => {
-              if (tc.type === 'function') {
-                const func = tc.function;
-                if (func.name === 'update_fields') {
-                  const args = JSON.parse(func.arguments);
-                  return [args.path, args.value];
-                }
-              }
-
-              return null;
-            })
-            .filter((p) => p !== null) as Array<[path: string, value: any]>;
-
-          updateFields(pathsValuePairs);
-
-          // message.tool_calls.forEach((tool_call) => {
-          //   if (tool_call.type === 'function') {
-          //     const func = tool_call.function;
-          //     if (func.name === 'update_fields') {
-          //       const args = JSON.parse(func.arguments);
-          //       updateFields(args.path, args.value);
+          // const pathsValuePairs = message.tool_calls
+          //   .map((tc) => {
+          //     if (tc.type === 'function') {
+          //       const func = tc.function;
+          //       if (func.name === 'update_fields') {
+          //         const args = JSON.parse(func.arguments);
+          //         return [args.path, args.value];
+          //       }
           //     }
-          //   }
-          // });
+
+          //     return null;
+          //   })
+          //   .filter((p) => p !== null) as Array<[path: string, value: any]>;
+
+          // updateFields(pathsValuePairs);
+
+          message.tool_calls.forEach((tool_call) => {
+            if (tool_call.type === 'function') {
+              const func = tool_call.function;
+              if (func.name === 'update_fields') {
+                const args = JSON.parse(func.arguments);
+                updateFields(args.path, args.value);
+              }
+            }
+          });
         } else {
           setMessages((messages) => [...messages, message]);
         }
@@ -85,33 +83,33 @@ export function Chat() {
       });
   }
 
-  function updateFields(p: Array<[path: string, value: any]>) {
-    const fields = p.map(([path, value]) => {
-      return {
-        path: path as Field['path'],
-        label: path,
-        name: path,
-        type: 'color',
-      };
-    });
-    const objFromPaths = createObjectFromPaths(p);
-    console.log('------> p: ', p);
-    console.log('------> objFromPaths: ', objFromPaths);
-    update(objFromPaths);
-  }
-
-  // function updateFields(path: string, value: any) {
-  //   if (value === null) {
-  //     setField({
+  // function updateFields(p: Array<[path: string, value: any]>) {
+  //   const fields = p.map(([path, value]) => {
+  //     return {
   //       path: path as Field['path'],
   //       label: path,
   //       name: path,
   //       type: 'color',
-  //     });
-  //   } else {
-  //     update(createObjectFromPath(path, value));
-  //   }
+  //     };
+  //   });
+  //   const objFromPaths = createObjectFromPaths(p);
+  //   console.log('------> p: ', p);
+  //   console.log('------> objFromPaths: ', objFromPaths);
+  //   update(objFromPaths);
   // }
+
+  function updateFields(path: string, value: any) {
+    if (value === null) {
+      setField({
+        path: path as Field['path'],
+        label: path,
+        name: path,
+        type: 'color',
+      });
+    } else {
+      update(createObjectFromPath(path, value));
+    }
+  }
 
   function processResponse(data: any) {
     const { message } = data;
