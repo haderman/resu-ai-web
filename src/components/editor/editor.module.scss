@@ -2,10 +2,10 @@
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 580px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 70px 1fr;
   grid-template-areas:
-    'resume-container chat'
-    'resume-container chat';
+    "header header"
+    "resume-container chat";
 
   background-color: hsl(210deg 15% 6%);
 

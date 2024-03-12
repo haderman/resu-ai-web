@@ -4,6 +4,7 @@ import { apiState } from '@/state/api';
 
 import { ResumeContainer } from './resume';
 import { Panel } from './panel';
+import { Header } from './header';
 
 import styles from './editor.module.scss';
 import { Chat } from './chat';
@@ -30,6 +31,7 @@ const Content = React.memo(
   function ContentInner() {
     return (
       <div className={styles.layout}>
+        <Header data-section="header" />
         <section data-name="chat">
           <Chat />
         </section>
