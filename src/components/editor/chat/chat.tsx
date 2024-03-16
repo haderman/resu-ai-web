@@ -4,13 +4,13 @@ import { Textarea } from '../form/core/text-area';
 import { apiState } from '@/state/api';
 import { createObjectFromPath, createObjectFromPaths } from '@/shared/helpers';
 import { Field } from '@/shared/types';
+import * as prompts from '@/shared/helpers/prompt';
 
 import { Adapter } from '../adapter';
 import { ThreeDots } from './three-dots';
 import { Message } from './types';
 import * as api from './api';
 import styles from './chat.module.scss';
-import * as prompts from './prompts';
 
 const systemMessage: Message = {
   role: 'system',
@@ -67,7 +67,7 @@ export function Chat() {
               const func = tool_call.function;
               if (func.name === 'update_fields') {
                 const args = JSON.parse(func.arguments);
-                updateFields(args.path, args.value);
+                updateFields(args.field, args.value);
               }
             }
           });
@@ -98,16 +98,11 @@ export function Chat() {
   //   update(objFromPaths);
   // }
 
-  function updateFields(path: string, value: any) {
+  function updateFields(field: Field, value?: Field['type']) {
     if (value === null) {
-      setField({
-        path: path as Field['path'],
-        label: path,
-        name: path,
-        type: 'color',
-      });
+      setField(field);
     } else {
-      update(createObjectFromPath(path, value));
+      update(createObjectFromPath(field.path, value));
     }
   }
 

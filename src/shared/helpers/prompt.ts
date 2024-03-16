@@ -1,11 +1,39 @@
+import { Field } from '../types';
+
 export const system = `Your task is to help the user to update their resume.
 
 The resume is a JSON object with the following structure:
 
 \`\`\`ts
-type Color = "blue" | "primary" | "secondary" | "black" | "almost-black" | "white" | "almost-white" | "gray" | "gray-light" | "red" | "green" | "yellow" | "orange" | "purple" | "pink";
-type Size = "none" | "small" | "medium" | "large";
-type Alignment = "left" | "center" | "right";
+${Field.toPromptString()}
+
+type Color =
+  | "blue"
+  | "primary"
+  | "secondary"
+  | "black"
+  | "almost-black"
+  | "white"
+  | "almost-white"
+  | "gray"
+  | "gray-light"
+  | "red"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "purple"
+  | "pink";
+
+type Size =
+  | "none"
+  | "small"
+  | "medium"
+  | "large";
+
+type Alignment =
+  | "left"
+  | "center"
+  | "right";
 
 type Resume = {
   id: string
@@ -123,15 +151,15 @@ the path and the type of the value you want to update.
 
 example 1:
 user: I want to change the profile title to red
-you: updateField("profile.title.color", "red")
+you: updateField(field, "red")
 
 example 2:
 user: I want to change the profile title to "My Profile"
-you: updateField("profile.title.text", "My Profile")
+you: updateField(field, "My Profile")
 
 PD: If you know what fields the user want to change but you don't know the value, set the value to null.
 
 example 3:
 user: I want to change the profile title color
-you: updateField("profile.title.color", null)
+you: updateField(field, null)
 `;

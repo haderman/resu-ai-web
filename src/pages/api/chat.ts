@@ -2,10 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { Session } from 'next-auth';
 
 import { protectedHandler } from '@/server/protected-api-handler';
-
-// Import necessary types
 import { ChatResponse, Message } from '@/components/editor/chat/types';
-import { ErrorResponse } from '@/shared/types';
+import { ErrorResponse, Field } from '@/shared/types';
+import { system } from '@/shared/helpers/prompt';
 
 export default protectedHandler(handler);
 
@@ -18,7 +17,10 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<Response
       const { messages }: { messages: Message[] } = req.body;
 
       // Call the send function to get a response from the OpenAI API
-      const responseMessage = await send(messages);
+      const responseMessage = await send([
+        { role: 'system', content: system },
+        ...messages,
+      ]);
 
       // Respond with the message received from the OpenAI API
       res.status(200).json(responseMessage);
@@ -66,16 +68,13 @@ const tools = [
       parameters: {
         type: 'object',
         properties: {
-          path: {
-            type: 'string',
-            description: 'Path to the field to update.',
-          },
+          field: Field.toToolCallString(),
           value: {
             type: 'string',
             description: 'New value of the field.',
           },
         },
-        required: ['path', 'value'],
+        required: ['field', 'value'],
       },
     }
   },
