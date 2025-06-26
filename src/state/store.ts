@@ -8,6 +8,7 @@ import { authProvidersSlice } from './auth-providers';
 import apiSlice from './api';
 import { blocksSlice } from './blocks';
 import { pageSlice } from './page';
+import { settingsSlice } from './settings';
 
 function makeStore() {
   const store = configureStore({
@@ -18,6 +19,7 @@ function makeStore() {
       [apiSlice.reducerPath]: apiSlice.reducer,
       [blocksSlice.name]: blocksSlice.reducer,
       [pageSlice.name]: pageSlice.reducer,
+      [settingsSlice.name]: settingsSlice.reducer,
     },
     devTools: true,
     middleware(getDefaultMiddleware) {

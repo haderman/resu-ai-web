@@ -2,15 +2,20 @@
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 580px;
-  grid-template-rows: 70px 1fr;
-  grid-template-areas:
-    "header header"
-    "resume-container chat";
+  grid-template-rows: 1fr;
 
   background-color: hsl(210deg 15% 6%);
 
-  & > section[data-name='header'] {
-    grid-area: header;
+  &[data-mode='chat'] {
+    grid-template-areas:
+      "header header"
+      "resume-container chat";
+  }
+
+  &[data-mode='panel'] {
+    grid-template-areas:
+      "header header"
+      "resume-container panel";
   }
 
   & > section[data-name='chat'] {
@@ -19,9 +24,13 @@
   }
 
   & > section[data-name='panel'] {
-    display: none;
     grid-area: panel;
     overflow: auto;
+  }
+
+  & > div[data-section='header'] {
+    grid-area: header;
+    height: 60px;
   }
 
   & > div[data-name='toolbar'] {
