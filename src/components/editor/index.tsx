@@ -1,12 +1,16 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
 import { apiState } from '@/state/api';
+import { selectMode } from '@/state/settings';
 
 import { ResumeContainer } from './resume';
 import { Panel } from './panel';
-import { Header } from './header';
+
 
 import styles from './editor.module.scss';
+import { Chat } from './chat';
+import { Header } from './header';
 
 export function Editor() {
   const isLoading = apiState.resume.useIsLoadingResume();
@@ -28,14 +32,31 @@ function LoadingState() {
 
 const Content = React.memo(
   function ContentInner() {
+    const mode = useSelector(selectMode);
+    const Section = mode === 'chat' ? ChatSection : PanelSection;
+
     return (
-      <div className={styles.layout}>
+      <div className={styles.layout} data-mode={mode}>
         <Header data-section="header" />
-        <div data-section="panel">
-          <Panel />
-        </div>
-        <ResumeContainer data-section="resume" />
+        <Section />
+        <ResumeContainer data-name="resume" />
       </div>
     );
   }
 );
+
+function ChatSection() {
+  return (
+    <section data-name="chat">
+      <Chat />
+    </section>
+  );
+}
+  
+function PanelSection() {
+  return (
+    <section data-name="panel">
+      <Panel />
+    </section>
+  );
+}

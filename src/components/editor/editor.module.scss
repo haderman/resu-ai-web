@@ -1,24 +1,39 @@
 .layout {
   display: grid;
   height: 100%;
-  grid-template-columns: 580px 1fr;
+  grid-template-columns: 1fr 580px;
   grid-template-rows: 1fr;
-  grid-template-areas:
-    "header header"
-    "panel resume-container";
 
   background-color: hsl(210deg 15% 6%);
 
-  & > div[data-section='header'] {
-    grid-area: header;
+  &[data-mode='chat'] {
+    grid-template-areas:
+      "header header"
+      "resume-container chat";
   }
 
-  & > div[data-section='panel'] {
+  &[data-mode='panel'] {
+    grid-template-areas:
+      "header header"
+      "resume-container panel";
+  }
+
+  & > section[data-name='chat'] {
+    grid-area: chat;
+    overflow: auto;
+  }
+
+  & > section[data-name='panel'] {
     grid-area: panel;
     overflow: auto;
   }
 
-  & > div[data-section='toolbar'] {
+  & > div[data-section='header'] {
+    grid-area: header;
+    height: 60px;
+  }
+
+  & > div[data-name='toolbar'] {
     grid-area: toolbar;
     display: flex;
     justify-content: center;
@@ -26,7 +41,7 @@
     padding: 5px;
   }
 
-  & > div[data-section='resume'] {
+  & > div[data-name='resume'] {
     grid-area: resume-container;
   }
 }

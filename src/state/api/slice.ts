@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { HYDRATE } from 'next-redux-wrapper';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { createAction, createSelector } from '@reduxjs/toolkit';
 
 import { Resume, DeepPartial, ResumeContentPath, ResumeContent } from '@/shared/types';
@@ -9,7 +9,28 @@ import { getHost, mutateObjectProperties, pick } from '@/shared/helpers';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/` }),
+    /**
+   * This is temporary until we have a backend
+   *
+   * it should be something like:
+   * baseQuery: fetchBaseQuery({ baseUrl: `${getHost()}/api/`
+   *
+   */
+  baseQuery: ({ method, body }) => {
+    return new Promise((resolve, reject) => {
+      if (method === 'GET') {
+        resolve({
+          data: getResumeFromLocalStorage(),
+        });
+      }
+
+      if (method === 'PATCH') {
+        const resume = getResumeFromLocalStorage();
+        mutateObjectProperties(resume, body);
+        setResumeToLocalStorage(resume);
+      }
+    });
+  },
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
@@ -136,6 +157,26 @@ export function useResumeUpdateStatus() {
   const [_, meta] = apiSlice.useUpdateResumeMutation({ fixedCacheKey: 'update-resume', });
 
   return [meta] as const;
+}
+
+function getResumeFromLocalStorage(): Resume {
+  try{
+    let rawResume = localStorage.getItem('resume');
+    if (!rawResume) {
+      rawResume = JSON.stringify(Resume.createDefault());
+    }
+    const resume = JSON.parse(rawResume);
+    setResumeToLocalStorage(resume);
+    return resume;
+  } catch (err) {
+    let resume = Resume.createDefault();
+    setResumeToLocalStorage(resume);
+    return resume;
+  }
+}
+
+function setResumeToLocalStorage(r: Resume) {
+  localStorage.setItem('resume', JSON.stringify(r));
 }
 
 export default apiSlice;

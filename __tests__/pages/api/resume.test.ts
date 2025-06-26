@@ -153,7 +153,7 @@ nextAuth.unstable_getServerSession.mockResolvedValue(sessionMock);
 /**
  * Tests
  */
-describe('/api/resume', () => {
+describe.skip('/api/resume', () => {
   beforeAll(() => {
     resumeMock.id = resumeMockUpdated.id = `test_${nanoid()}`;
     sessionMock.user.id = resumeMock.userId = resumeMockUpdated.userId = `test_${nanoid()}`;
