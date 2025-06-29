@@ -5,3 +5,8 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import { jestPreviewConfigure } from 'jest-preview';
+
+// Mock nanoid to avoid ES module issues
+jest.mock('nanoid', () => ({
+  nanoid: () => 'test-id-' + Math.random().toString(36).substr(2, 9),
+}));

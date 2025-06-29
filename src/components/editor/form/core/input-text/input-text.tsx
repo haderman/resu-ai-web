@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import styles from './input-text.module.scss';
 
+import type { JSX } from "react";
+
 export type InputTextProps = InputBaseProps & {
   id: string
   value: string

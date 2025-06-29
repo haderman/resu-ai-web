@@ -7,7 +7,7 @@ export function useDebouncedFunction<T extends any[]>(
   func: (...args: T) => void,
   delay: number
 ): (...args: T) => void {
-  const timerIdRef = React.useRef<NodeJS.Timeout>();
+  const timerIdRef = React.useRef<NodeJS.Timeout>(undefined);
 
   return React.useCallback(
     (...args: T) => {

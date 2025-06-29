@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styles from './toggle-group.module.scss';
 
+import type { JSX } from "react";
+
 export type ToggleGroupProps = {
   legend: string
   name: string

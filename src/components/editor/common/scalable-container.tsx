@@ -1,7 +1,9 @@
+'use client';
+
 import * as React from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-const ScalableContext = React.createContext<React.RefObject<HTMLDivElement>>(null as any);
+const ScalableContext = React.createContext<React.RefObject<HTMLDivElement | null>>(null as any);
 
 export function ScalableContainer(props: React.PropsWithChildren<{}>) {
   const resumeRef = React.useRef<HTMLDivElement>(null);
@@ -33,9 +35,12 @@ ScalableContainer.Item = function ScalableContainerItem(props: React.HTMLProps<H
  * @param parentRef the ref of the parent element that is going to containt the available width
  * @param childRef the ref of the child element that is going to be scaled to fit the parent
  */
- function useSetScale(parentRef: React.RefObject<HTMLDivElement>, childRef: React.RefObject<HTMLDivElement>) {
-  const { width: parentWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: parentRef });
-  const { width: childWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: childRef });
+ function useSetScale(
+  parentRef: React.RefObject<HTMLDivElement | null>,
+  childRef: React.RefObject<HTMLDivElement | null>,
+) {
+  const { width: parentWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: parentRef as any });
+  const { width: childWidth = 1 } = useResizeObserver<HTMLDivElement>({ ref: childRef as any});
 
   React.useEffect(() => {
     // 40 is the padding of the preview given by grid-template-columns: 20px 1fr 20px;

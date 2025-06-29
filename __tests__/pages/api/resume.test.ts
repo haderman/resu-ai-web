@@ -165,7 +165,7 @@ describe.skip('/api/resume', () => {
       body: resumeMock,
     });
 
-    await handler(req, res);
+    await handler(req as any, res as any);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(
@@ -176,7 +176,7 @@ describe.skip('/api/resume', () => {
   test('return resume created', async () => {
     const { req, res } = createMocks({ method: 'GET' });
 
-    await handler(req, res);
+    await handler(req as any, res as any);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(resumeMock);
@@ -191,7 +191,7 @@ describe.skip('/api/resume', () => {
       },
     });
 
-    await handlerResume(req, res);
+    await handlerResume(req as any, res as any);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(
@@ -207,7 +207,7 @@ describe.skip('/api/resume', () => {
       },
     });
 
-    await handlerResume(req, res);
+    await handlerResume(req as any, res as any);
 
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(resumeMockUpdated);
@@ -221,7 +221,7 @@ describe.skip('/api/resume', () => {
       },
     });
 
-    await handlerResume(req, res);
+    await handlerResume(req as any, res as any);
 
     expect(res._getStatusCode()).toBe(200);
   });

@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { ResumeTheme } from '@/themes';
 import { Size, Color } from '@/shared/types';
 
+import type { JSX } from "react";
+
 export type BoxProps = React.PropsWithChildren<{
   as?: keyof JSX.IntrinsicElements
   padding?: Size

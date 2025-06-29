@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { Color, Size, Weight, Alignment } from '@/shared/types';
 import { ResumeTheme } from '@/themes';
 
+import type { JSX } from "react";
+
 // TODO: add better line height -> read this https://twitter.com/danqing_liu/status/1576997493765611520?s=20&t=T7u0xdkm8QOrLbnNRwoq-A
 
 export type TextProps = React.PropsWithChildren<{

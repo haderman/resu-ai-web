@@ -93,7 +93,7 @@
 
 .block {
   display: grid;
-  grid-template-rows: 1;
+  grid-template-rows: 1fr;
 
   &[data-block-layout='child1'] {
     grid-template-columns: 1fr;
