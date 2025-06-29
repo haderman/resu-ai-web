@@ -10,7 +10,7 @@ export function Photo() {
         src="/profile-photo.png"
         alt="CV photo"
         layout="fill"
-        objectFit="contain"
+        objectFit="cover"
       />
     </Box>
   );
