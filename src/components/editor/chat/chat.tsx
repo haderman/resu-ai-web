@@ -8,7 +8,7 @@ import * as prompts from '@/shared/helpers/prompt';
 
 import { Adapter } from '../adapter';
 import { ThreeDots } from './three-dots';
-import { Message } from './types';
+import type { Message } from './types';
 import * as api from './api';
 import styles from './chat.module.scss';
 
