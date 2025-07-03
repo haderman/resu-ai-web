@@ -21,36 +21,10 @@
   }
 }
 
-.form {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  width: 100%;
-}
-
-.input {
-  flex-grow: 1;
-  padding: 10px 15px;
-  background-color: #1f1f1f;
-  color: white;
-  border: 1px solid #333;
-  border-radius: 4px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-
-  &:focus {
-    border-color: #0a7cff;
-  }
-
-  &::placeholder {
-    color: hsl(0 0% 55% / 1);
-  }
-}
-
 .send-button {
   height: 40px;
   padding: 10px 20px;
+  margin-bottom: 20px;
   background-color: #0a7cff;
   color: white;
   border: none;

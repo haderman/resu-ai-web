@@ -7,7 +7,7 @@ export type ProtectedHandlerCallback = (
   req: NextApiRequest,
   res: NextApiResponse,
   session: Session
-) => Promise<void>
+) => void;
 
 export function protectedHandler(cb: ProtectedHandlerCallback) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
