@@ -4,7 +4,7 @@ import { Textarea } from '../form/core/text-area';
 import { apiState } from '@/state/api';
 import { createObjectFromPath, createObjectFromPaths } from '@/shared/helpers';
 import { Field } from '@/shared/types';
-import * as prompts from '@/shared/helpers/prompt';
+import { system as systemPrompt } from '@/server/chat/system';
 
 import { Adapter } from '../adapter';
 import { ThreeDots } from './three-dots';
@@ -14,7 +14,7 @@ import styles from './chat.module.scss';
 
 const systemMessage: Message = {
   role: 'system',
-  content: prompts.system,
+  content: systemPrompt,
 };
 
 const useUpdater = apiState.resume.useResumeContentUpdater;

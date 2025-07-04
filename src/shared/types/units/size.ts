@@ -29,5 +29,8 @@ export const Size = {
   },
   isSize(value: unknown): value is Size {
     return typeof value === 'string' && sizes.includes(value as Size);
+  },
+  toPromptString() {
+    return `type Size =\n${sizes.map((s) => `  | "${s}"`).join('\n')};`;
   }
 };

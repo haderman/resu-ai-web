@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #121212; // Dark background similar to the image
+  background-color: hsl(210deg 15% 3%);
 
   & > section[data-name='chat'] {
     flex-grow: 1;
@@ -13,12 +13,17 @@
     padding: var(--pad-2);
   }
 
-  & > section[data-name='prompt'] {
+  & > section[data-name='prompt-container'] {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     gap: 10px;
     padding: var(--pad-2);
   }
+}
+
+.status {
+  color: hsl(0 0% 45% / 1);
+  font-size: 10px;
 }
 
 .form {
@@ -44,7 +49,7 @@
   }
 
   &::placeholder {
-    color: hsl(0 0% 55% / 1);
+    color: hsl(0 0% 65% / 1);
   }
 }
 
@@ -76,17 +81,15 @@
   flex-direction: column;
   gap: 16px;
 
-  & > .message {
-    max-width: 90%;
-  }
-
   & > .message[data-role='user'] {
+    max-width: 90%;
     align-self: flex-end;
     align-items: flex-end;
   }
 
   & > .message[data-role='assistant'] {
     align-self: flex-start;
+    width: 100%;
   }
 }
 
@@ -106,20 +109,71 @@
   & > div {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    padding: 10px 20px;
+    gap: 12px;
+    padding: 0;
     border-radius: 4px;
   }
 
   &[data-role='user'] {
     & > div {
       background-color: #0a7cff;
+      padding: 10px 20px;
     }
   }
 
   &[data-role='assistant'] {
     & > div {
-      background-color: #1f1f1f;
+      background-color: transparent;
+      width: 100%;
     }
   }
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Tool invocation styling */
+.toolCard {
+  background-color: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toolHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: hsl(0 0% 70% / 1);
+}
+
+.toolName {
+  font-weight: 600;
+  color: #0a7cff;
+}
+
+.toolState {
+  font-style: italic;
+}
+
+.toolArgs,
+.toolResult {
+  background-color: #000;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  overflow-x: auto;
+  color: #ddd;
+}
+
+.toolResult {
+  border-top: 1px solid #333;
+}
+

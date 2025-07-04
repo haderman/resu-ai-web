@@ -10,7 +10,7 @@ export type SettingsState = {
 };
 
 const initialState: SettingsState = {
-  mode: 'panel',
+  mode: 'chat',
 };
 
 export const settingsSlice = createSlice({

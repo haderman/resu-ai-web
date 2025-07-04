@@ -56,4 +56,7 @@ export const Color = {
   isColor(value: unknown): value is Color {
     return typeof value === 'string' && colors.includes(value as Color);
   },
+  toPromptString() {
+    return `type Color =\n${colors.map((c) => `  | "${c}"`).join('\n')};`;
+  },
 };

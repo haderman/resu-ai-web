@@ -26,4 +26,7 @@ export const Alignment = {
   isAlignment(value: unknown): value is Alignment {
     return typeof value === 'string' && alignments.includes(value as Alignment);
   },
+  toPromptString() {
+    return `type Alignment =\n${alignments.map((a) => `  | "${a}"`).join('\n')};`;
+  },
 };

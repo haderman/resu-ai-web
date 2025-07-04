@@ -4,7 +4,7 @@
   grid-template-columns: 1fr 580px;
   grid-template-rows: 1fr;
 
-  background-color: hsl(210deg 15% 6%);
+  background-color: lch(5.46% 0 296.81);
 
   &[data-mode='chat'] {
     grid-template-areas:
