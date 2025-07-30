@@ -28,6 +28,14 @@
     overflow: auto;
   }
 
+  & > section[data-name='audio-chat'] {
+    position: absolute;
+    z-index: 2;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   & > div[data-section='header'] {
     grid-area: header;
     height: 60px;

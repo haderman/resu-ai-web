@@ -11,6 +11,7 @@ import { Panel } from './panel';
 import styles from './editor.module.scss';
 import { Chat } from './chat';
 import { Header } from './header';
+import { AudioChatContainer } from './audio-chat';
 
 export function Editor() {
   const isLoading = apiState.resume.useIsLoadingResume();
@@ -40,6 +41,7 @@ const Content = React.memo(
         <Header data-section="header" />
         <Section />
         <ResumeContainer data-name="resume" />
+        <AudioChatContainer data-name="audio-chat" />
       </div>
     );
   }
@@ -52,7 +54,7 @@ function ChatSection() {
     </section>
   );
 }
-  
+
 function PanelSection() {
   return (
     <section data-name="panel">

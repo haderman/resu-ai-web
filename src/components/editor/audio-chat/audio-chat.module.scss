@@ -1,0 +1,121 @@
+.container {
+    --bg-main: rgba(255, 255, 255, 0.95);
+    --bg-button: #3b82f6;
+    --bg-button-hover: #2563eb;
+    --bg-button-danger: #ef4444;
+    --bg-button-danger-hover: #dc2626;
+    --bg-button-success: #10b981;
+    --bg-button-success-hover: #059669;
+    --text-primary: #374151;
+    --text-secondary: #6b7280;
+    --text-success: #10b981;
+    --text-warning: #f59e0b;
+    --text-danger: #ef4444;
+    --border-light: rgba(0, 0, 0, 0.05);
+    --shadow-main: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --radius-main: 24px;
+    --radius-button: 50%;
+    --button-size: 40px;
+  
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--bg-main);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-main);
+    box-shadow: var(--shadow-main);
+    border: 1px solid var(--border-light);
+    min-width: 200px;
+    max-width: 400px;
+  }
+  
+  .statusIndicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    
+    &[data-status='connected'] {
+      color: var(--text-success);
+    }
+    
+    &[data-status='connecting'] {
+      color: var(--text-warning);
+    }
+    
+    &[data-status='error'] {
+      color: var(--text-danger);
+    }
+  }
+  
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--button-size);
+    height: var(--button-size);
+    border: none;
+    border-radius: var(--radius-button);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 18px;
+    
+    &:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  
+    &[data-variant='connect'] {
+      background: var(--bg-button);
+      color: white;
+      
+      &:hover:not(:disabled) {
+        background: var(--bg-button-hover);
+      }
+      
+      &[data-connected='true'] {
+        background: var(--bg-button-danger);
+        
+        &:hover:not(:disabled) {
+          background: var(--bg-button-danger-hover);
+        }
+      }
+    }
+  
+    &[data-variant='microphone'] {
+      background: var(--bg-button-success);
+      color: white;
+      
+      &:hover:not(:disabled) {
+        background: var(--bg-button-success-hover);
+      }
+      
+      &[data-recording='true'] {
+        background: var(--bg-button-danger);
+        animation: recordingPulse 1.5s infinite;
+        
+        &:hover:not(:disabled) {
+          background: var(--bg-button-danger-hover);
+        }
+      }
+    }
+  
+  }
