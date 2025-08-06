@@ -9,7 +9,7 @@ import { Panel } from './panel';
 
 
 import styles from './editor.module.scss';
-import { Chat } from './chat';
+import { ChatContainer } from './chat';
 import { Header } from './header';
 import { AudioChatContainer } from './audio-chat';
 
@@ -50,7 +50,7 @@ const Content = React.memo(
 function ChatSection() {
   return (
     <section data-name="chat">
-      <Chat />
+      <ChatContainer />
     </section>
   );
 }

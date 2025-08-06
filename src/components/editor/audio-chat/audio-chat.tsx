@@ -13,7 +13,8 @@ export type AudioChatProps = {
   systemPrompt: string;
 }
 
-export function AudioChat({ onToolCall, tools, systemPrompt, ...otherProps }: AudioChatProps) {
+export function AudioChat(props: AudioChatProps) {
+  const { onToolCall, tools, systemPrompt, ...otherProps } = props;
   const [isSessionStarted, setIsSessionStarted] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -232,6 +233,22 @@ export function AudioChat({ onToolCall, tools, systemPrompt, ...otherProps }: Au
       });
     }
   }, [dataChannel, sendClientEvent, onToolCall, tools, systemPrompt]);
+
+  // Separate effect to handle real-time updates to systemPrompt and tools
+  useEffect(() => {
+    // Only send updates if session is active and we have a data channel
+    if (isSessionActive && dataChannel && sendClientEvent) {
+      const sessionUpdate = {
+        type: 'session.update',
+        session: {
+          tools: tools,
+          instructions: systemPrompt,
+        },
+      };
+      sendClientEvent(sessionUpdate);
+      console.log('Real-time session update sent:', sessionUpdate);
+    }
+  }, [systemPrompt, tools, isSessionActive, dataChannel, sendClientEvent]);
 
   const handleConnectClick = async () => {
     if (isSessionActive) {

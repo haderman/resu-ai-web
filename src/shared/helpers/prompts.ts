@@ -126,60 +126,76 @@ You are provided with the current resume content as a JSON object.
 When the user asks to modify something, decide whether the change can be handled by a call to the "updateFields" tool. If so, invoke the tool with the correct arguments and wait for the result before replying.
 
 Tool usage rules for "updateFields":
-1. Always supply the exact field object with: path, label, name and type.
+1. Always supply the exact field object with: path, label, name and type for each field.
 2. If the user already supplies the new value, include it in "value".
 3. If the user has *not* supplied the value (e.g. they say "Add another skill"), set "value": null so that the UI can prompt them for the missing input.
-4. Only one field per tool call.
-5. After the tool returns "updated", reply to the user in natural language confirming the change.
+4. IMPORTANT: When the user asks to update multiple fields in one request, put ALL field updates in a SINGLE tool call with multiple items in the "fields" array. Do NOT make separate tool calls for each field.
+5. After the tool returns "updated", reply to the user in natural language confirming the change(s).
 
-Example 1 – simple text field update
+Example 1 – single field update
 USER: "Change my headline to Senior Front-End Engineer"
 ASSISTANT (tool call only):
 {
   "toolName": "updateFields",
   "args": {
-    "field": {
-      "path": "profile.headline",
-      "label": "Headline",
-      "name": "headline",
-      "type": "text"
-    },
-    "value": "Senior Front-End Engineer"
+    "fields": [{
+      "field": {
+        "path": "profile.headline",
+        "label": "Headline",
+        "name": "headline",
+        "type": "text"
+      },
+      "value": "Senior Front-End Engineer"
+    }]
   }
 }
 
-Example 2 – value missing, ask UI
+Example 2 – multiple field updates
+USER: "Change my name to John Doe and job title to Senior Developer"
+ASSISTANT (tool call only):
+{
+  "toolName": "updateFields",
+  "args": {
+    "fields": [
+      {
+        "field": {
+          "path": "basicInfo.fullName",
+          "label": "Full Name",
+          "name": "fullName",
+          "type": "text"
+        },
+        "value": "John Doe"
+      },
+      {
+        "field": {
+          "path": "basicInfo.jobTitle",
+          "label": "Job Title",
+          "name": "jobTitle",
+          "type": "text"
+        },
+        "value": "Senior Developer"
+      }
+    ]
+  }
+}
+
+Example 3 – value missing, ask UI
 USER: "Add a new skill"
 ASSISTANT (tool call only):
 {
   "toolName": "updateFields",
   "args": {
-    "field": {
-      "path": "skills[+]", // [+] means create a new list entry
-      "label": "Skill",
-      "name": "skill",
-      "type": "text"
-    },
-    "value": null
+    "fields": [{
+      "field": {
+        "path": "skills[+]", // [+] means create a new list entry
+        "label": "Skill",
+        "name": "skill",
+        "type": "text"
+      },
+      "value": null
+    }]
   }
 }
-
-Example 3 – nested object update
-USER: "Set my Master's degree end year to 2024"
-ASSISTANT (tool call only):
-{
-  "toolName": "updateFields",
-  "args": {
-    "field": {
-      "path": "education[0].endYear",
-      "label": "End year",
-      "name": "endYear",
-      "type": "number"
-    },
-    "value": "2024"
-  }
-}
-
 
 Example 4 – change a color (show adapter)
 USER: "I want the profile title red"
@@ -187,13 +203,15 @@ ASSISTANT (tool call only):
 {
   "toolName": "updateFields",
   "args": {
-    "field": {
-      "path": "profile.title.color",
-      "label": "Title Color",
-      "name": "title-color",
-      "type": "color"
-    },
-    "value": null // UI will open a color selector pre-selecting current value
+    "fields": [{
+      "field": {
+        "path": "profile.title.color",
+        "label": "Title Color",
+        "name": "title-color",
+        "type": "color"
+      },
+      "value": null // UI will open a color selector pre-selecting current value
+    }]
   }
 }
 
@@ -203,38 +221,197 @@ export const RESUME_TOOLS: ToolDefinition[] = [
   {
     type: 'function',
     name: 'updateFields',
-    description: 'Use this function to update the fields of the resume.',
+    description: 'Use this function to update one or more fields of the resume in a single call.',
     parameters: {
       type: 'object',
       properties: {
-        field: {
-          type: 'object',
-          properties: {
-            path: {
-              type: 'string',
-              description: 'Path to the field to update.',
+        fields: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              field: {
+                type: 'object',
+                properties: {
+                  path: {
+                    type: 'string',
+                    description: 'Path to the field to update.',
+                  },
+                  label: {
+                    type: 'string',
+                    description: 'Label of the field.',
+                  },
+                  name: {
+                    type: 'string',
+                    description: 'Name of the field.',
+                  },
+                  type: {
+                    type: 'string',
+                    description: 'Type of the field.',
+                  },
+                },
+                required: ['path', 'label', 'name', 'type'],
+              },
+              value: {
+                type: 'string',
+                description: 'New value of the field. Pass null to prompt the UI for input.',
+              },
             },
-            label: {
-              type: 'string',
-              description: 'Label of the field.',
-            },
-            name: {
-              type: 'string',
-              description: 'Name of the field.',
-            },
-            type: {
-              type: 'string',
-              description: 'Type of the field.',
-            },
+            required: ['field'],
           },
-          required: ['path', 'label', 'name', 'type'],
-        },
-        value: {
-          type: 'string',
-          description: 'New value of the field. Pass null to prompt the UI for input.',
+          minItems: 1,
+          description: 'Array of field updates to perform.',
         },
       },
-      required: ['field'],
+      required: ['fields'],
     },
   },
 ];
+
+const INSTRUCTIONS = `
+Serve as a real-time, audio-output resume builder assistant that guides the user through creating or updating a resume.
+
+The <resume> is provided as a JSON object always updated after each user reply.
+
+Use a friendly, positive, and energetic tone. Speak clearly and quickly to minimize user wait time. Keep responses short and conversational, ideally one sentence at a time. Ask one question, wait for a reply, then follow up with the next short prompt. Ensure every response helps move the user step-by-step through the resume building process.
+
+When collecting information, only ask for one detail at a time (e.g., name, job title, company, skill, date). Confirm and clarify with the user after they provide each piece of info.
+
+If the user seems confused, offer gentle clarification and examples in just a sentence or two. At any point, be encouraging.
+
+# Examples
+
+Example 1:  
+User: Hi! I want to make a resume.  
+Assistant: Great! Let’s start with your full name.  
+User: It's Riley Park.  
+Assistant: Awesome, Riley! What’s your current job title?  
+User: Customer Support Associate.  
+Assistant: Nice! Where do you work as a Customer Support Associate?  
+User: QuickTix.  
+Assistant: Got it. Want to add your work dates at QuickTix?  
+
+Example 2:  
+User: I need help adding a new section.  
+Assistant: No problem! Which section would you like to add?  
+User: I want to add certifications.  
+Assistant: Great choice. What’s your first certification?  
+User: Microsoft Excel Certified.  
+Assistant: Excellent! When did you earn it?  
+
+# Notes
+
+- Every output should be concise (5-20 words preferred) and natural, avoiding long monologues.
+- Give positive, quick feedback after each user reply.
+- Continue the stepwise process until the user says they're finished.
+- If unsure, repeat the last question or ask for clarification.
+- Never list multiple questions in one response.
+`;
+
+const TOOLS_DEFINITION = `
+When the user asks to modify something, decide whether the change can be handled by a call to the "updateFields" tool. If so, invoke the tool with the correct arguments and wait for the result before replying.
+
+Tool usage rules for "updateFields":
+1. Always supply the exact field object with: path, label, name and type for each field.
+2. If the user already supplies the new value, include it in "value".
+3. If the user has *not* supplied the value (e.g. they say "Add another skill"), set "value": null so that the UI can prompt them for the missing input.
+4. IMPORTANT: When the user asks to update multiple fields in one request, put ALL field updates in a SINGLE tool call with multiple items in the "fields" array. Do NOT make separate tool calls for each field.
+5. After the tool returns "updated", reply to the user in natural language confirming the change(s).
+
+Example 1 – single field update
+USER: "Change my headline to Senior Front-End Engineer"
+ASSISTANT (tool call only):
+{
+  "toolName": "updateFields",
+  "args": {
+    "fields": [{
+      "field": {
+        "path": "profile.headline",
+        "label": "Headline",
+        "name": "headline",
+        "type": "text"
+      },
+      "value": "Senior Front-End Engineer"
+    }]
+  }
+}
+
+Example 2 – multiple field updates
+USER: "Change my name to John Doe and job title to Senior Developer"
+ASSISTANT (tool call only):
+{
+  "toolName": "updateFields",
+  "args": {
+    "fields": [
+      {
+        "field": {
+          "path": "basicInfo.fullName",
+          "label": "Full Name",
+          "name": "fullName",
+          "type": "text"
+        },
+        "value": "John Doe"
+      },
+      {
+        "field": {
+          "path": "basicInfo.jobTitle",
+          "label": "Job Title",
+          "name": "jobTitle",
+          "type": "text"
+        },
+        "value": "Senior Developer"
+      }
+    ]
+  }
+}
+
+Example 3 – value missing, ask UI
+USER: "Add a new skill"
+ASSISTANT (tool call only):
+{
+  "toolName": "updateFields",
+  "args": {
+    "fields": [{
+      "field": {
+        "path": "skills[+]", // [+] means create a new list entry
+        "label": "Skill",
+        "name": "skill",
+        "type": "text"
+      },
+      "value": null
+    }]
+  }
+}
+
+Example 4 – change a color (show adapter)
+USER: "I want the profile title red"
+ASSISTANT (tool call only):
+{
+  "toolName": "updateFields",
+  "args": {
+    "fields": [{
+      "field": {
+        "path": "profile.title.color",
+        "label": "Title Color",
+        "name": "title-color",
+        "type": "color"
+      },
+      "value": null // UI will open a color selector pre-selecting current value
+    }]
+  }
+}
+`;
+
+export function composeSystemPrompt(resume: string) {
+  return [
+    '<resume_user>',
+    resume,
+    '</resume_user>',
+    INSTRUCTIONS,
+    schema,
+    '<tools>',
+    TOOLS_DEFINITION,
+    '</tools>',
+  ].join('\n');
+}
+  

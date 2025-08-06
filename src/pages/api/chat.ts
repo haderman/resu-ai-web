@@ -12,11 +12,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { messages } = req.body;
+    const { messages, system: clientSystemPrompt } = req.body;
+    
+    // Use the system prompt from client if provided, otherwise fallback to static one
+    const systemPrompt = clientSystemPrompt || system;
 
     const result = streamText({
       model: openai('gpt-4o'),
-      system,
+      system: systemPrompt,
       messages,
       maxSteps: 3,
       tools,

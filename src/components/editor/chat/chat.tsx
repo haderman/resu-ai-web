@@ -2,17 +2,21 @@ import * as React from 'react';
 import { useChat } from '@ai-sdk/react';
 import type { Message, ToolInvocation } from 'ai';
 
-import { apiState } from '@/state/api';
-import { createObjectFromPath } from '@/shared/helpers';
-import { Field } from '@/shared/types';
+import { Field, ToolCall } from '@/shared/types';
 import { Adapter } from '../adapter';
 
 import styles from './chat.module.scss';
 
 const CHAT_ID = 'chat-1';
 
-export function Chat() {
-  const updateResumeContent = apiState.resume.useResumeContentUpdater();
+export type ChatProps = {
+  onToolCall: (toolCall: ToolCall) => void;
+  tools: any[];
+  systemPrompt: string;
+}
+
+export function Chat(props: ChatProps) {
+  const { onToolCall, tools, systemPrompt, ...otherProps } = props;
   const {
     messages,
     input,
@@ -24,24 +28,15 @@ export function Chat() {
     id: CHAT_ID,
     maxSteps: 3,
     async onToolCall({ toolCall }) {
-      if (toolCall.toolName === 'updateFields') {
-        const { field, value } = toolCall.args as { field: Field; value: string | null };
-        if (value !== null) {
-          updateResumeContent(createObjectFromPath(field.path, value));
-          return 'updated';
-        }
-        // value is null -> wait for user input via UpdateFieldComponent
-      }
-
-      if (toolCall.toolName === 'getLocation') {
-        const cities = [
-          'New York',
-          'Los Angeles',
-          'Chicago',
-          'San Francisco',
-        ];
-        return cities[0];
-      }
+      // Let the container handle all tool call logic
+      const toolCallForParent: ToolCall = {
+        name: toolCall.toolName,
+        arguments: toolCall.args as Record<string, any>,
+      };
+      onToolCall(toolCallForParent);
+      
+      // Return a simple acknowledgment for all tool calls
+      return 'handled';
     },
   });
 
@@ -50,7 +45,7 @@ export function Chat() {
   }, [messages]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} {...otherProps}>
       <section data-name="chat" className={styles.chat}>
         {messages.map((message) => (
           <Message key={message.id} message={message} />
@@ -183,14 +178,14 @@ type UpdateFieldComponentProps = {
 };
 
 function UpdateFieldComponent(props: UpdateFieldComponentProps) {
-  const { addToolResult } = useChat({ id: CHAT_ID });
-  const updateResumeContent = apiState.resume.useResumeContentUpdater();
   const { toolInvocation } = props;
-  const callId = toolInvocation.toolCallId;
-  const { field, value } = toolInvocation.args as { field: Field; value: string | null };
+  const { fields } = toolInvocation.args as { fields: Array<{ field: Field; value: string | null }> };
 
-  if (field) {
-    return <Adapter field={field} />;
+  // Find the first field that needs user input (value is null)
+  const fieldNeedingInput = fields.find(f => f.value === null);
+
+  if (fieldNeedingInput) {
+    return <Adapter field={fieldNeedingInput.field} />;
   }
 
   return null;
