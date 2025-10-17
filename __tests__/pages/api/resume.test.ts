@@ -104,6 +104,36 @@ let resumeMock: Resume = {
           skills: ['JavaScript', 'TypeScript', 'React'],
         },
       ],
+    },
+    projects: {
+      title: {
+        text: 'Projects',
+        align: 'left',
+        color: 'black',
+        size: 'medium',
+      },
+      cardStyle: {
+        background: 'white',
+      },
+      items: [
+        {
+          name: 'Test Project',
+          description: 'A test project',
+          technologies: ['JavaScript', 'React'],
+          repository: '/test/project',
+          website: 'https://test.com',
+        },
+      ],
+      itemStyle: {
+        background: 'white',
+        color: 'black',
+        size: 'medium',
+      },
+      skillsStyle: {
+        background: 'blue',
+        color: 'white',
+        size: 'small',
+      },
     }
   },
   style: {

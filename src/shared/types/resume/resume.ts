@@ -6,6 +6,7 @@ import {
   Contact,
   Experience,
   Profile,
+  Projects,
   Skills,
 } from './content';
 import { ResumeLayout } from './layout';
@@ -20,6 +21,7 @@ export type Resume = {
     skills: Skills
     experience: Experience
     contact: Contact
+    projects: Projects
   },
   style: {
     theme: ResumeTheme
@@ -67,6 +69,7 @@ export const Resume = {
         skills: Skills.decode(content?.skills),
         contact: Contact.decode(content?.contact),
         experience: Experience.decode(content?.experience),
+        projects: Projects.decode(content?.projects),
       },
       style: {
         theme: ResumeTheme.decode(style?.theme),
@@ -225,6 +228,42 @@ const DEFAULT_RESUME_CONTENT: ResumeContent = {
         locationType: 'remote',
       }
     ],
+  },
+  projects: {
+    title: {
+      text: 'Side Projects',
+      align: 'left',
+      color: 'white',
+      size: 'large',
+    },
+    cardStyle: {
+      background: 'almost-black',
+    },
+    items: [
+      {
+        name: 'Death Star Command System',
+        description: 'Real-time command and control system for the Death Star superlaser',
+        technologies: ['React', 'Node.js', 'The Force', 'Imperial Architecture'],
+        repository: '/empire/death-star-control',
+        website: 'https://deathstar.empire.gov',
+      },
+      {
+        name: 'Jedi Training Simulator',
+        description: 'VR training system for young Padawans to practice lightsaber techniques',
+        technologies: ['Unity', 'C#', 'Force-Sensitive APIs', 'Holocron Database'],
+        repository: '/jedi-academy/training-sim',
+      }
+    ],
+    itemStyle: {
+      background: 'almost-black',
+      color: 'white',
+      size: 'medium',
+    },
+    skillsStyle: {
+      background: 'pink',
+      color: 'almost-black',
+      size: 'small',
+    },
   }
 };
 

@@ -8,6 +8,7 @@ const FieldTypes = [
   'size',
   'skill-items',
   'experience-entries',
+  'project-entries',
 ] as const;
 
 export type FieldType = typeof FieldTypes[number];

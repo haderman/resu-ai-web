@@ -6,6 +6,7 @@ import { InputTextEditorAdapter } from './input-text-editor-adapter';
 import { AdapterProps } from './types';
 import { InputSkillItemsAdapter } from './input-skill-items-adapter';
 import { InputExperienceAdapter } from './input-experience-adapter';
+import { InputProjectEntriesAdapter } from './input-project-entries-adapter';
 
 export function Adapter(props: AdapterProps) {
   if (props.field.type === 'text') {
@@ -34,6 +35,10 @@ export function Adapter(props: AdapterProps) {
 
   if (props.field.type === 'experience-entries') {
     return <InputExperienceAdapter {...props.field} />;
+  }
+
+  if (props.field.type === 'project-entries') {
+    return <InputProjectEntriesAdapter {...props.field} />;
   }
 
   return (

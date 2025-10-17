@@ -1,5 +1,5 @@
-import { useState } from '@storybook/preview-api';
-import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { RadioColorGroup } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';

@@ -40,3 +40,5 @@ next-env.d.ts
 
 # storybook build
 /storybook-static
+
+debug-storybook.log

@@ -1,41 +1,28 @@
-import { IconBrandGithub, IconWorld } from '@tabler/icons';
+import { useSelector } from 'react-redux';
 
-import { Color } from '@/shared/types';
-import { Chip, Inline, Stack, Text } from '@/components/editor/common';
+import { Color, Projects as ProjectsType, Size } from '@/shared/types';
+import { Inline, Stack, Text } from '@/components/editor/common';
+import { apiState } from '@/state/api';
 
-const PROJECTS: Project[] = [
-  {
-    name: 'Personal Site',
-    description: 'Personal site developed with Gatsby',
-    technologies: ['Gatsby', 'React'],
-    repository: '/haderman/haderman-site',
-    website: 'https://haderman.netlify.app',
-  }, {
-    name: 'COVID-19 Tracker',
-    description: 'COVID-19 Tracker developed with React',
-    technologies: ['NextJS', 'React', 'GraphQL'],
-    repository: '/haderman/nextjs-covid-19',
-    website: 'https://covidx19.vercel.app',
-  }, {
-    name: 'Woki',
-    description: 'Google Chrome extension to manage the tabs',
-    technologies: ['Elm', 'Javascript'],
-    repository: '/haderman/woki-extension',
-  },
-];
+import { ProjectCard } from './components';
 
 export function Projects() {
+  const items = useSelector(apiState.resume.selectors.selectResumeProperty<ProjectsType['items']>(
+    'projects.items',
+    []
+  ));
+  const cardBackground = useSelector(apiState.resume.selectors.selectResumeProperty<Color>(
+    'projects.cardStyle.background',
+    'primary'
+  ));
+
   return (
-    <Stack padding="large" gap="medium" color="primary">
-      <Text as="h2" size="large" weight="bold">
-        Side Projects
-      </Text>
+    <Stack padding="large" gap="medium" color={cardBackground}>
+      <Title />
       <Inline gap="medium" childrenWithSameWidth fitContent>
-        {PROJECTS.map((project) =>
+        {items?.map((project, idx) =>
           <ProjectCard
-            key={project.name}
-            color="secondary"
-            skillsColor="pink"
+            key={idx}
             {...project}
           />
         )}
@@ -44,47 +31,20 @@ export function Projects() {
   );
 }
 
-type Project = {
-  name: string
-  description: string
-  technologies: string[]
-  repository?: string
-  website?: string
-}
+function Title() {
+  const text = useSelector(apiState.resume.selectors.selectResumeProperty('projects.title.text', ''));
+  const color = useSelector(apiState.resume.selectors.selectResumeProperty<Color>('projects.title.color', 'white'));
+  const size = useSelector(apiState.resume.selectors.selectResumeProperty<Size>('projects.title.size', 'large'));
 
-type ProjectCardProps = Project & {
-  color: Color
-  skillsColor: Color
-}
+  if (typeof text !== 'string') {
+    console.error('Invalid value type in Title');
+    return null;
+  }
 
-function ProjectCard(props: ProjectCardProps) {
   return (
-    <Stack gap="medium" padding="medium" color={props.color} borderRadius="medium">
-      <Text as="h3" weight="bold" size="small">{props.name}</Text>
-      <Text size="small">{props.description}</Text>
-      <Text as="h3" weight="bold" size="small">Skills:</Text>
-      <Chip.Container gap="small">
-        {props.technologies.map((tech) =>
-          <Chip
-            key={tech}
-            color={props.skillsColor}
-            size="small"
-          >
-            {tech}
-          </Chip>
-        )}
-      </Chip.Container>
-      <Inline alignItems="center" gap="medium">
-        <IconBrandGithub stroke={1} size="1rem" />
-        <Text size="small" weight="light">{props.repository}</Text>
-      </Inline>
-      {props.website &&
-        <Inline alignItems="center" gap="medium">
-          <IconWorld stroke={1} size="1rem" />
-          <Text size="small" weight="light">{props.website}</Text>
-        </Inline>
-      }
-    </Stack>
+    <Text as="h2" size={size} color={color} weight="bold">
+      {text}
+    </Text>
   );
 }
 

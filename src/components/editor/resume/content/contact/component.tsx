@@ -9,18 +9,9 @@ export function Contact() {
   return (
     <Card path="contact.cardStyle.background">
       <FullName path="basicInfo.fullName" />
-      <Inline gap="medium" alignItems="center">
-        <IconBrandGithub stroke={1} size="1.5rem" />
-        <Text weight="light">haderman</Text>
-      </Inline>
-      <Inline gap="medium" alignItems="center">
-        <IconMail stroke={1} size="1.5rem" />
-        <Text weight="light">cardona.hader@gmail.com</Text>
-      </Inline>
-      <Inline gap="medium" alignItems="center">
-        <IconBrandTwitter stroke={1} size="1.5rem" />
-        <Text weight="light">haderman7</Text>
-      </Inline>
+      <ContactField path="contact.data.github" icon={IconBrandGithub} />
+      <ContactField path="contact.data.email" icon={IconMail} />
+      <ContactField path="contact.data.twitter" icon={IconBrandTwitter} />
     </Card>
   );
 }
@@ -41,6 +32,27 @@ function FullName(props: FullNameProps) {
     <Text as="h2" size="large" weight="bold">
       {value}
     </Text>
+  );
+}
+
+type ContactFieldProps = {
+  path: Field['path'];
+  icon: React.ComponentType<{ stroke: number; size: string }>;
+}
+
+function ContactField(props: ContactFieldProps) {
+  const value = useSelector(apiState.resume.selectors.selectResumeProperty(props.path, ''));
+  const Icon = props.icon;
+
+  if (typeof value !== 'string' || !value.trim()) {
+    return null;
+  }
+
+  return (
+    <Inline gap="medium" alignItems="center">
+      <Icon stroke={1} size="1.5rem" />
+      <Text weight="light">{value}</Text>
+    </Inline>
   );
 }
 

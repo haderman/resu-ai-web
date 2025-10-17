@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { IconAlignCenter, IconAlignLeft, IconAlignRight } from '@tabler/icons';
-import { useState } from '@storybook/preview-api';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { ToggleGroup } from '@/components/editor/form';
 import { Container, ResizableBox } from '../../helpers';

@@ -19,6 +19,10 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
   Object.entries(partialObj).forEach(([key, value]) => {
     if (value !== undefined) {
       if (typeof value === 'object' && Array.isArray(value) === false) {
+        // Create the nested object if it doesn't exist
+        if (!mutableObj[key as keyof T] || typeof mutableObj[key as keyof T] !== 'object') {
+          mutableObj[key as keyof T] = {} as any;
+        }
         mutateObjectProperties(mutableObj[key as keyof T] as object, value, level + 1);
       } else {
         mutableObj[key as keyof T] = value;
@@ -50,7 +54,7 @@ export function mutateObjectProperties<T extends object>(mutableObj: T, partialO
  */
 export type Path<T> = T extends object
   ? {
-      [K in keyof T]: T[K] extends (infer U)[]
+      [K in keyof T]: T[K] extends (infer _U)[]
         ? K & string
         : K extends string ? `${K & string}${"" extends Path<T[K]> ? "" : "."}${Path<T[K]>}` : never
     }[keyof T]

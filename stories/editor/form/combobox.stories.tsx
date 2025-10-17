@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useState } from '@storybook/preview-api';
-
-import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Combobox } from '@/components/editor/form';
 import { Container } from '../../helpers';
 

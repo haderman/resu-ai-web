@@ -109,6 +109,34 @@ type Resume = {
         dribbble?: string
       }
     }
+    projects: {
+      title: {
+        text: string
+        align: Alignment
+        color: Color
+        size: Size
+      }
+      items: Array<{
+        name: string
+        description: string
+        technologies: string[]
+        repository?: string
+        website?: string
+      }>
+      itemStyle: {
+        background: Color
+        color: Color
+        size: Size
+      }
+      skillsStyle: {
+        background: Color
+        color: Color
+        size: Size
+      }
+      cardStyle: {
+        background: Color
+      }
+    }
   }
   style: {
     theme: string
